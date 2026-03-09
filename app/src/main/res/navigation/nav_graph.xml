@@ -28,7 +28,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/administraitorFragment"
-        android:name="com.example.billiard.presentation.administrator.AdministraitorFragment"
+        android:name="com.example.billiard.presentation.administrator.admin.AdministraitorFragment"
         android:label="fragment_administraitor"
         tools:layout="@layout/fragment_administraitor" />
     <fragment
