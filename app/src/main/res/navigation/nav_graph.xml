@@ -35,5 +35,14 @@
         android:id="@+id/stasticsFragment"
         android:name="com.example.billiard.presentation.stastics.StasticsFragment"
         android:label="fragment_stastics"
-        tools:layout="@layout/fragment_stastics" />
+        tools:layout="@layout/fragment_stastics">
+        <action
+            android:id="@+id/action_stasticsFragment_to_staticDetailFragment"
+            app:destination="@id/staticDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/staticDetailFragment"
+        android:name="com.example.billiard.presentation.stastics.detail.StaticDetailFragment"
+        android:label="fragment_static_detail"
+        tools:layout="@layout/fragment_static_detail" />
 </navigation>
