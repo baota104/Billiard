@@ -10,11 +10,11 @@ class AdministraitorFragment : BaseFragment<FragmentAdministraitorBinding>(
 
     override fun setupViews() {
         binding.btnChiTietBan.setOnClickListener {
-            findNavController().navigate(R.id.action_adminFragment_to_tableManagementFragment)
+//            findNavController().navigate(R.id.action_adminFragment_to_tableManagementFragment)
         }
 
         binding.btnChiTietKhungGio.setOnClickListener {
-            findNavController().navigate(R.id.action_adminFragment_to_timeManagementFragment)
+//            findNavController().navigate(R.id.action_adminFragment_to_timeManagementFragment)
         }
     }
 

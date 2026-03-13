@@ -5,8 +5,15 @@ object Constants {
     const val BASE_URL = "http://10.0.2.2:8080/api/"
 
     // Tên file SharedPreferences để lưu cấu hình
-    const val PREF_NAME = "billiard_prefs"
+//    const val PREF_NAME = "billiard_prefs"
 
     // Key lưu Token đăng nhập
     const val KEY_TOKEN = "jwt_token"
+
+
+    const val PREF_NAME = "billiard_prefs"
+
+    const val KEY_ACCESS_TOKEN = "access_token"
+
+    const val KEY_REFRESH_TOKEN = "refresh_token"
 }

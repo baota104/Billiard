@@ -13,6 +13,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        manifestPlaceholders["appAuthRedirectScheme"] = "myapp"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -72,4 +74,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
      implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //AUTH
+    implementation("net.openid:appauth:0.11.1")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
 }
