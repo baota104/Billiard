@@ -1,60 +1,52 @@
 package com.example.billiard.presentation.administrator.table
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.billiard.R
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.databinding.FragmentTableManageBinding
+import com.example.billiard.presentation.adapter.BanListAdapter
+import com.example.billiard.presentation.model.BanUiModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TableManageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TableManageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class TableManagementFragment : BaseFragment<FragmentTableManageBinding>(FragmentTableManageBinding::inflate) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var tableAdapter: BanListAdapter
+
+    override fun setupViews() {
+        tableAdapter = BanListAdapter(
+            onEditClick = { table ->
+                Toast.makeText(requireContext(), "Sửa bàn: ${table.ten}", Toast.LENGTH_SHORT).show()
+            },
+            onDeleteClick = { table ->
+                Toast.makeText(requireContext(), "Xóa bàn: ${table.ten}", Toast.LENGTH_SHORT).show()
+                // Mở dialog Xác nhận xóa ở đây
+            }
+        )
+
+        binding.rvTableList.apply {
+            adapter = tableAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.fabAddTable.setOnClickListener {
+            Toast.makeText(requireContext(), "Thêm bàn mới", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_table_manage, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TableManageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TableManageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun observeData() {
+        val mockData = listOf(
+            BanUiModel("B01", "Bàn 01 - VIP", "Đang chơi", "POOL", null),
+            BanUiModel("B02", "Bàn 02 - Thường", "Trống", "SNOOKER", null),
+            BanUiModel("B03", "Bàn 03 - Phăng", "Bảo trì", "CAROM", null),
+            BanUiModel("B04", "Bàn 04 - VIP", "Đã đặt", "POOL", null),
+            BanUiModel("B05", "Bàn 05 - Thường", "Đang chơi", "POOL", null)
+        )
+        tableAdapter.submitList(mockData)
     }
 }

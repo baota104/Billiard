@@ -30,10 +30,18 @@
         android:id="@+id/administraitorFragment"
         android:name="com.example.billiard.presentation.administrator.admin.AdministraitorFragment"
         android:label="fragment_administraitor"
-        tools:layout="@layout/fragment_administraitor" />
+        tools:layout="@layout/fragment_administraitor" >
+        <action
+            android:id="@+id/action_administraitorFragment_to_tableManageFragment"
+            app:destination="@id/tableManageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stasticsFragment"
         android:name="com.example.billiard.presentation.stastics.StasticsFragment"
         android:label="fragment_stastics"
         tools:layout="@layout/fragment_stastics" />
+    <fragment
+        android:id="@+id/tableManageFragment"
+        android:name="com.example.billiard.presentation.administrator.table.TableManagementFragment"
+        android:label="TableManageFragment" />
 </navigation>
