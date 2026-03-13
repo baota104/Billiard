@@ -4,7 +4,23 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--    STATISTICS STRING-->
-    <string name="statistics_icon">Statistics Icon</string>
-    <string name="statistics_title"><![CDATA[Báo cáo & Thống kê]]></string>
-    <string name="statistics_subtitle">Tổng quan kinh doanh</string>
+    <string name="stt_icon">Statistics Icon</string>
+    <string name="stt_title"><![CDATA[Báo cáo & Thống kê]]></string>
+    <string name="stt_subtitle">Tổng quan kinh doanh</string>
+    <string name="stt_revenue_icon">Revenue Icon</string>
+    <string name="stt_revenue_card_title">Doanh thu ngày</string>
+    <string name="stt_playtime_icon">PLaytime Icon</string>
+    <string name="stt_playtime_card_title">Giờ chơi trung bình</string>
+    <string name="stt_growth_icon">Growth Icon</string>
+    <string name="stt_growth_card_title">Mức tăng trưởng</string>
+    <string name="stt_table_rate_icon">Table Rate Icon</string>
+    <string name="stt_table_rate_card_title">Tỉ lệ bàn hoạt động</string>
+    <string name="stt_ai_card_title">AI Smart Insight</string>
+    <string name="stt_ai_badge">Recommendation</string>
+    <string name="stt_ai_icon">AI Icon</string>
+    <string name="stt_revenue_chart_card_title">Biểu đồ doanh thu</string>
+    <string name="stt_filter_week">Tuần</string>
+    <string name="stt_filter_month">Tháng</string>
+    <string name="stt_filter_year">Năm</string>
+    <string name="stt_filter_all">Tất cả</string>
 </resources>

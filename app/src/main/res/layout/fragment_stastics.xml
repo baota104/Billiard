@@ -25,7 +25,7 @@
                 android:layout_height="48dp"
                 android:background="@drawable/bg_role_choose"
                 android:backgroundTint="@color/stt_ic_bg_blue"
-                android:contentDescription="@string/statistics_icon"
+                android:contentDescription="@string/stt_icon"
                 android:padding="12dp"
                 android:src="@drawable/ic_statistic_corner"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="@string/statistics_title"
+                android:text="@string/stt_title"
                 android:textColor="@color/stt_text_black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="@string/statistics_subtitle"
+                android:text="@string/stt_subtitle"
                 android:textColor="@color/stt_text_gray"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/statisticsIcon"
@@ -86,7 +86,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/revenueCard"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@color/white"
@@ -95,18 +95,69 @@
                         app:strokeColor="@color/stroke_gray"
                         app:strokeWidth="1dp">
 
-                        <TextView
-                            android:id="@+id/textView1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="revenue card"
-                            android:textColor="@color/stt_text_black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="17dp"
+                            android:paddingTop="17dp"
+                            android:paddingBottom="10dp">
+
+                            <ImageView
+                                android:id="@+id/revenueIcon"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_stt_icon"
+                                android:backgroundTint="@color/stt_ic_bg_green"
+                                android:contentDescription="@string/stt_revenue_icon"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_revenue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/revenueText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="1.5dp"
+                                android:padding="6.5dp"
+                                android:text="@string/stt_revenue_card_title"
+                                android:textColor="@color/stt_text_gray"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/revenueIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/revenueDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="2.580.000đ"
+                                android:textColor="@color/stt_text_black"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/revenueText" />
+
+                            <TextView
+                                android:id="@+id/revenueSubDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="+12.5% so với tuần trước"
+                                android:textColor="@color/text_green"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/revenueDetailText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/playtimeCard"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@color/white"
@@ -115,12 +166,62 @@
                         app:strokeColor="@color/stroke_gray"
                         app:strokeWidth="1dp">
 
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="playtime card"
-                            android:textColor="@color/stt_text_black" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="17dp"
+                            android:paddingTop="17dp"
+                            android:paddingBottom="10dp">
+
+                            <ImageView
+                                android:id="@+id/playtimeIcon"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_stt_icon"
+                                android:backgroundTint="@color/stt_ic_bg_blue"
+                                android:contentDescription="@string/stt_playtime_icon"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_time"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/primary_blue" />
+
+                            <TextView
+                                android:id="@+id/playtimeText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="1.5dp"
+                                android:padding="6.5dp"
+                                android:text="@string/stt_playtime_card_title"
+                                android:textColor="@color/stt_text_gray"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/playtimeIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/playtimeDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="2.0h"
+                                android:textColor="@color/stt_text_black"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/playtimeText" />
+
+                            <TextView
+                                android:id="@+id/playtimeSubDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="+8.3% so với tuần trước"
+                                android:textColor="@color/stt_text_blue"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/playtimeDetailText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </TableRow>
 
@@ -129,7 +230,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/growthCard"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@color/white"
@@ -138,18 +239,67 @@
                         app:strokeColor="@color/stroke_gray"
                         app:strokeWidth="1dp">
 
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="growth card"
-                            android:textColor="@color/stt_text_black" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="17dp"
+                            android:paddingTop="17dp"
+                            android:paddingBottom="10dp">
+
+                            <ImageView
+                                android:id="@+id/growthIcon"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_stt_icon"
+                                android:backgroundTint="@color/stt_ic_bg_purple"
+                                android:contentDescription="@string/stt_growth_icon"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_growth"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/growthText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="1.5dp"
+                                android:padding="6.5dp"
+                                android:text="@string/stt_growth_card_title"
+                                android:textColor="@color/stt_text_gray"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/growthIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/growthDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="5.1%"
+                                android:textColor="@color/stt_text_black"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/growthText" />
+
+                            <TextView
+                                android:id="@+id/growthSubDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="+5.1% so với tuần trước"
+                                android:textColor="@color/stt_text_purple"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/growthDetailText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/tableRateCard"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@color/white"
@@ -158,57 +308,312 @@
                         app:strokeColor="@color/stroke_gray"
                         app:strokeWidth="1dp">
 
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="table rate card"
-                            android:textColor="@color/stt_text_black" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="17dp"
+                            android:paddingTop="17dp"
+                            android:paddingBottom="10dp">
+
+                            <ImageView
+                                android:id="@+id/tableRateIcon"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_stt_icon"
+                                android:backgroundTint="@color/stt_ic_bg_orange"
+                                android:contentDescription="@string/stt_table_rate_icon"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_table_rate"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tableRateText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="1.5dp"
+                                android:padding="6.5dp"
+                                android:text="@string/stt_table_rate_card_title"
+                                android:textColor="@color/stt_text_gray"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/tableRateIcon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tableRateDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="3/8"
+                                android:textColor="@color/stt_text_black"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tableRateText" />
+
+                            <TextView
+                                android:id="@+id/tableRateSubDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="38% công suất"
+                                android:textColor="@color/stt_text_orange"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tableRateDetailText" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </TableRow>
 
             </TableLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/aiRecommendCard"
+            <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tableLayout"
-                app:strokeColor="@color/stroke_gray"
-                app:strokeWidth="1dp">
+                android:background="@drawable/bg_glow"
+                android:padding="2dp"
+                app:layout_constraintTop_toBottomOf="@id/tableLayout">
 
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ai recommend card"
-                    android:textColor="@color/stt_text_black" />
-            </com.google.android.material.card.MaterialCardView>
+                <FrameLayout
+                    android:id="@+id/gradientBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_gradient_border"
+                    android:padding="2dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/aiRecommendCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardBackgroundColor="#F1F5F9"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="17dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/aiLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingHorizontal="6dp">
+
+                                <ImageView
+                                    android:id="@+id/aiIcon"
+                                    android:layout_width="43dp"
+                                    android:layout_height="43dp"
+                                    android:background="@drawable/bg_stt_icon"
+                                    android:backgroundTint="@color/white"
+                                    android:contentDescription="@string/stt_ai_icon"
+                                    android:padding="8dp"
+                                    android:src="@drawable/ic_ai_sparkle"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/aiText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:text="@string/stt_ai_card_title"
+                                    android:textColor="@color/stt_text_black"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toEndOf="@id/aiIcon"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/aiBadge"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="2dp"
+                                    android:background="@drawable/bg_ai_badge"
+                                    android:text="@string/stt_ai_badge"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toEndOf="@id/aiIcon"
+                                    app:layout_constraintTop_toBottomOf="@id/aiText" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/aiDetailText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:layout_marginTop="16dp"
+                                android:text="Thứ 4 thường có doanh thu thấp. Có muốn phát mã giảm giá 20%?"
+                                android:textColor="@color/stt_text_black"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/aiLayout" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@id/aiDetailText">
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/aiRecommendCancelButton"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    android:backgroundTint="@android:color/white"
+                                    android:clickable="true"
+                                    android:focusable="true"
+
+                                    android:text="Huỷ"
+                                    android:textAllCaps="false"
+
+                                    android:textColor="#7F00FF"
+                                    android:textSize="14sp"
+                                    app:cornerRadius="12dp"
+                                    app:rippleColor="#207F00FF"
+                                    app:strokeColor="#7F00FF"
+                                    app:strokeWidth="1dp" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/aiRecommendApproveButton"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    android:backgroundTint="#7F00FF"
+                                    android:clickable="true"
+                                    android:focusable="true"
+
+                                    android:text="Áp dụng"
+                                    android:textAllCaps="false"
+
+                                    android:textColor="@android:color/white"
+                                    android:textSize="14sp"
+                                    app:cornerRadius="12dp"
+                                    app:rippleColor="#40FFFFFF" />
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </FrameLayout>
+
+            </FrameLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/revenueChartCard"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/aiRecommendCard"
+                app:layout_constraintTop_toBottomOf="@id/frameLayout"
                 app:strokeColor="@color/stroke_gray"
                 app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="revenue chart card"
-                    android:textColor="@color/stt_text_black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="17dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stt_revenue_chart_card_title"
+                        android:textColor="@color/stt_text_black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/chartFilter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingVertical="7dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/filterWeek"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/filter_button_bg"
+                            android:checkable="true"
+                            android:text="@string/stt_filter_week"
+                            android:textAllCaps="false"
+                            android:textColor="@color/filter_button_text"
+                            android:textSize="12sp"
+                            app:cornerRadius="99dp"
+                            app:strokeColor="@color/primary_blue"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/filterMonth"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/filter_button_bg"
+                            android:checkable="true"
+                            android:text="@string/stt_filter_month"
+                            android:textAllCaps="false"
+                            android:textColor="@color/filter_button_text"
+                            android:textSize="12sp"
+                            app:cornerRadius="99dp"
+                            app:strokeColor="@color/primary_blue"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/filterYear"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/filter_button_bg"
+                            android:checkable="true"
+                            android:text="@string/stt_filter_year"
+                            android:textAllCaps="false"
+                            android:textColor="@color/filter_button_text"
+                            android:textSize="12sp"
+                            app:cornerRadius="99dp"
+                            app:strokeColor="@color/primary_blue"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/filterAll"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/filter_button_bg"
+                            android:checkable="true"
+                            android:text="@string/stt_filter_all"
+                            android:textAllCaps="false"
+                            android:textColor="@color/filter_button_text"
+                            android:textSize="12sp"
+                            app:cornerRadius="99dp"
+                            app:strokeColor="@color/primary_blue"
+                            app:strokeWidth="1dp" />
+
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/revenueChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:layout_marginTop="16dp" />
+                </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
