@@ -1,17 +1,23 @@
 // SỬA LẠI DÒNG NÀY CHO ĐÚNG TÊN DỰ ÁN CỦA BẠN
 package com.example.billiard.di
 
+import android.content.Context
+import com.example.billiard.core.utils.Constants
+import com.example.billiard.core.utils.TokenManager
+import com.example.billiard.data.remote.api.AuthApiService
+import com.example.billiard.data.repository.AuthRepositoryImpl
+import com.example.billiard.domain.repository.IAuthRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppContainer {
-    // val getListBanUseCase: GetListBanUseCase
+    val authRepository: IAuthRepository
 }
 
-class DefaultAppContainer : AppContainer {
-    private val baseUrl = "http://10.0.2.2:8080/api/"
+class DefaultAppContainer(private val context: Context) : AppContainer {
+    private val baseUrl = Constants.BASE_URL
 
     private val okHttpClient: OkHttpClient by lazy {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -28,5 +34,15 @@ class DefaultAppContainer : AppContainer {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+    private val authApi: AuthApiService by lazy {
+        retrofit.create(AuthApiService::class.java)
+    }
+    private val tokenManager: TokenManager by lazy {
+        TokenManager(context)
+    }
+
+    override val authRepository: IAuthRepository by lazy {
+        AuthRepositoryImpl(authApi, tokenManager)
     }
 }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:paddingTop="12dp">
+
+    <View
+        android:id="@+id/viewDragHandle"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:background="@color/different_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewDragHandle"
+        app:tint="@color/gray_2" />
+
+    <TextView
+        android:id="@+id/tvSession"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="Phiên hiện tại"
+        android:textColor="@color/text_gray"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewDragHandle" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:text="Chuyển Bàn 5 sang..."
+        android:textColor="@color/text_dark_slate"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnClose"
+        app:layout_constraintStart_toStartOf="@id/tvSession"
+        app:layout_constraintTop_toBottomOf="@id/tvSession" />
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:text="Chọn một bàn trống bên dưới để di chuyển phiên hoạt động hiện tại. Tất cả bộ đếm thời gian và dịch vụ sẽ được chuyển theo."
+        android:textColor="@color/text_gray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvSession"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/divider_gray"
+        app:layout_constraintTop_toBottomOf="@id/tvDesc" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAvailableTables"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/bg_light_gray"
+        android:clipToPadding="false"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toTopOf="@id/footerContainer"
+        app:layout_constraintHeight_default="wrap" />
+
+    <FrameLayout
+        android:id="@+id/footerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/different_white"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmTransfer"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:enabled="false"
+            android:text="Xác nhận chuyển →"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="12dp" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

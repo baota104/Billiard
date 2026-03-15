@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="12dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgItem"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_ban"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedCornerImageStyle" />
+
+    <TextView
+        android:id="@+id/tvItemName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="#212121"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvItemDesc"
+        app:layout_constraintEnd_toStartOf="@id/tvItemQty"
+        app:layout_constraintStart_toEndOf="@id/imgItem"
+        app:layout_constraintTop_toTopOf="@id/imgItem"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Bia Heineken" />
+
+    <TextView
+        android:id="@+id/tvItemDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#9E9E9E"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/imgItem"
+        app:layout_constraintEnd_toStartOf="@id/tvItemQty"
+        app:layout_constraintStart_toStartOf="@id/tvItemName"
+        app:layout_constraintTop_toBottomOf="@id/tvItemName"
+        tools:text="Đồ uống • 330ml" />
+
+    <TextView
+        android:id="@+id/tvItemQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="#757575"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvItemPrice"
+        app:layout_constraintEnd_toStartOf="@id/tvItemPrice"
+        app:layout_constraintTop_toTopOf="@id/tvItemPrice"
+        tools:text="x2" />
+
+    <TextView
+        android:id="@+id/tvItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#212121"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="60.000đ" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

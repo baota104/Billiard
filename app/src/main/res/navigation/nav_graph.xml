@@ -23,9 +23,13 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.billiard.presentation.home.HomeFragment"
+        android:name="com.example.billiard.presentation.home.homscreen.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_banDetailFragment"
+            app:destination="@id/banDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/administraitorFragment"
         android:name="com.example.billiard.presentation.administrator.admin.AdministraitorFragment"
@@ -44,4 +48,16 @@
         android:id="@+id/tableManageFragment"
         android:name="com.example.billiard.presentation.administrator.table.TableManagementFragment"
         android:label="TableManageFragment" />
+    <fragment
+        android:id="@+id/banDetailFragment"
+        android:name="com.example.billiard.presentation.home.openingtable.BanDetailFragment"
+        android:label="BanDetailFragment" >
+        <action
+            android:id="@+id/action_banDetailFragment_to_orderServiceFragment"
+            app:destination="@id/orderServiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderServiceFragment"
+        android:name="com.example.billiard.presentation.home.orderservice.OrderServiceFragment"
+        android:label="OrderServiceFragment" />
 </navigation>

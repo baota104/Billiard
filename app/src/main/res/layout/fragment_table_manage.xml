@@ -55,80 +55,55 @@
         app:layout_constraintTop_toTopOf="@+id/tvHeaderTitle"
         app:tint="@color/text_gray" />
 
-    <HorizontalScrollView
-        android:id="@+id/svFilter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="20dp"
-        android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@+id/tvHeaderSub">
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_table_type_unselected"
+        android:hint="Tìm tên bàn..."
+        android:paddingHorizontal="16dp"
+        android:singleLine="true"
+        android:textColor="@color/text_title"
+        android:textColorHint="@color/text_gray"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toStartOf="@+id/btnCloseSearch"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tabAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@color/selector_table_category"
-                android:backgroundTint="#131B2D"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:text="Tất cả"
-                android:textColor="@color/selector_text_category"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tabPool"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@color/selector_table_category"
-                android:backgroundTint="@color/white"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:text="Pool (Lỗ)"
-                android:textColor="@color/selector_text_category"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tabSnooker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@color/selector_table_category"
-                android:backgroundTint="@color/white"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:text="Snooker"
-                android:textColor="@color/selector_text_category"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tabCarom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/selector_table_category"
-                android:backgroundTint="@color/white"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="10dp"
-                android:text="Carom"
-                android:textColor="@color/selector_text_category"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </HorizontalScrollView>
+    <ImageView
+        android:id="@+id/btnCloseSearch"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="12dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/edtSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edtSearch"
+        app:tint="@color/text_gray" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTableList"
+        android:id="@+id/rvCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
+        tools:listitem="@layout/item_category_chip" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTablelist"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -139,7 +114,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/svFilter"
+        app:layout_constraintTop_toBottomOf="@+id/rvCategories"
         tools:listitem="@layout/item_table_management" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -149,11 +124,11 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/primary_blue"
-        app:srcCompat="@drawable/ic_add"
-        app:tint="@color/white"
         app:elevation="4dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

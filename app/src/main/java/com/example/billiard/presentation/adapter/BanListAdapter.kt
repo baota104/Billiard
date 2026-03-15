@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.billiard.databinding.ItemTableManagementBinding
-import com.example.billiard.domain.model.Ban
-import com.example.billiard.presentation.model.BanUiModel
+import com.example.billiard.domain.model.BanUiModel
+import com.example.billiard.domain.model.TableStatus
 
 class BanListAdapter(
     private val onEditClick: (BanUiModel) -> Unit,
@@ -31,28 +31,24 @@ class BanListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(table: BanUiModel) {
-            binding.tvTableName.text = table.ten
-            binding.tvTableCategory.text = table.theloai.uppercase()
+            // Đã đổi table.ten -> table.name, table.theloai -> table.type để khớp model
+            binding.tvTableName.text = table.name
+            binding.tvTableCategory.text = table.type.uppercase()
 
-            val currentStatus = table.trangthai.lowercase().trim()
-            when {
-                currentStatus.contains("trống") || currentStatus.contains("trong") -> {
+            // Dùng trực tiếp Enum TableStatus thay vì check chuỗi String
+            when (table.status) {
+                TableStatus.EMPTY -> {
                     binding.tvStatus.text = "● Trống"
                     binding.tvStatus.setTextColor(Color.parseColor("#78829D"))
                     binding.tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#F0F2F5"))
                 }
-                currentStatus.contains("đang chơi") || currentStatus.contains("dang choi") -> {
+                TableStatus.PLAYING -> {
                     binding.tvStatus.text = "● Đang chơi"
                     binding.tvStatus.setTextColor(Color.parseColor("#4CAF50"))
                     binding.tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E8F5E9"))
                 }
-                currentStatus.contains("đã đặt") || currentStatus.contains("da dat") -> {
-                    binding.tvStatus.text = "📅 Đã đặt"
-                    binding.tvStatus.setTextColor(Color.parseColor("#5C6BC0"))
-                    binding.tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#E8EAF6"))
-                }
-                currentStatus.contains("bảo trì") || currentStatus.contains("bao tri") -> {
-                    binding.tvStatus.text = "🔧 Bảo trì"
+                TableStatus.MAINTAIN -> {
+                    binding.tvStatus.text = "● Bảo trì"
                     binding.tvStatus.setTextColor(Color.parseColor("#FF9800"))
                     binding.tvStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFF3E0"))
                 }
@@ -63,26 +59,17 @@ class BanListAdapter(
                 }
             }
 
-            if (table.imageUrl != null) {
-                // TODO: Dùng thư viện Glide load ảnh. Tạm thời để trống.
-                // Glide.with(binding.root).load(table.imageUrl).into(binding.imgTable)
-            } else {
-                // Tạm thời nếu không có ảnh thì set màu nền mặc định cho giống thiết kế
-                binding.imgTable.setBackgroundColor(Color.parseColor("#2E7D32"))
-            }
+            // Tạm thời set màu nền cho ảnh trống
+            binding.imgTable.setBackgroundColor(Color.parseColor("#2E7D32"))
 
+            // Gắn sự kiện click cho 2 nút Edit và Delete
             binding.btnEdit.setOnClickListener { onEditClick(table) }
             binding.btnDelete.setOnClickListener { onDeleteClick(table) }
         }
     }
 
     class TableDiffCallback : DiffUtil.ItemCallback<BanUiModel>() {
-        override fun areItemsTheSame(oldItem: BanUiModel, newItem: BanUiModel): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: BanUiModel, newItem: BanUiModel): Boolean {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: BanUiModel, newItem: BanUiModel) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: BanUiModel, newItem: BanUiModel) = oldItem == newItem
     }
 }
