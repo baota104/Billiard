@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_administraitorFragment_to_tableManageFragment"
             app:destination="@id/tableManageFragment" />
+        <action
+            android:id="@+id/action_administraitorFragment_to_timeSlotManagementFragmentFragment"
+            app:destination="@id/timeSlotManagementFragmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/stasticsFragment"
@@ -55,9 +58,36 @@
         <action
             android:id="@+id/action_banDetailFragment_to_orderServiceFragment"
             app:destination="@id/orderServiceFragment" />
+        <action
+            android:id="@+id/action_banDetailFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderServiceFragment"
         android:name="com.example.billiard.presentation.home.orderservice.OrderServiceFragment"
         android:label="OrderServiceFragment" />
+    <fragment
+        android:id="@+id/timeSlotManagementFragmentFragment"
+        android:name="com.example.billiard.presentation.administrator.time.TimeSlotManagementFragmentFragment"
+        android:label="TimeSlotManagementFragmentFragment" >
+        <action
+            android:id="@+id/action_timeSlotManagementFragmentFragment_to_timeSlotDetailFragment"
+            app:destination="@id/timeSlotDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeSlotDetailFragment"
+        android:name="com.example.billiard.presentation.administrator.time.detail.TimeSlotDetailFragment"
+        android:label="TimeSlotDetailFragment" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.billiard.presentation.home.payment.PaymentFragment"
+        android:label="PaymentFragment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_invoicePaymentFragment"
+            app:destination="@id/invoicePaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/invoicePaymentFragment"
+        android:name="com.example.billiard.presentation.home.payment.invoice.InvoicePaymentFragment"
+        android:label="InvoicePaymentFragment" />
 </navigation>

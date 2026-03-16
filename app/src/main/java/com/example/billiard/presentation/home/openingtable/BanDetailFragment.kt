@@ -52,7 +52,7 @@ class BanDetailFragment : BaseFragment<FragmentBanDetailBinding>(FragmentBanDeta
             bottomSheet.show(childFragmentManager, "TransferTableBottomSheet")
         }
         binding.btnThanhToan.setOnClickListener {
-            Toast.makeText(requireContext(), "Đang thanh toán...", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_banDetailFragment_to_paymentFragment)
         }
         binding.btnThemDichVu.setOnClickListener {
             findNavController().navigate(R.id.action_banDetailFragment_to_orderServiceFragment)

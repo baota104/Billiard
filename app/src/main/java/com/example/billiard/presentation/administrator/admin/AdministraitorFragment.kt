@@ -15,7 +15,7 @@ class AdministraitorFragment : BaseFragment<FragmentAdministraitorBinding>(
         }
 
         binding.btnChiTietKhungGio.setOnClickListener {
-//            findNavController().navigate(R.id.action_adminFragment_to_timeManagementFragment)
+            findNavController().navigate(R.id.action_administraitorFragment_to_timeSlotManagementFragmentFragment)
         }
     }
 
