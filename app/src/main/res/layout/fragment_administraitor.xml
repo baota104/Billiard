@@ -213,7 +213,8 @@
                     app:cornerRadius="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tvTimeTitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvTimeTitle" />
+                    app:layout_constraintTop_toTopOf="@+id/tvTimeTitle"
+                    app:layout_constraintVertical_bias="0.458" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -284,9 +285,9 @@
                     android:backgroundTint="@color/bg_icon_light"
                     android:padding="12dp"
                     android:src="@drawable/ic_inventory"
-                    app:tint="@color/primary_blue"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/primary_blue" />
 
                 <TextView
                     android:id="@+id/tvInventoryTitle"
@@ -321,6 +322,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tvInventoryTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvInventoryTitle" />
+
                 <TextView
                     android:id="@+id/tvProgressLabelkho"
                     android:layout_width="wrap_content"
@@ -432,6 +434,113 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardQuanLyVC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E0E0E0"
+            app:strokeWidth="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyNhanVien">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/bg_circle_decor"
+                    android:translationX="50dp"
+                    android:translationY="-50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iconVC"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_role_choose"
+                    android:backgroundTint="@color/bg_icon_light"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_voucher"
+                    app:tint="@color/primary_blue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvVCTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Quản lý Voucher"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconVC" />
+
+                <TextView
+                    android:id="@+id/tvStatusVC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5 voucher đang hoạt động"
+                    android:textColor="@color/text_green"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvVCTitle" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChiTietVC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chi tiết"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"
+                    app:cornerRadius="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvVCTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvVCTitle" />
+                <TextView
+                    android:id="@+id/tvProgressLabelVC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Tỉ lệ sử dụng"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStatusVC" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="85%"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabelVC"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvProgressLabelVC" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progress="85"
+                    app:indicatorColor="@color/primary_blue"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProgressLabelVC"
+                    app:trackColor="@color/bg_icon_light"
+                    app:trackCornerRadius="4dp"
+                    app:trackThickness="6dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tvTienIchTitle"
@@ -443,7 +552,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyNhanVien" />
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyVC" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardThongBao"

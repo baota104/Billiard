@@ -17,6 +17,15 @@ class AdministraitorFragment : BaseFragment<FragmentAdministraitorBinding>(
         binding.btnChiTietKhungGio.setOnClickListener {
             findNavController().navigate(R.id.action_administraitorFragment_to_timeSlotManagementFragmentFragment)
         }
+
+        binding.btnChiTietNhanVien.setOnClickListener {
+            findNavController().navigate(R.id.action_administraitorFragment_to_employeeManagementFragment)
+        }
+        binding.btnChiTietVC.setOnClickListener {
+            findNavController().navigate(R.id.action_administraitorFragment_to_voucherFragment)
+        }
+
+
     }
 
 

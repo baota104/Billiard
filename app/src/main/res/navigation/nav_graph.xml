@@ -41,6 +41,12 @@
         <action
             android:id="@+id/action_administraitorFragment_to_timeSlotManagementFragmentFragment"
             app:destination="@id/timeSlotManagementFragmentFragment" />
+        <action
+            android:id="@+id/action_administraitorFragment_to_voucherFragment"
+            app:destination="@id/voucherFragment" />
+        <action
+            android:id="@+id/action_administraitorFragment_to_employeeManagementFragment"
+            app:destination="@id/employeeManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/stasticsFragment"
@@ -90,4 +96,21 @@
         android:id="@+id/invoicePaymentFragment"
         android:name="com.example.billiard.presentation.home.payment.invoice.InvoicePaymentFragment"
         android:label="InvoicePaymentFragment" />
+    <fragment
+        android:id="@+id/voucherFragment"
+        android:name="com.example.billiard.presentation.administrator.voucher.VoucherFragment"
+        android:label="fragment_voucher"
+        tools:layout="@layout/fragment_voucher" >
+        <action
+            android:id="@+id/action_voucherFragment_to_createVoucherFragment"
+            app:destination="@id/createVoucherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createVoucherFragment"
+        android:name="com.example.billiard.presentation.administrator.voucher.createvoucher.CreateVoucherFragment"
+        android:label="CreateVoucherFragment" />
+    <fragment
+        android:id="@+id/employeeManagementFragment"
+        android:name="com.example.billiard.presentation.administrator.employee.EmployeeManagementFragment"
+        android:label="EmployeeManagementFragment" />
 </navigation>

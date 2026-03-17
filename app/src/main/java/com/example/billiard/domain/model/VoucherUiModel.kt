@@ -6,5 +6,7 @@ data class VoucherUiModel(
     val discountText: String,
     val minOrderText: String,
     val expiryText: String,
-    val isAiRecommended: Boolean = false
+    val isAiRecommended: Boolean = false,
+    val isActive: Boolean = true
+
 )
