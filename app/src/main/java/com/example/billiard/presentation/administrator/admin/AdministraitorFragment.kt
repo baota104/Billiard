@@ -24,6 +24,9 @@ class AdministraitorFragment : BaseFragment<FragmentAdministraitorBinding>(
         binding.btnChiTietVC.setOnClickListener {
             findNavController().navigate(R.id.action_administraitorFragment_to_voucherFragment)
         }
+        binding.btnChiTietKhoHang.setOnClickListener {
+            findNavController().navigate(R.id.action_administraitorFragment_to_inventoryManagementFragment)
+        }
 
 
     }

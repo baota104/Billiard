@@ -6,7 +6,8 @@ data class ServiceItemUiModel(
     val price: Int,
     val imageUrl: String,
     val categoryId: String,
-    val isRental: Boolean = false
+    val isRental: Boolean = false,
+    val stock: Int = 0
 ) {
     val formattedPrice: String
         get() = "%,dđ".format(price).replace(',', '.')

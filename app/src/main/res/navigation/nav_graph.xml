@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_administraitorFragment_to_employeeManagementFragment"
             app:destination="@id/employeeManagementFragment" />
+        <action
+            android:id="@+id/action_administraitorFragment_to_inventoryManagementFragment"
+            app:destination="@id/inventoryManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/stasticsFragment"
@@ -113,4 +116,36 @@
         android:id="@+id/employeeManagementFragment"
         android:name="com.example.billiard.presentation.administrator.employee.EmployeeManagementFragment"
         android:label="EmployeeManagementFragment" />
+    <fragment
+        android:id="@+id/inventoryManagementFragment"
+        android:name="com.example.billiard.presentation.administrator.inventory.InventoryManagementFragment"
+        android:label="InventoryManagementFragment" >
+        <action
+            android:id="@+id/action_inventoryManagementFragment_to_createReceiptFragment"
+            app:destination="@id/createReceiptFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createReceiptFragment"
+        android:name="CreateReceiptFragment"
+        android:label="CreateReceiptFragment" >
+        <action
+            android:id="@+id/action_createReceiptFragment_to_addExistingProductFragment"
+            app:destination="@id/addExistingProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addExistingProductFragment"
+        android:name="com.example.billiard.presentation.administrator.inventory.addiavailableitem.AddExistingProductFragment"
+        android:label="AddExistingProductFragment" >
+        <action
+            android:id="@+id/action_addExistingProductFragment_to_createNewProductFragment"
+            app:destination="@id/createNewProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNewProductFragment"
+        android:name="com.example.billiard.presentation.administrator.inventory.createnewproduct.CreateNewProductFragment"
+        android:label="CreateNewProductFragment" >
+        <action
+            android:id="@+id/action_createNewProductFragment_to_createReceiptFragment"
+            app:destination="@id/createReceiptFragment" />
+    </fragment>
 </navigation>

@@ -71,7 +71,7 @@ class TimeSlotDetailFragment : BaseFragment<FragmentSlotDetailBinding>(FragmentS
         )
         val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
         val btnConfirmClose = dialog.findViewById<MaterialButton>(R.id.btnConfirmClose)
-        btnConfirmClose.setText("Xác ngay")
+        btnConfirmClose.setText("Xóa ngay")
         val iconthongbao = dialog.findViewById<ImageView>(R.id.iconthongbao)
         iconthongbao.setImageResource(R.drawable.ic_priority)
         val title = dialog.findViewById<TextView>(R.id.tvTitle)
