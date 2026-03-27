@@ -48,7 +48,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@color/divider_gray"
             app:layout_constraintTop_toBottomOf="@id/btnBack" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,7 +64,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp">
+            android:paddingVertical="10dp">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideStart"
@@ -100,7 +100,7 @@
                     android:padding="16dp">
 
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@android:drawable/ic_menu_recent_history" app:tint="@color/blue" />
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_clock" app:tint="@color/blue" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Thời gian chơi" android:textColor="@color/text_title" android:textSize="16sp" android:textStyle="bold" />
                     </LinearLayout>
 
@@ -360,6 +360,7 @@
                 android:text="Xem hóa đơn PDF"
                 android:textColor="@color/text_title"
                 android:textSize="14sp"
+                android:textAllCaps="false"
                 app:backgroundTint="@color/different_white"
                 app:cornerRadius="12dp"
                 app:elevation="0dp"
@@ -373,6 +374,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
                 android:text="Tải xuống PDF"
+                android:textAllCaps="false"
                 android:textColor="@color/text_title"
                 android:textSize="14sp"
                 app:backgroundTint="@color/different_white"
@@ -391,6 +393,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textAllCaps="false"
                 app:backgroundTint="@color/primary_blue"
                 app:cornerRadius="12dp"
                 app:elevation="4dp"

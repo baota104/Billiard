@@ -14,11 +14,11 @@ import java.util.Locale
 
 class CreateVoucherFragment : BaseFragment<FragmentCreateVoucherBinding>(FragmentCreateVoucherBinding::inflate) {
 
-    private var voucherToEdit: VoucherUiModel? = null
-//        VoucherUiModel(
-//        "1", "SAVE20", "Giảm cố định (VNĐ)", "100000", "Hết hạn: 31/03/2026",
-//        isAiRecommended = true, isActive = true
-//    )
+    private var voucherToEdit: VoucherUiModel =
+        VoucherUiModel(
+        "1", "SAVE20", "Giảm cố định (VNĐ)", "100000", "Hết hạn: 31/03/2026",
+        isAiRecommended = true, isActive = true
+    )
 
     override fun setupViews() {
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }

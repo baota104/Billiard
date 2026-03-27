@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_table_type_unselected"
+            android:background="@drawable/bg_corner_graytran"
             android:hint="Tìm tên món..."
             android:paddingHorizontal="16dp"
             android:singleLine="true"

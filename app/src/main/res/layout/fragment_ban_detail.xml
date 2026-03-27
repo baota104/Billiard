@@ -104,7 +104,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/boxMin"
             app:layout_constraintTop_toTopOf="@id/boxDay">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="43" android:textColor="#2962FF" android:textSize="24sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="43" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GIÂY" android:textColor="#757575" android:textSize="10sp" />
         </LinearLayout>
 
@@ -148,7 +148,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:cardBackgroundColor="#2962FF"
+            app:cardBackgroundColor="@color/blue"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintWidth_percent="0.46"
@@ -186,7 +186,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:cardBackgroundColor="#FFEBEE"
+            app:cardBackgroundColor="@color/alert"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             app:layout_constraintWidth_percent="0.46"
@@ -200,7 +200,7 @@
             android:id="@+id/btnThanhToan"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardBackgroundColor="#0F172A"
+            app:cardBackgroundColor="@color/black"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             app:layout_constraintWidth_percent="0.46"
@@ -221,7 +221,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="24dp"
-            android:background="#EEEEEE"
+            android:background="@color/different_white"
             app:layout_constraintTop_toBottomOf="@id/btnDongBan" />
 
 
@@ -258,6 +258,7 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintTop_toBottomOf="@id/tvLabelList"
             tools:itemCount="3"
+            tools:layout_editor_absoluteX="-11dp"
             tools:listitem="@layout/item_ordered_service" />
 
         <com.google.android.material.card.MaterialCardView

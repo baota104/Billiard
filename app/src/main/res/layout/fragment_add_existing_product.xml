@@ -450,6 +450,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textAllCaps="false"
             app:backgroundTint="@color/primary_blue"
             app:cornerRadius="12dp"
             app:icon="@drawable/ic_add"

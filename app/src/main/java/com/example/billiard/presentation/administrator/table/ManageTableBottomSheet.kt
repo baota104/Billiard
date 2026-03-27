@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import com.example.billiard.R
+import com.example.billiard.core.ext.hide
+import com.example.billiard.core.ext.show
 import com.example.billiard.databinding.BottomSheetManageTableBinding
 import com.example.billiard.domain.model.BanUiModel
 import com.example.billiard.domain.model.TableStatus
@@ -64,12 +66,11 @@ class ManageTableBottomSheet(
         if (tableToEdit == null) {
             // ================== CHẾ ĐỘ THÊM BÀN MỚI ==================
             binding.tvTitle.text = "Thêm bàn mới"
-            binding.tvAsterisk.visibility = View.VISIBLE // Hiện dấu * đỏ
+            binding.tvAsterisk.show()
 
             // Ẩn/Hiện các nút
-            binding.btnClose.visibility = View.GONE
-            binding.btnCancel.visibility = View.VISIBLE
-            binding.cardMaintenance.visibility = View.GONE
+            binding.btnClose.hide()
+            binding.cardMaintenance.hide()
 
             binding.btnSave.text = "Lưu thông tin"
 
@@ -79,12 +80,11 @@ class ManageTableBottomSheet(
         } else {
             // ================== CHẾ ĐỘ SỬA THÔNG TIN ==================
             binding.tvTitle.text = "Chỉnh sửa thông tin"
-            binding.tvAsterisk.visibility = View.GONE
+            binding.tvAsterisk.hide()
 
             // Ẩn/Hiện các nút
-            binding.btnClose.visibility = View.VISIBLE
-            binding.btnCancel.visibility = View.GONE
-            binding.cardMaintenance.visibility = View.VISIBLE
+            binding.btnClose.show()
+            binding.cardMaintenance.show()
 
             binding.btnSave.text = "Lưu thay đổi"
 
@@ -96,14 +96,12 @@ class ManageTableBottomSheet(
             binding.switchMaintenance.isChecked = tableToEdit.status == TableStatus.MAINTAIN
 
             // Giả lập giao diện đã có ảnh
-            binding.layoutEmptyImage.visibility = View.GONE
-            binding.layoutFilledImage.visibility = View.VISIBLE
+            binding.layoutEmptyImage.hide()
+            binding.layoutFilledImage.show()
         }
     }
 
     private fun setupClickListeners() {
-        // Nút Hủy và Nút Đóng (X)
-        binding.btnCancel.setOnClickListener { dismiss() }
         binding.btnClose.setOnClickListener { dismiss() }
 
         // Click tải ảnh lên

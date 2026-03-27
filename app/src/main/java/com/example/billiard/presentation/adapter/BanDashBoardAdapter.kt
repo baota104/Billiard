@@ -3,6 +3,7 @@ package com.example.billiard.presentation.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -37,41 +38,44 @@ class BanDashBoardAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(ban: BanUiModel) {
+            val context = binding.root.context // Lấy context để dùng cho ContextCompat
 
             with(binding) {
                 tvTableName.text = ban.name
                 tvTableType.text = ban.type
 
+                // Màu chữ của Badge luôn là màu trắng ở mọi trạng thái
+                tvStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.white))
+
                 when (ban.status) {
                     TableStatus.PLAYING -> {
                         // 1. Badge (Nhãn góc phải)
                         tvStatusBadge.text = "● ĐANG CHƠI"
-                        tvStatusBadge.setTextColor(Color.parseColor("#FFFFFF"))
-                        cardBadge.setCardBackgroundColor(Color.parseColor("#F44336"))
+                        cardBadge.setCardBackgroundColor(ContextCompat.getColor(context, R.color.card_red))
 
                         // 2. Text hành động dưới cùng
                         tvBottomAction.text = ban.timePlaying ?: "00:00:00"
-                        tvBottomAction.setTextColor(Color.parseColor("#1A237E"))
-                        tvBottomAction.setBackgroundResource(R.drawable.bg_rounded_gray_outline)
+                        tvBottomAction.setTextColor(ContextCompat.getColor(context, R.color.table_playing_text))
+                        tvBottomAction.setBackgroundResource(R.drawable.bg_corner_graytran)
                     }
 
                     TableStatus.EMPTY -> {
                         tvStatusBadge.text = "● TRỐNG"
-                        tvStatusBadge.setTextColor(Color.parseColor("#FFFFFF"))
-                        cardBadge.setCardBackgroundColor(Color.parseColor("#8822C55E"))
+                        cardBadge.setCardBackgroundColor(ContextCompat.getColor(context, R.color.table_empty_bg))
 
                         tvBottomAction.text = "Bàn trống"
-                        tvBottomAction.setTextColor(Color.parseColor("#9AA6B8"))
+                        tvBottomAction.setTextColor(ContextCompat.getColor(context, R.color.table_empty_text))
                         tvBottomAction.setBackgroundResource(R.drawable.bg_dashed_empty_table)
                     }
 
                     else -> {
+                        // Bảo trì
                         tvStatusBadge.text = "● Bảo trì"
-                        tvStatusBadge.setTextColor(Color.parseColor("#FFFFFF"))
-                        cardBadge.setCardBackgroundColor(Color.parseColor("#88FF9800"))
+                        cardBadge.setCardBackgroundColor(ContextCompat.getColor(context, R.color.table_maintenance_bg))
+
                         tvBottomAction.text = "Đang bảo trì"
-                        tvBottomAction.setTextColor(Color.parseColor("#FF9800"))
-                        tvBottomAction.setBackgroundResource(R.drawable.bg_rounded_gray_outline)
+                        tvBottomAction.setTextColor(ContextCompat.getColor(context, R.color.table_maintenance_text))
+                        tvBottomAction.setBackgroundResource(R.drawable.bg_corner_graytran)
                     }
                 }
 

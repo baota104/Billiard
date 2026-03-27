@@ -70,7 +70,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_camera"
+            android:src="@drawable/ic_camera"
             app:tint="@color/primary_blue" />
 
         <TextView
@@ -112,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_table_type_unselected"
+        android:background="@drawable/bg_corner_graytran"
         android:hint="Nước suối Aquafina 500ml"
         android:paddingHorizontal="16dp"
         android:singleLine="true"
@@ -152,6 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:inputType="none"
+            android:background="@drawable/bg_corner_graytran"
             android:paddingHorizontal="16dp"
             android:text="Đồ uống"
             android:textColor="@color/text_title"
@@ -189,7 +190,7 @@
             android:layout_height="52dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_table_type_unselected"
+            android:background="@drawable/bg_corner_graytran"
             android:hint="5000"
             android:inputType="number"
             android:paddingHorizontal="16dp"
@@ -218,7 +219,7 @@
             android:layout_height="52dp"
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/bg_table_type_unselected"
+            android:background="@drawable/bg_corner_graytran"
             android:hint="10000"
             android:inputType="number"
             android:paddingHorizontal="16dp"
@@ -299,7 +300,9 @@
             android:textColor="@color/text_gray"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textAllCaps="false"
             app:cornerRadius="12dp"
+            app:strokeWidth="1dp"
             app:strokeColor="@color/divider_gray" />
 
         <com.google.android.material.button.MaterialButton
@@ -311,6 +314,7 @@
             android:text="Lưu thay đổi"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:textAllCaps="false"
             android:textStyle="bold"
             app:backgroundTint="@color/primary_blue"
             app:cornerRadius="12dp" />

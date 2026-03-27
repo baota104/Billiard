@@ -60,6 +60,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textAllCaps="false"
             app:backgroundTint="@color/primary_blue"
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
@@ -115,7 +116,7 @@
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@android:drawable/ic_menu_myplaces"
+                            android:src="@drawable/ic_person"
                             app:tint="@color/text_gray" />
 
                         <TextView
@@ -152,7 +153,7 @@
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@android:drawable/ic_menu_today"
+                            android:src="@drawable/ic_date"
                             app:tint="@color/text_gray" />
 
                         <TextView
