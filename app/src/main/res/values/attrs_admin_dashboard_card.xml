@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AdminDashboardCard">
+        <attr name="adc_title" format="string" />
+        <attr name="adc_subtitle" format="string" />
+        <attr name="adc_icon" format="reference" />
+        <attr name="adc_iconTint" format="color" />
+
+        <attr name="adc_showProgress" format="boolean" />
+        <attr name="adc_progressLabel" format="string" />
+        <attr name="adc_progressValue" format="integer" />
+    </declare-styleable>
+</resources>

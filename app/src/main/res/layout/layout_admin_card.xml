@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <View
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:background="@drawable/bg_circle_decor"
+            android:translationX="50dp"
+            android:translationY="-50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cardIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_role_choose"
+            android:backgroundTint="@color/bg_icon_light"
+            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_table"
+            tools:tint="@color/primary_blue" />
+
+        <TextView
+            android:id="@+id/cardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardIcon"
+            tools:text="Quản lý Bàn" />
+
+        <TextView
+            android:id="@+id/cardSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_green"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardTitle"
+            tools:text="10 bàn đang hoạt động" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chi tiết"
+            android:textAllCaps="false"
+            android:textSize="13sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardTitle" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/progressGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tvProgressLabel,tvProgressPercent,progressIndicator" />
+
+        <TextView
+            android:id="@+id/tvProgressLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardSubtitle"
+            tools:text="Tỉ lệ lấp đầy" />
+
+        <TextView
+            android:id="@+id/tvProgressPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvProgressLabel"
+            tools:text="65%" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:indicatorColor="@color/primary_blue"
+            app:layout_constraintTop_toBottomOf="@+id/tvProgressLabel"
+            app:trackColor="@color/bg_icon_light"
+            app:trackCornerRadius="4dp"
+            app:trackThickness="6dp"
+            tools:progress="65" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

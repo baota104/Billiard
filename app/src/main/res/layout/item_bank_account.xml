@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/divider_gray"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/imgWatermark"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:alpha="0.05"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_inventory" />
+
+        <ImageView
+            android:id="@+id/imgBankLogo"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_role_choose"
+            android:backgroundTint="@color/bg_icon_light"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary_blue"
+            tools:src="@drawable/ic_wallet" />
+
+        <TextView
+            android:id="@+id/tvBankName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/text_title"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/imgBankLogo"
+            app:layout_constraintEnd_toStartOf="@id/btnDelete"
+            app:layout_constraintStart_toEndOf="@id/imgBankLogo"
+            app:layout_constraintTop_toTopOf="@id/imgBankLogo"
+            tools:text="Vietcombank" />
+
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="@id/imgBankLogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imgBankLogo"
+            app:tint="@color/card_red" />
+
+        <TextView
+            android:id="@+id/lblAccountHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="CHỦ TÀI KHOẢN"
+            android:textColor="@color/text_gray"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgBankLogo" />
+
+        <TextView
+            android:id="@+id/tvAccountHolder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/text_title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblAccountHolder"
+            tools:text="NGUYEN VAN A" />
+
+        <TextView
+            android:id="@+id/lblAccountNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="SỐ TÀI KHOẢN"
+            android:textColor="@color/text_gray"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAccountHolder" />
+
+        <TextView
+            android:id="@+id/tvAccountNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:letterSpacing="0.1"
+            android:textColor="@color/text_title"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/btnSetDefault"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblAccountNumber"
+            tools:text="8888 1234 5678" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnSetDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/bg_icon_light"
+            app:cardCornerRadius="100dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvAccountNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/lblAccountNumber"
+            app:strokeColor="@color/gray_400"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp">
+
+                <ImageView
+                    android:id="@+id/icDefaultCheck"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:tint="@color/primary_blue"
+                    tools:src="@android:drawable/checkbox_on_background" />
+
+                <TextView
+                    android:id="@+id/tvDefaultText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="Mặc định" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="32dp">
+
+    <View
+        android:id="@+id/viewDragHandle"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:background="@color/gray_400"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Thêm tài khoản ngân hàng"
+        android:textColor="@color/text_title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewDragHandle" />
+
+    <TextView
+        android:id="@+id/lblBankSelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Chọn ngân hàng"
+        android:textColor="@color/text_title"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilBankSelection"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:boxBackgroundColor="@color/different_white"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblBankSelection">
+
+        <AutoCompleteTextView
+            android:id="@+id/actBankSelection"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Vietcombank"
+            android:inputType="none"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_title"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/lblAccountNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Số tài khoản"
+        android:textColor="@color/text_title"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilBankSelection" />
+
+    <EditText
+        android:id="@+id/edtAccountNumber"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_corner_graytran"
+        android:backgroundTint="@color/different_white"
+        android:drawableEnd="@drawable/ic_dialpad"
+        android:drawablePadding="12dp"
+        android:drawableTint="@color/gray_400"
+        android:hint="VD: 1029384756"
+        android:inputType="number"
+        android:paddingHorizontal="16dp"
+        android:singleLine="true"
+        android:textColor="@color/text_title"
+        android:textColorHint="@color/text_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblAccountNumber" />
+
+    <TextView
+        android:id="@+id/lblAccountHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Tên chủ tài khoản"
+        android:textColor="@color/text_title"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAccountNumber" />
+
+    <EditText
+        android:id="@+id/edtAccountHolder"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_corner_graytran"
+        android:backgroundTint="@color/different_white"
+        android:drawableEnd="@drawable/ic_person"
+        android:drawablePadding="12dp"
+        android:drawableTint="@color/gray_400"
+        android:hint="NGUYEN VAN A"
+        android:inputType="textCapCharacters"
+        android:paddingHorizontal="16dp"
+        android:singleLine="true"
+        android:textColor="@color/text_title"
+        android:textColorHint="@color/text_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblAccountHolder" />
+
+    <LinearLayout
+        android:id="@+id/layoutHelperNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtAccountHolder">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_help"
+            app:tint="@color/text_gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="Phải trùng khớp với tên đăng ký tại ngân hàng"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardSecurity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="@color/bg_icon_light"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutHelperNote"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_shield_check"
+                app:tint="@color/blue" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:lineSpacingExtra="4dp"
+                android:text="Thông tin tài khoản của bạn được mã hóa bằng công nghệ SSL 256-bit. Chúng tôi không bao giờ lưu trữ toàn bộ thông tin đăng nhập của bạn."
+                android:textColor="@color/blue"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirmSave"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:text="Xác nhận &amp; Lưu"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/blue"
+        app:cornerRadius="100dp"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardSecurity" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

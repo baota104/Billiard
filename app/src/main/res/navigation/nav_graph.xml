@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_administraitorFragment_to_inventoryManagementFragment"
             app:destination="@id/inventoryManagementFragment" />
+        <action
+            android:id="@+id/action_administraitorFragment_to_bankFragment"
+            app:destination="@id/bankFragment" />
     </fragment>
     <fragment
         android:id="@+id/stasticsFragment"
@@ -123,6 +126,9 @@
         <action
             android:id="@+id/action_inventoryManagementFragment_to_createReceiptFragment"
             app:destination="@id/createReceiptFragment" />
+        <action
+            android:id="@+id/action_inventoryManagementFragment_to_receiptDetailFragment"
+            app:destination="@id/receiptDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/createReceiptFragment"
@@ -148,4 +154,12 @@
             android:id="@+id/action_createNewProductFragment_to_createReceiptFragment"
             app:destination="@id/createReceiptFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bankFragment"
+        android:name="com.example.billiard.presentation.administrator.bank.BankFragment"
+        android:label="BankFragment" />
+    <fragment
+        android:id="@+id/receiptDetailFragment"
+        android:name="com.example.billiard.presentation.administrator.inventory.receipt.ReceiptDetailFragment"
+        android:label="ReceiptDetailFragment" />
 </navigation>

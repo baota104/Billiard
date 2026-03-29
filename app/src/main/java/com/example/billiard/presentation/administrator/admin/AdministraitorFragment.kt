@@ -10,25 +10,36 @@ class AdministraitorFragment : BaseFragment<FragmentAdministraitorBinding>(
     FragmentAdministraitorBinding::inflate) {
     private lateinit var tableAdapter: BanListAdapter
     override fun setupViews() {
-        binding.btnChiTietBan.setOnClickListener {
-            findNavController().navigate(R.id.action_administraitorFragment_to_tableManageFragment)
-        }
+        with(binding) {
 
-        binding.btnChiTietKhungGio.setOnClickListener {
-            findNavController().navigate(R.id.action_administraitorFragment_to_timeSlotManagementFragmentFragment)
-        }
+            // 1. Quản lý Bàn
+            cardQuanLyBan.setOnDetailsClickListener {
+                findNavController().navigate(R.id.action_administraitorFragment_to_tableManageFragment)
+            }
 
-        binding.btnChiTietNhanVien.setOnClickListener {
-            findNavController().navigate(R.id.action_administraitorFragment_to_employeeManagementFragment)
-        }
-        binding.btnChiTietVC.setOnClickListener {
-            findNavController().navigate(R.id.action_administraitorFragment_to_voucherFragment)
-        }
-        binding.btnChiTietKhoHang.setOnClickListener {
-            findNavController().navigate(R.id.action_administraitorFragment_to_inventoryManagementFragment)
-        }
+            // 2. Quản lý Khung giờ
+            cardQuanLyKhungGio.setOnDetailsClickListener {
+                findNavController().navigate(R.id.action_administraitorFragment_to_timeSlotManagementFragmentFragment)
+            }
 
+            // 3. Quản lý Nhân viên
+            cardQuanLyNhanVien.setOnDetailsClickListener {
+                findNavController().navigate(R.id.action_administraitorFragment_to_employeeManagementFragment)
+            }
 
+            // 4. Quản lý Voucher
+            cardQuanLyVC.setOnDetailsClickListener {
+                findNavController().navigate(R.id.action_administraitorFragment_to_voucherFragment)
+            }
+
+            // 5. Quản lý Kho hàng
+            cardQuanLyKhohang.setOnDetailsClickListener {
+                findNavController().navigate(R.id.action_administraitorFragment_to_inventoryManagementFragment)
+            }
+            cardQuanLyBank.setOnDetailsClickListener {
+                findNavController().navigate(R.id.action_administraitorFragment_to_bankFragment)
+            }
+        }
     }
 
 

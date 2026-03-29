@@ -32,516 +32,102 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
+        <com.example.billiard.presentation.customview.AdminDashboardCard
             android:id="@+id/cardQuanLyBan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/different_white"
-            app:strokeWidth="1dp"
+            android:max="100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgAvatar">
+            app:layout_constraintTop_toBottomOf="@+id/imgAvatar"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:background="@drawable/bg_circle_decor"
-                    android:translationX="50dp"
-                    android:translationY="-50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iconTable"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_role_choose"
-                    android:backgroundTint="@color/bg_icon_light"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_table"
-                    app:tint="@color/primary_blue"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvTableTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Quản lý Bàn"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iconTable" />
-
-                <TextView
-                    android:id="@+id/tvTableSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10 bàn đang hoạt động"
-                    android:textColor="@color/text_green"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTableTitle" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChiTietBan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chi tiết"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    app:cornerRadius="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvTableTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvTableTitle" />
-
-                <TextView
-                    android:id="@+id/tvProgressLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Tỉ lệ lấp đầy"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTableSub" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="65%"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabel"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvProgressLabel" />
-
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progress="65"
-                    app:indicatorColor="@color/primary_blue"
-                    app:layout_constraintTop_toBottomOf="@+id/tvProgressLabel"
-                    app:trackColor="@color/bg_icon_light"
-                    app:trackCornerRadius="4dp"
-                    app:trackThickness="6dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+            app:adc_title="Quản lý Bàn"
+            app:adc_subtitle="10 bàn đang hoạt động"
+            app:adc_icon="@drawable/ic_table"
+            app:adc_iconTint="@color/primary_blue"
+            app:adc_showProgress="true"
+            app:adc_progressLabel="Tỉ lệ lấp đầy"
+            app:adc_progressValue="65" />
 
 
-        <com.google.android.material.card.MaterialCardView
+        <com.example.billiard.presentation.customview.AdminDashboardCard
             android:id="@+id/cardQuanLyKhungGio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyBan">
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyBan"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+            app:adc_title="Quản lý Giá &amp; Khung giờ"
+            app:adc_subtitle="Cấu hình giá sáng, tối &amp; cuối tuần"
+            app:adc_icon="@drawable/ic_time"
+            app:adc_iconTint="@color/primary_blue"
+            app:adc_showProgress="false" />
 
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:background="@drawable/bg_circle_decor"
-                    android:translationX="50dp"
-                    android:translationY="-50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iconTime"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_role_choose"
-                    android:backgroundTint="@color/bg_icon_light"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_time"
-                    app:tint="@color/primary_blue"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvTimeTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Quản lý Giá &amp; Khung giờ"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iconTime" />
-
-                <TextView
-                    android:id="@+id/tvTimeSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cấu hình giá sáng, tối &amp; cuối tuần"
-                    android:textColor="@color/text_green"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTimeTitle" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChiTietKhungGio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chi tiết"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    app:cornerRadius="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvTimeTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvTimeTitle"
-                    app:layout_constraintVertical_bias="0.458" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTimeSub">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_role_choose"
-                        android:backgroundTint="@color/bg_tag"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="6dp"
-                        android:text="$ 3 bảng giá"
-                        android:textColor="@color/text_gray"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_role_choose"
-                        android:backgroundTint="@color/bg_tag"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="6dp"
-                        android:text="📅 Tuần này"
-                        android:textColor="@color/text_gray"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
+        <com.example.billiard.presentation.customview.AdminDashboardCard
             android:id="@+id/cardQuanLyKhohang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyKhungGio">
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyKhungGio"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+            app:adc_title="Quản lý Kho hàng"
+            app:adc_subtitle="15 mặt hàng sắp hết"
+            app:adc_icon="@drawable/ic_inventory"
+            app:adc_iconTint="@color/primary_blue"
+            app:adc_showProgress="true"
+            app:adc_progressLabel="Trạng thái kho"
+            app:adc_progressValue="85" />
 
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:background="@drawable/bg_circle_decor"
-                    android:translationX="50dp"
-                    android:translationY="-50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iconinventory"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_role_choose"
-                    android:backgroundTint="@color/bg_icon_light"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_inventory"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/primary_blue" />
-
-                <TextView
-                    android:id="@+id/tvInventoryTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Quản lý Kho hàng"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iconinventory" />
-
-                <TextView
-                    android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15 mặt hàng sắp hết"
-                    android:textColor="@color/text_green"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvInventoryTitle" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChiTietKhoHang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chi tiết"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    app:cornerRadius="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvInventoryTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvInventoryTitle" />
-
-                <TextView
-                    android:id="@+id/tvProgressLabelkho"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Trạng thái kho"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="85%"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabelkho"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvProgressLabelkho" />
-
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progress="85"
-                    app:indicatorColor="@color/primary_blue"
-                    app:layout_constraintTop_toBottomOf="@+id/tvProgressLabelkho"
-                    app:trackColor="@color/bg_icon_light"
-                    app:trackCornerRadius="4dp"
-                    app:trackThickness="6dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <com.example.billiard.presentation.customview.AdminDashboardCard
             android:id="@+id/cardQuanLyNhanVien"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyKhohang">
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyKhohang"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+            app:adc_title="Quản lý Nhân viên"
+            app:adc_subtitle="12 Nhân viên đang hoạt động"
+            app:adc_icon="@drawable/ic_group"
+            app:adc_iconTint="@color/primary_blue"
+            app:adc_showProgress="false" />
 
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:background="@drawable/bg_circle_decor"
-                    android:translationX="50dp"
-                    android:translationY="-50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iconGroup"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_role_choose"
-                    android:backgroundTint="@color/bg_icon_light"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_group"
-                    app:tint="@color/primary_blue"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvNVTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Quản lý Nhân viên"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iconGroup" />
-
-                <TextView
-                    android:id="@+id/tvNVSub"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12 Nhân viên đang hoạt động"
-                    android:textColor="@color/text_green"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvNVTitle" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChiTietNhanVien"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chi tiết"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    app:cornerRadius="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvNVTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvNVTitle" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
+        <com.example.billiard.presentation.customview.AdminDashboardCard
             android:id="@+id/cardQuanLyVC"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeColor="#E0E0E0"
-            app:strokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyNhanVien">
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyNhanVien"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+            app:adc_title="Quản lý Voucher"
+            app:adc_subtitle="5 voucher đang hoạt động"
+            app:adc_icon="@drawable/ic_voucher"
+            app:adc_iconTint="@color/primary_blue"
+            app:adc_showProgress="true"
+            app:adc_progressLabel="Tỉ lệ sử dụng"
+            app:adc_progressValue="85" />
+        <com.example.billiard.presentation.customview.AdminDashboardCard
+            android:id="@+id/cardQuanLyBank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyVC"
 
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
-                    android:background="@drawable/bg_circle_decor"
-                    android:translationX="50dp"
-                    android:translationY="-50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iconVC"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_role_choose"
-                    android:backgroundTint="@color/bg_icon_light"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_voucher"
-                    app:tint="@color/primary_blue"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvVCTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Quản lý Voucher"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iconVC" />
-
-                <TextView
-                    android:id="@+id/tvStatusVC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5 voucher đang hoạt động"
-                    android:textColor="@color/text_green"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvVCTitle" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnChiTietVC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chi tiết"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    app:cornerRadius="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvVCTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvVCTitle" />
-                <TextView
-                    android:id="@+id/tvProgressLabelVC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Tỉ lệ sử dụng"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvStatusVC" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="85%"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabelVC"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvProgressLabelVC" />
-
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progress="85"
-                    app:indicatorColor="@color/primary_blue"
-                    app:layout_constraintTop_toBottomOf="@+id/tvProgressLabelVC"
-                    app:trackColor="@color/bg_icon_light"
-                    app:trackCornerRadius="4dp"
-                    app:trackThickness="6dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
+            app:adc_title="Quản lý Bank"
+            app:adc_subtitle="3 tài khoản đang hoạt động"
+            app:adc_icon="@drawable/ic_bank"
+            app:adc_iconTint="@color/primary_blue"
+            app:adc_showProgress="false" />
         <TextView
             android:id="@+id/tvTienIchTitle"
             android:layout_width="wrap_content"
@@ -552,7 +138,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyVC" />
+            app:layout_constraintTop_toBottomOf="@+id/cardQuanLyBank" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardThongBao"
