@@ -3,17 +3,17 @@ package com.example.billiard.di
 
 import android.content.Context
 import com.example.billiard.core.utils.Constants
-import com.example.billiard.core.utils.TokenManager
+import com.example.billiard.core.utils.SessionManager
 import com.example.billiard.data.remote.api.AuthApiService
 import com.example.billiard.data.repository.AuthRepositoryImpl
-import com.example.billiard.domain.repository.IAuthRepository
+import com.example.billiard.domain.repository.AuthRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppContainer {
-    val authRepository: IAuthRepository
+    val authRepository: AuthRepository
 }
 
 class DefaultAppContainer(private val context: Context) : AppContainer {
@@ -38,11 +38,11 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     private val authApi: AuthApiService by lazy {
         retrofit.create(AuthApiService::class.java)
     }
-    private val tokenManager: TokenManager by lazy {
-        TokenManager(context)
+    private val tokenManager: SessionManager by lazy {
+        SessionManager(context)
     }
 
-    override val authRepository: IAuthRepository by lazy {
+    override val authRepository: AuthRepository by lazy {
         AuthRepositoryImpl(authApi, tokenManager)
     }
 }

@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")  // Bắt buộc phải có để Hilt sinh code
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -45,6 +47,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    implementation ("com.google.dagger:hilt-android:2.51")
+    kapt ("com.google.dagger:hilt-compiler:2.51")
 
     // 2. LIFECYCLE & VIEWMODEL (Dùng cho Clean Architecture)
     val lifecycle_version = "2.7.0"
