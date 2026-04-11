@@ -1,4 +1,4 @@
-package com.example.billiard.data.remote.dto
+package com.example.billiard.data.remote.dto.response
 
 import com.google.gson.annotations.SerializedName
 

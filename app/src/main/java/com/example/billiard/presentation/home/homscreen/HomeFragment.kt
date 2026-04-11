@@ -1,92 +1,170 @@
 package com.example.billiard.presentation.home.homscreen
 
+import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.SessionManager
 import com.example.billiard.databinding.FragmentHomeBinding
+import com.example.billiard.domain.model.DashboardTable
 import com.example.billiard.presentation.adapter.BanDashBoardAdapter
 import com.example.billiard.presentation.home.bottomopentable.OpenTableBottomSheet
-import com.example.billiard.domain.model.BanUiModel
-import com.example.billiard.domain.model.TableStatus
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-
-    private var allTables = listOf<BanUiModel>()
+    private val viewModel: TableViewModel by viewModels()
     private lateinit var banAdapter: BanDashBoardAdapter
 
+    // Tiêm SessionManager để lấy ID nhân viên đang đăng nhập phục vụ cho việc tạo hóa đơn
+    @Inject
+    lateinit var sessionManager: SessionManager
+
+    private var allTables: List<DashboardTable> = emptyList()
+    private var currentTabPosition = 0 
+
     override fun setupViews() {
-        createMockData()
-        setUpClick()
         setUpRecycle()
-        filterDataByTab(0)
-
-
+        setUpClick()
     }
-    private fun setUpClick(){
+
+    private fun setUpRecycle() {
+        banAdapter = BanDashBoardAdapter { clickedTable ->
+            handleTableClick(clickedTable)
+        }
+
+        binding.rvTables.apply {
+            adapter = banAdapter
+            layoutManager = GridLayoutManager(requireContext(), 2)
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 0) {
+                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                        val visibleItemCount = layoutManager.childCount
+                        val totalItemCount = layoutManager.itemCount
+                        val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+
+                        if (!viewModel.isLoadingMore && (visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            viewModel.loadTables() 
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun setUpClick() {
         binding.tabLayoutFilter.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                filterDataByTab(tab?.position ?: 0)
+                currentTabPosition = tab?.position ?: 0
+                applyFilter() 
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-    }
-    private fun setUpRecycle(){
-        banAdapter = BanDashBoardAdapter { onclick ->
-            handleTableClick(onclick)
-        }
-        binding.rvTables.apply {
-            adapter = banAdapter
-        }
 
-
-    }
-    private fun handleTableClick(ban: BanUiModel) {
-        if (ban.status == TableStatus.EMPTY) {
-            val bottomSheet = OpenTableBottomSheet(ban = ban) { banDuocChon ->
-                Toast.makeText(
-                    requireContext(),
-                    "Đang mở bàn ${banDuocChon.name}...",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            }
-            bottomSheet.show(childFragmentManager, "OpenTableBottomSheet")
-        } else if(ban.status == TableStatus.PLAYING){
-            findNavController().navigate(R.id.action_homeFragment_to_banDetailFragment)
-            Toast.makeText(requireContext(), "Bàn đang chơi", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            Toast.makeText(requireContext(), "Bàn đang bảo trì", Toast.LENGTH_SHORT).show()
-        }
+        // Kéo vuốt để tải lại trang
+//        binding.swipeRefreshLayout.setOnRefreshListener {
+//            viewModel.loadTables(isRefresh = true)
+//            binding.swipeRefreshLayout.isRefreshing = false
+//        }
     }
 
     override fun observeData() {
-    }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // 1. Lắng nghe danh sách bàn
+                launch {
+                    viewModel.tablesState.collect { state ->
+                        when (state) {
+                            is Resource.Loading -> { }
+                            is Resource.Success -> {
+                                allTables = state.data
+                                applyFilter()
+                            }
+                            is Resource.Error -> {
+                                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
 
-    private fun createMockData() {
-        allTables = listOf(
-            BanUiModel("1", "Bàn 01","80.000", "Bida Lỗ", TableStatus.PLAYING, "01:25:00"),
-            BanUiModel("2", "Bàn 02", "80.000","Snooker", TableStatus.EMPTY),
-            BanUiModel("3", "Bàn 03","80.000", "Bida Lỗ", TableStatus.PLAYING, "00:42:15"),
-            BanUiModel("4", "Bàn 04", "80.000","VIP", TableStatus.EMPTY),
-            BanUiModel("5", "Bàn 05", "80.000","Bida Lỗ", TableStatus.EMPTY),
-            BanUiModel("6", "Bàn 06", "80.000","Snooker", TableStatus.MAINTAIN)
-        )
-    }
-
-    private fun filterDataByTab(position: Int) {
-        val filteredList = when (position) {
-            0 -> allTables // Tab "Tất cả"
-            1 -> allTables.filter { it.status == TableStatus.EMPTY } // Tab "Trống"
-            2 -> allTables.filter { it.status == TableStatus.PLAYING } // Tab "Đang chơi"
-            3 -> allTables.filter { it.status == TableStatus.MAINTAIN } // Tab "Bảo trì"
-            else -> allTables
+                // 2. Lắng nghe kết quả khi bấm "Mở bàn"
+                launch {
+                    viewModel.openTableState.collect { state ->
+                        when (state) {
+                            is Resource.Loading -> { 
+                                // Có thể hiện progress dialog
+                            }
+                            is Resource.Success -> {
+                                Toast.makeText(requireContext(), "Mở bàn thành công!", Toast.LENGTH_SHORT).show()
+                                viewModel.resetOpenTableState()
+                            }
+                            is Resource.Error -> {
+                                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                                viewModel.resetOpenTableState()
+                            }
+                            null -> {}
+                        }
+                    }
+                }
+            }
         }
-         banAdapter.submitList(filteredList)
-        Toast.makeText(requireContext(), "Lọc: ${filteredList.size} bàn", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun applyFilter() {
+        val filteredList = when (currentTabPosition) {
+            0 -> allTables // Tất cả
+            1 -> allTables.filter { it.status.equals("EMPTY", true) || it.status.equals("AVAILABLE", true) } // Trống
+            2 -> allTables.filter { it.status.equals("PLAYING", true) || it.status.equals("IN_USE", true) } // Đang chơi
+            else -> allTables.filter { it.status.equals("MAINTENANCE", true) || it.status.equals("MAINTAIN", true) } // Bảo trì
+        }
+        banAdapter.submitList(filteredList)
+    }
+
+    private fun handleTableClick(ban: DashboardTable) {
+        val status = ban.status.uppercase()
+
+        when (status) {
+            "EMPTY", "AVAILABLE" -> {
+                // Bàn trống -> Mở BottomSheet yêu cầu mở bàn
+                val bottomSheet = OpenTableBottomSheet(ban = ban) { banDuocChon ->
+                    // Lấy ID nhân viên từ SessionManager (Mặc định là 1 nếu chưa đăng nhập để test)
+                    val employeeId = sessionManager.getEmployeeId() ?: 1 
+                    viewModel.openTable(employeeId = employeeId, tableId = banDuocChon.id)
+                }
+                bottomSheet.show(childFragmentManager, "OpenTableBottomSheet")
+            }
+            
+            "PLAYING", "RESERVED" -> {
+                // Bàn đang chơi -> Chuyển sang màn hình xem chi tiết (Order/Menu)
+                findNavController().navigate(R.id.action_homeFragment_to_banDetailFragment)
+            }
+            
+            "MAINTENANCE", "MAINTAIN" -> {
+                // Đang bảo trì -> Hiện thông báo cảnh báo
+                Toast.makeText(requireContext(), "Bàn ${ban.name} đang được bảo trì, không thể mở!", Toast.LENGTH_SHORT).show()
+            }
+            
+            else -> {
+                Toast.makeText(requireContext(), "Trạng thái bàn không xác định!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

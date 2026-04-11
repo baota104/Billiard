@@ -10,13 +10,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.billiard.R
 import com.example.billiard.databinding.BottomSheetManageEmployeeBinding
-import com.example.billiard.domain.model.EmployeeUiModel
+import com.example.billiard.domain.model.Employee
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ManageEmployeeBottomSheet(
-    private val employeeToEdit: EmployeeUiModel? = null,
+    private val employeeToEdit: Employee? = null,
     private val onSave: (name: String, username: String, role: String, isActive: Boolean) -> Unit
 ) : BottomSheetDialogFragment() {
 
@@ -73,8 +73,8 @@ class ManageEmployeeBottomSheet(
             binding.tvTitle.text = "Chỉnh sửa nhân viên"
 
             // Đổ dữ liệu cũ vào form
-            binding.edtFullName.setText(employeeToEdit.name)
-            binding.edtUsername.setText(employeeToEdit.username)
+            binding.edtFullName.setText(employeeToEdit.fullName)
+            binding.edtUsername.setText(employeeToEdit.firstName)
             // Tên đăng nhập thường không được phép sửa sau khi tạo
             binding.edtUsername.isEnabled = false
 

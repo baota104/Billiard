@@ -1,48 +1,77 @@
 package com.example.billiard.presentation.administrator.time
 
+import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.core.network.Resource
 import com.example.billiard.databinding.FragmentTimeSlotManagementFragmentBinding
 import com.example.billiard.domain.model.TableTypeTimeSlotUiModel
 import com.example.billiard.presentation.adapter.TableTypeTimeSlotAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class TimeSlotManagementFragmentFragment : BaseFragment<FragmentTimeSlotManagementFragmentBinding>(FragmentTimeSlotManagementFragmentBinding::inflate) {
 
+    private val viewModel: PriceListViewModel by viewModels()
     private lateinit var timeSlotAdapter: TableTypeTimeSlotAdapter
 
     override fun setupViews() {
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 
         binding.btnAdd.setOnClickListener {
-            Toast.makeText(requireContext(), "Tạo thiết lập mới", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Chưa hỗ trợ thêm loại bàn mới", Toast.LENGTH_SHORT).show()
         }
 
         timeSlotAdapter = TableTypeTimeSlotAdapter { selectedItem ->
-            Toast.makeText(requireContext(), "Thiết lập giá cho: ${selectedItem.name}", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_timeSlotManagementFragmentFragment_to_timeSlotDetailFragment)
+            val bundle = Bundle().apply {
+                putString("TABLE_TYPE", selectedItem.name)
+            }
+            findNavController().navigate(R.id.action_timeSlotManagementFragmentFragment_to_timeSlotDetailFragment, bundle)
         }
 
         binding.rvTimeSlots.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = timeSlotAdapter
         }
-
-        createMockData()
     }
 
-    private fun createMockData() {
-        val mockData = listOf(
-            TableTypeTimeSlotUiModel("1", "Bàn Lỗ (Pool)", "Phổ biến", "#2962FF", "", 3),
-            TableTypeTimeSlotUiModel("2", "Bàn Phăng (Carom)", "Pháp", "#9E9E9E", "", 2),
-            TableTypeTimeSlotUiModel("3", "Bàn VIP", "☆ VIP", "#FFB300", "", 1),
-            TableTypeTimeSlotUiModel("4", "Bàn Snooker", "Quốc tế", "#4CAF50", "", 0) // 0 = Chưa cấu hình
-        )
-        timeSlotAdapter.submitList(mockData)
-    }
+    override fun observeData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.priceListsState.collect { state ->
+                    when (state) {
+                        is Resource.Loading -> { }
+                        is Resource.Success -> {
+                            val priceLists = state.data
 
-    override fun observeData() {}
+                            // Lọc danh sách: Đếm xem mỗi loại bàn (POOL, SNOOKER, CAROM) có bao nhiêu khung giờ (PriceList)
+                            val poolCount = priceLists.count { it.tableType.equals("POOL", true) }
+                            val snookerCount = priceLists.count { it.tableType.equals("SNOOKER", true) }
+                            val caromCount = priceLists.count { it.tableType.equals("CAROM", true) }
+
+                            // Chuyển hóa thành UI Model để đổ lên View
+                            val uiModels = listOf(
+                                TableTypeTimeSlotUiModel("1", "POOL", "Phổ biến", "#2962FF", "", poolCount),
+                                TableTypeTimeSlotUiModel("2", "SNOOKER", "Quốc tế", "#4CAF50", "", snookerCount),
+                                TableTypeTimeSlotUiModel("3", "CAROM", "Pháp", "#9E9E9E", "", caromCount)
+                            )
+                            timeSlotAdapter.submitList(uiModels)
+                        }
+                        is Resource.Error -> {
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        }
+                        null -> {}
+                    }
+                }
+            }
+        }
+    }
 }

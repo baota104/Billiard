@@ -1,4 +1,4 @@
-package com.example.billiard.data.remote.dto
+package com.example.billiard.data.remote.dto.request
 
 import com.google.gson.annotations.SerializedName
 
@@ -9,4 +9,3 @@ data class LoginRequest(
     @SerializedName("password")
     val password: String
 )
-

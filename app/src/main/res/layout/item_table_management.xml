@@ -30,29 +30,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <!-- Sửa lại ImageScaleType để Glide đổ ảnh vào nằm vừa vặn với khung -->
                 <ImageView
                     android:id="@+id/imgTable"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:background="#2E7D32"
-                    android:src="@drawable/ic_table" />
+                    android:src="@drawable/img_ban" />
+
                 <TextView
-                android:id="@+id/tvTableCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_role_choose"
-                android:backgroundTint="#E6FFFFFF"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text="POOL"
-                android:textColor="#1C2433"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                    android:id="@+id/tvTableCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_role_choose"
+                    android:backgroundTint="#E6FFFFFF"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="POOL"
+                    android:textColor="#1C2433"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

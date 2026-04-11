@@ -2,37 +2,54 @@ package com.example.billiard.presentation.administrator.table
 
 import android.app.Dialog
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import com.example.billiard.R
 import com.example.billiard.core.ext.hide
 import com.example.billiard.core.ext.show
+import com.example.billiard.core.utils.FileUtils
 import com.example.billiard.databinding.BottomSheetManageTableBinding
-import com.example.billiard.domain.model.BanUiModel
-import com.example.billiard.domain.model.TableStatus
+import com.example.billiard.domain.model.DashboardTable
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.button.MaterialButton
+import java.io.File
 
 class ManageTableBottomSheet(
-    private val tableToEdit: BanUiModel? = null, // null = Chế độ THÊM, có data = Chế độ SỬA
-    private val onSave: (name: String, type: String, isMaintain: Boolean) -> Unit
+    private val tableToEdit: DashboardTable? = null, 
+    private val onSave: (name: String, type: String, isMaintain: Boolean, imageFile: File?) -> Unit
 ) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetManageTableBinding? = null
     private val binding get() = _binding!!
 
+    // Biến lưu trữ File ảnh sau khi người dùng chọn từ thư viện
+    private var selectedImageFile: File? = null
+
+    // Launcher mở thư viện hệ thống
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            // Hiển thị ảnh vừa chọn lên giao diện bằng Glide
+            binding.layoutEmptyImage.hide()
+            binding.layoutFilledImage.show()
+            Glide.with(this).load(it).into(binding.imgPreview)
+
+            // Convert Uri thành java.io.File để chuẩn bị gửi Retrofit
+            selectedImageFile = FileUtils.uriToFile(requireContext(), it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialog)
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.setOnShowListener {
@@ -57,59 +74,70 @@ class ManageTableBottomSheet(
     }
 
     private fun setupDropdown() {
-        val types = arrayOf("Bida Lỗ", "Snooker", "VIP", "Phăng")
+        val types = arrayOf("POOL", "SNOOKER", "CAROM")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, types)
         binding.actCategory.setAdapter(adapter)
     }
 
     private fun setupUIByMode() {
         if (tableToEdit == null) {
-            // ================== CHẾ ĐỘ THÊM BÀN MỚI ==================
             binding.tvTitle.text = "Thêm bàn mới"
             binding.tvAsterisk.show()
-
-            // Ẩn/Hiện các nút
             binding.btnClose.hide()
             binding.cardMaintenance.hide()
-
             binding.btnSave.text = "Lưu thông tin"
-
-            // Mặc định chọn loại bàn đầu tiên
-            binding.actCategory.setText("Bida Lỗ", false)
-
+            binding.actCategory.setText("POOL", false)
+            binding.layoutEmptyImage.show()
+            binding.layoutFilledImage.hide()
         } else {
-            // ================== CHẾ ĐỘ SỬA THÔNG TIN ==================
             binding.tvTitle.text = "Chỉnh sửa thông tin"
             binding.tvAsterisk.hide()
-
-            // Ẩn/Hiện các nút
             binding.btnClose.show()
             binding.cardMaintenance.show()
-
             binding.btnSave.text = "Lưu thay đổi"
 
-            // Điền sẵn dữ liệu cũ vào form
             binding.edtTableName.setText(tableToEdit.name)
-            binding.actCategory.setText(tableToEdit.type, false)
+            binding.actCategory.setText(tableToEdit.tableType.ifBlank { "POOL" }.uppercase(), false)
 
-            // Bật Switch nếu trạng thái đang là Bảo Trì
-            binding.switchMaintenance.isChecked = tableToEdit.status == TableStatus.MAINTAIN
+            binding.switchMaintenance.isChecked = tableToEdit.status.equals("MAINTAIN", true) || tableToEdit.status.equals("MAINTENANCE", true)
 
-            // Giả lập giao diện đã có ảnh
-            binding.layoutEmptyImage.hide()
-            binding.layoutFilledImage.show()
+            // Hiển thị ảnh cũ của bàn nếu có
+            if (tableToEdit.imageUrl.isNotEmpty()) {
+                binding.layoutEmptyImage.hide()
+                binding.layoutFilledImage.show()
+                Glide.with(this)
+                    .load(tableToEdit.imageUrl)
+                    .error(R.drawable.img_ban)
+                    .into(binding.imgPreview)
+            } else {
+                binding.layoutEmptyImage.show()
+                binding.layoutFilledImage.hide()
+            }
         }
     }
 
     private fun setupClickListeners() {
         binding.btnClose.setOnClickListener { dismiss() }
 
-        // Click tải ảnh lên
+        // Nhấn vào ô Add Image để gọi ActivityResultLauncher
         binding.layoutImageUpload.setOnClickListener {
-            Toast.makeText(requireContext(), "Mở thư viện ảnh của điện thoại...", Toast.LENGTH_SHORT).show()
+            pickImageLauncher.launch("image/*")
+        }
+        
+        // SỬA LỖI BẤM XÓA ẢNH BỊ MẤT ITEM: Thay vì đính sự kiện vào layoutFilledImage, ta chỉ gán vào vùng an toàn hoặc không đụng chạm đến toàn bộ layout
+        binding.imgPreview.setOnClickListener {
+            pickImageLauncher.launch("image/*")
         }
 
-        // Nút Lưu
+        // Nút xóa ảnh nằm riêng rẽ, không bao bọc toàn bộ layout
+        binding.btnRemoveImage.setOnClickListener {
+            selectedImageFile = null
+            
+            // Xử lý lại UI: Ẩn ảnh đã chọn, hiện lại khung "Nhấn để tải lên"
+            binding.layoutFilledImage.hide()
+            binding.layoutEmptyImage.show()
+        }
+
         binding.btnSave.setOnClickListener {
             val name = binding.edtTableName.text.toString().trim()
             val type = binding.actCategory.text.toString()
@@ -119,11 +147,12 @@ class ManageTableBottomSheet(
                 binding.edtTableName.error = "Vui lòng nhập tên bàn"
                 return@setOnClickListener
             }
-            onSave(name, type, isMaintain)
+            
+            // Gọi callback truyền kèm file ảnh vừa chọn (nếu user ấn nút xóa ảnh thì selectedImageFile sẽ là null)
+            onSave(name, type, isMaintain, selectedImageFile)
             dismiss()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

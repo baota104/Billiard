@@ -89,7 +89,11 @@
     <fragment
         android:id="@+id/timeSlotDetailFragment"
         android:name="com.example.billiard.presentation.administrator.time.detail.TimeSlotDetailFragment"
-        android:label="TimeSlotDetailFragment" />
+        android:label="TimeSlotDetailFragment" >
+        <argument
+            android:name="TABLE_TYPE"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.example.billiard.presentation.home.payment.PaymentFragment"

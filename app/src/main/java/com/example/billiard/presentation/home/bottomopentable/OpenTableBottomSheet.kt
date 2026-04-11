@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.billiard.R
 import com.example.billiard.databinding.BottomSheetOpenTableBinding
-import com.example.billiard.domain.model.BanUiModel
+import com.example.billiard.domain.model.DashboardTable
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class OpenTableBottomSheet(
-    private val ban: BanUiModel,
-    private val onStartClicked: (BanUiModel) -> Unit
+    private val ban: DashboardTable,
+    private val onStartClicked: (DashboardTable) -> Unit
 ) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetOpenTableBinding? = null
@@ -27,6 +27,7 @@ class OpenTableBottomSheet(
         _binding = BottomSheetOpenTableBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.setOnShowListener {
@@ -35,15 +36,16 @@ class OpenTableBottomSheet(
         }
         return dialog
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUI()
-
-
     }
-    private fun setUpUI(){
+
+    private fun setUpUI() {
         binding.tvTableName.text = ban.name
-        binding.tvTableInfo.text = "Sảnh chính • Giá: ${ban.price}"
+        // DashboardTable không chứa price, nếu cần lấy giá thì bạn phải truyền thêm hoặc ẩn đi
+        binding.tvTableInfo.text = "Sảnh chính • ID bàn: ${ban.id}"
 
         binding.btnClose.setOnClickListener {
             dismiss() // Tắt bottom sheet
@@ -53,10 +55,12 @@ class OpenTableBottomSheet(
             onStartClicked(ban)
             dismiss()
         }
-        updateTableTypeUI(ban.type)
+        
+        // Tạm thời truyền tên giả hoặc lấy type từ name
+        val tmp = ban.name.split("-")
+        val type = if (tmp.size > 1) tmp[1].trim() else "Bida Lỗ"
+        updateTableTypeUI(type)
     }
-
-
 
     private fun updateTableTypeUI(selectedType: String) {
         val unselectedBg = R.drawable.bg_table_type_unselected
@@ -82,11 +86,11 @@ class OpenTableBottomSheet(
                 binding.tvsnooker.setBackgroundResource(selectedBg)
                 binding.tvsnooker.setTextColor(selectedColor)
             }
-            "Bida Lỗ" -> {
+            "Bida Lỗ", "POOL" -> {
                 binding.tvspool.setBackgroundResource(selectedBg)
                 binding.tvspool.setTextColor(selectedColor)
             }
-            "Phăng" -> {
+            "Phăng", "CAROM" -> {
                 binding.tvphang.setBackgroundResource(selectedBg)
                 binding.tvphang.setTextColor(selectedColor)
             }

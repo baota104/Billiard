@@ -7,34 +7,34 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.billiard.databinding.ItemEmployeeBinding
-import com.example.billiard.domain.model.EmployeeUiModel
+import com.example.billiard.domain.model.Employee
 
 class EmployeeAdapter(
-    private val onEditClick: (EmployeeUiModel) -> Unit,
-    private val onDeleteClick: (EmployeeUiModel) -> Unit,
-    private val onStatusChange: (EmployeeUiModel, Boolean) -> Unit
-) : ListAdapter<EmployeeUiModel, EmployeeAdapter.ViewHolder>(DiffCallback()) {
+    private val onEditClick: (Employee) -> Unit,
+    private val onDeleteClick: (Employee) -> Unit,
+    private val onStatusChange: (Employee, Boolean) -> Unit
+) : ListAdapter<Employee, EmployeeAdapter.ViewHolder>(DiffCallback()) {
 
     inner class ViewHolder(private val binding: ItemEmployeeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EmployeeUiModel) {
-            binding.tvEmployeeName.text = item.name
-            binding.tvUsername.text = item.username
+        fun bind(item: Employee) {
+            binding.tvEmployeeName.text = item.fullName
+            binding.tvUsername.text = item.firstName
             binding.tvRole.text = item.role
-            binding.tvCreatedDate.text = "Ngày tạo: ${item.createdDate}"
+//            binding.tvCreatedDate.text = "Ngày tạo: ${item.}"
 
             // Tạm thời ngắt Listener để set giá trị không bị trigger sai
             binding.switchActive.setOnCheckedChangeListener(null)
             binding.switchActive.isChecked = item.isActive
 
             // Xử lý Avatar: Có ảnh thì load ảnh, không có thì hiện chữ cái
-            if (!item.avatarUrl.isNullOrEmpty()) {
+            if (!item.imageUrl.isNullOrEmpty()) {
                 binding.imgAvatar.visibility = View.VISIBLE
                 binding.tvAvatarInitials.visibility = View.GONE
                 // TODO: Dùng Glide load ảnh vào binding.imgAvatar
             } else {
                 binding.imgAvatar.visibility = View.GONE
                 binding.tvAvatarInitials.visibility = View.VISIBLE
-                binding.tvAvatarInitials.text = item.initials ?: item.name.take(1).uppercase()
+                binding.tvAvatarInitials.text = item.firstName ?: item.fullName.take(1).uppercase()
             }
 
             // Gắn các sự kiện click
@@ -55,8 +55,8 @@ class EmployeeAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
-    class DiffCallback : DiffUtil.ItemCallback<EmployeeUiModel>() {
-        override fun areItemsTheSame(oldItem: EmployeeUiModel, newItem: EmployeeUiModel) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: EmployeeUiModel, newItem: EmployeeUiModel) = oldItem == newItem
+    class DiffCallback : DiffUtil.ItemCallback<Employee>() {
+        override fun areItemsTheSame(oldItem: Employee, newItem: Employee) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Employee, newItem: Employee) = oldItem == newItem
     }
 }

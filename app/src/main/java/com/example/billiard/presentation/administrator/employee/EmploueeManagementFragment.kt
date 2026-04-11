@@ -8,21 +8,30 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.launch
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.core.network.Resource
 import com.example.billiard.databinding.FragmentEmploueeManagementBinding
 import com.example.billiard.domain.model.EmployeeUiModel
 import com.example.billiard.domain.model.TableCategoryUIModel
 import com.example.billiard.presentation.adapter.EmployeeAdapter
 import com.example.billiard.presentation.adapter.TableCategoryAdapter
+import com.example.billiard.presentation.employee.EmployeeManagementViewModel
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 
 class EmployeeManagementFragment : BaseFragment<FragmentEmploueeManagementBinding>(FragmentEmploueeManagementBinding::inflate) {
 
     private lateinit var categoryAdapter: TableCategoryAdapter
     private lateinit var employeeAdapter: EmployeeAdapter
+    private val viewModel: EmployeeManagementViewModel by viewModels()
 
     private var allEmployees = listOf<EmployeeUiModel>()
 
@@ -63,11 +72,11 @@ class EmployeeManagementFragment : BaseFragment<FragmentEmploueeManagementBindin
                 }
                 bottomSheet.show(childFragmentManager, "EditEmployee") },
             onDeleteClick = { emp ->
-                showConfirmCloseDialog(emp.name)
+                showConfirmCloseDialog(emp.fullName)
             },
             onStatusChange = { emp, isActive ->
                 val statusStr = if (isActive) "Mở khóa" else "Khóa"
-                Toast.makeText(requireContext(), "Đã $statusStr tài khoản ${emp.name}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Đã $statusStr tài khoản ${emp.fullName}", Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -134,7 +143,7 @@ class EmployeeManagementFragment : BaseFragment<FragmentEmploueeManagementBindin
             }
         }
 
-        employeeAdapter.submitList(filteredList)
+//        employeeAdapter.submitList(filteredList)
     }
 
     private fun createMockData() {
@@ -155,8 +164,36 @@ class EmployeeManagementFragment : BaseFragment<FragmentEmploueeManagementBindin
         )
         categoryAdapter.submitList(categories)
 
-        employeeAdapter.submitList(allEmployees)
+//        employeeAdapter.submitList(allEmployees)
     }
 
-    override fun observeData() {}
+    override fun observeData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.employeesState.collect { resource ->
+                    when (resource) {
+                        is Resource.Loading -> {
+                            // Hiện Progress Dialog hoặc Shimmer Effect
+                        }
+                        is Resource.Success -> {
+                            // Tắt loading
+                            val pageData = resource.data
+                            val employees = pageData.content // Đây là List<Employee>
+                            val total = pageData.totalElements
+
+                            // Set số lượng nhân viên lên Header XML
+                            binding.tvTotalEmployee.text = "$total nhân viên"
+
+                            employeeAdapter.submitList(employees)
+                        }
+                        is Resource.Error -> {
+                            // Tắt loading
+                            Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                        }
+                        null -> {} // Trạng thái rỗng ban đầu
+                    }
+                }
+            }
+        }
+    }
 }

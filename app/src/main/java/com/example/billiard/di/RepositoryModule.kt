@@ -1,7 +1,7 @@
 package com.example.billiard.di
 
-import com.example.billiard.data.repository.AuthRepositoryImpl
-import com.example.billiard.domain.repository.AuthRepository
+import com.example.billiard.data.repository.*
+import com.example.billiard.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,11 +12,51 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    // @Binds BẮT BUỘC phải là abstract class và abstract function
     @Binds
     @Singleton
     abstract fun bindAuthRepository(
-        authRepositoryImpl: AuthRepositoryImpl // Hilt đã biết cách tạo thằng này
-    ): AuthRepository // Trả về Interface này
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindTableRepository(
+        tableRepositoryImpl: TableRepositoryImpl
+    ): TableRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindEmployeeRepository(
+        employeeRepositoryImpl: EmployeeRepositoryImpl
+    ): EmployeeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindProductRepository(
+        productRepositoryImpl: ProductRepositoryImpl
+    ): ProductRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryRepository(
+        categoryRepositoryImpl: CategoryRepositoryImpl
+    ): CategoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindVoucherRepository(
+        voucherRepositoryImpl: VoucherRepositoryImpl
+    ): VoucherRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPriceListRepository(
+        priceListRepositoryImpl: PriceListRepositoryImpl
+    ): PriceListRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindInvoiceRepository(
+        invoiceRepositoryImpl: InvoiceRepositoryImpl
+    ): InvoiceRepository
 }

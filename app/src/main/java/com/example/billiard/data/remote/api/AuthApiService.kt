@@ -1,8 +1,8 @@
 package com.example.billiard.data.remote.api
 
-import com.example.billiard.data.remote.dto.ApiResponse
+import com.example.billiard.data.remote.dto.response.ApiResponse
 import com.example.billiard.data.remote.dto.AuthBody
-import com.example.billiard.data.remote.dto.LoginRequest
+import com.example.billiard.data.remote.dto.request.LoginRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

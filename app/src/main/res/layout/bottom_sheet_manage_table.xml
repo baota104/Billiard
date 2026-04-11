@@ -127,6 +127,7 @@
         android:background="@drawable/bg_dashed_empty_table"
         app:layout_constraintTop_toBottomOf="@id/lblImage">
 
+        <!-- Giao diện lúc trống ảnh -->
         <LinearLayout
             android:id="@+id/layoutEmptyImage"
             android:layout_width="wrap_content"
@@ -142,28 +143,59 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Bấm để tải ảnh lên" android:textColor="@color/text_gray" android:textSize="12sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <!-- Giao diện lúc đã có ảnh -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutFilledImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!-- Ảnh vuông góc bo tròn -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgPreview"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/text_title"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/RoundedCornerImageStyle" />
+                app:shapeAppearanceOverlay="@style/RoundedCornerImageStyle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Thay đổi ảnh" android:textColor="@color/blue" android:textSize="12sp" android:textStyle="bold"/>
-        </LinearLayout>
+            <!-- Text "Thay đổi ảnh" ở dưới -->
+            <TextView
+                android:id="@+id/tvChangeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Thay đổi ảnh"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/imgPreview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Nút X CỰC NHỎ lơ lửng góc trên bên phải của khung ảnh -->
+            <ImageView
+                android:id="@+id/btnRemoveImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="-6dp"
+                android:layout_marginEnd="-6dp"
+                android:background="@drawable/bg_circle_cancel"
+                android:padding="4dp"
+                android:src="@drawable/ic_close"
+                android:elevation="4dp"
+                app:tint="@color/text_gray"
+                app:layout_constraintTop_toTopOf="@id/imgPreview"
+                app:layout_constraintEnd_toEndOf="@id/imgPreview" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.card.MaterialCardView
