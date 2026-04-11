@@ -11,25 +11,28 @@ import androidx.core.content.ContextCompat
 import com.example.billiard.R
 import com.example.billiard.databinding.BottomSheetManageEmployeeBinding
 import com.example.billiard.domain.model.Employee
+import com.example.billiard.domain.request.CreateEmployeeParam
+import com.example.billiard.domain.request.UpdateEmployeeParam
 import com.google.android.material.bottomsheet.BottomSheetDialog
-
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ManageEmployeeBottomSheet(
     private val employeeToEdit: Employee? = null,
-    private val onSave: (name: String, username: String, role: String, isActive: Boolean) -> Unit
+    private val onSaveCreate: ((CreateEmployeeParam) -> Unit)? = null,
+    private val onSaveUpdate: ((UpdateEmployeeParam) -> Unit)? = null
 ) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetManageEmployeeBinding? = null
     private val binding get() = _binding!!
 
-    // Mặc định vai trò là NHÂN VIÊN
+    // Mặc định vai trò là NHÂN VIÊN (EMPLOYEE)
     private var isRoleAdmin = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialog)
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.setOnShowListener {
@@ -54,39 +57,36 @@ class ManageEmployeeBottomSheet(
 
     private fun setupUIByMode() {
         if (employeeToEdit == null) {
-            // ================== CHẾ ĐỘ THÊM MỚI ==================
             binding.tvTitle.text = "Thêm nhân viên mới"
 
-            // Xử lý Trạng thái
             binding.lblStatusTitle.text = "Kích hoạt tài khoản"
             binding.lblStatusDesc.text = "Nhân viên có thể đăng nhập ngay sau khi tạo"
             binding.switchActive.isChecked = true
 
-            // Nút Lưu
             binding.btnSave.text = "Lưu thông tin"
 
-            // Mặc định Chọn Nhân viên
             setRoleUI(isAdmin = false)
 
+            // Hiện các trường bổ sung khi tạo (Nếu layout có, ở đây mình giả định UI chỉ có name và username, 
+            // ta sẽ phải tách ra thành firstName/lastName và dummy email để gửi Backend)
+
         } else {
-            // ================== CHẾ ĐỘ SỬA ==================
             binding.tvTitle.text = "Chỉnh sửa nhân viên"
 
-            // Đổ dữ liệu cũ vào form
+            // Do Backend trả về firstName và lastName riêng biệt, App hiển thị fullName
             binding.edtFullName.setText(employeeToEdit.fullName)
-            binding.edtUsername.setText(employeeToEdit.firstName)
-            // Tên đăng nhập thường không được phép sửa sau khi tạo
+            binding.edtUsername.setText(employeeToEdit.email) // Giả định dùng ô Username để hiện/sửa email
+
+            // Tên đăng nhập (Email/Username) không được phép sửa sau khi tạo
             binding.edtUsername.isEnabled = false
 
             binding.lblStatusTitle.text = "Trạng thái hoạt động"
             binding.lblStatusDesc.text = "Cho phép đăng nhập vào hệ thống"
             binding.switchActive.isChecked = employeeToEdit.isActive
 
-            // Nút Lưu
             binding.btnSave.text = "Cập nhật"
 
-            // Gán vai trò
-            setRoleUI(isAdmin = employeeToEdit.role.uppercase().contains("QUẢN LÝ"))
+            setRoleUI(isAdmin = employeeToEdit.role.equals("MANAGER", ignoreCase = true))
         }
     }
 
@@ -94,31 +94,54 @@ class ManageEmployeeBottomSheet(
         binding.btnClose.setOnClickListener { dismiss() }
         binding.btnCancel.setOnClickListener { dismiss() }
 
-
-        // Click chọn vai trò Quản lý
         binding.cardRoleAdmin.setOnClickListener { setRoleUI(isAdmin = true) }
-
-        // Click chọn vai trò Nhân viên
         binding.cardRoleEmployee.setOnClickListener { setRoleUI(isAdmin = false) }
 
-        // Click Lưu
         binding.btnSave.setOnClickListener {
-            val name = binding.edtFullName.text.toString().trim()
-            val username = binding.edtUsername.text.toString().trim()
-            val role = if (isRoleAdmin) "QUẢN LÝ" else "NHÂN VIÊN"
+            val fullNameInput = binding.edtFullName.text.toString().trim()
+            val emailOrUsernameInput = binding.edtUsername.text.toString().trim()
+            val role = if (isRoleAdmin) "MANAGER" else "EMPLOYEE"
             val isActive = binding.switchActive.isChecked
 
-            if (name.isEmpty() || username.isEmpty()) {
+            if (fullNameInput.isEmpty() || emailOrUsernameInput.isEmpty()) {
                 Toast.makeText(requireContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            onSave(name, username, role, isActive)
+            // Tách FullName thành firstName và lastName
+            val parts = fullNameInput.split(" ")
+            val lastName = parts.first()
+            val firstName = if (parts.size > 1) parts.drop(1).joinToString(" ") else ""
+
+            if (employeeToEdit == null) {
+                // TẠO MỚI
+                val param = CreateEmployeeParam(
+                    username = emailOrUsernameInput, // Tạm coi là Username để đăng nhập
+                    password = "123", // Mặc định pass
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = "$emailOrUsernameInput@billiard.com", // Dummy email
+                    phoneNumber = "0999999999", // Dummy phone
+                    role = role
+                )
+                onSaveCreate?.invoke(param)
+            } else {
+                // CẬP NHẬT
+                val param = UpdateEmployeeParam(
+                    id = employeeToEdit.id,
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = employeeToEdit.email, // Giữ email cũ
+                    phoneNumber = employeeToEdit.phoneNumber, // Giữ phone cũ
+                    role = role,
+                    isActive = isActive
+                )
+                onSaveUpdate?.invoke(param)
+            }
             dismiss()
         }
     }
 
-    // Hàm chuyển đổi màu sắc cho 2 nút Vai trò
     private fun setRoleUI(isAdmin: Boolean) {
         isRoleAdmin = isAdmin
         val blueColor = ContextCompat.getColor(requireContext(), R.color.primary_blue)
@@ -127,19 +150,15 @@ class ManageEmployeeBottomSheet(
         val white = Color.WHITE
 
         if (isAdmin) {
-            // Quản lý sáng lên
             binding.cardRoleAdmin.setCardBackgroundColor(blueColor)
             binding.tvRoleAdmin.setTextColor(white)
 
-            // Nhân viên xám đi
             binding.cardRoleEmployee.setCardBackgroundColor(transparent)
             binding.tvRoleEmployee.setTextColor(grayColor)
         } else {
-            // Quản lý xám đi
             binding.cardRoleAdmin.setCardBackgroundColor(transparent)
             binding.tvRoleAdmin.setTextColor(grayColor)
 
-            // Nhân viên sáng lên
             binding.cardRoleEmployee.setCardBackgroundColor(blueColor)
             binding.tvRoleEmployee.setTextColor(white)
         }

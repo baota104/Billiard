@@ -1,17 +1,18 @@
-package com.example.billiard.presentation.employee
+package com.example.billiard.presentation.administrator.employee
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.billiard.core.network.Resource
-import com.example.billiard.domain.request.CreateEmployeeParam
 import com.example.billiard.domain.model.Employee
 import com.example.billiard.domain.model.PageData
+import com.example.billiard.domain.request.CreateEmployeeParam
 import com.example.billiard.domain.request.UpdateEmployeeParam
 import com.example.billiard.domain.usecase.employee.CreateEmployeeUseCase
 import com.example.billiard.domain.usecase.employee.DeleteEmployeeUseCase
 import com.example.billiard.domain.usecase.employee.GetEmployeesUseCase
 import com.example.billiard.domain.usecase.employee.UpdateEmployeeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +37,7 @@ class EmployeeManagementViewModel @Inject constructor(
         loadEmployees(page = 0)
     }
 
-    fun loadEmployees(page: Int, size: Int = 20) {
+    fun loadEmployees(page: Int = 0, size: Int = 100) {
         viewModelScope.launch {
             getEmployeesUseCase(page, size).collect { result ->
                 _employeesState.value = result
@@ -44,13 +45,13 @@ class EmployeeManagementViewModel @Inject constructor(
         }
     }
 
-    // Sử dụng Param của Domain thay vì Request của Data
     fun createEmployee(param: CreateEmployeeParam) {
         viewModelScope.launch {
             createEmployeeUseCase(param).collect { result ->
                 _actionState.value = result
                 if (result is Resource.Success) {
-                    loadEmployees(page = 0)
+                    delay(500)
+                    loadEmployees()
                 }
             }
         }
@@ -64,7 +65,8 @@ class EmployeeManagementViewModel @Inject constructor(
                     is Resource.Error -> _actionState.value = Resource.Error(result.message)
                     is Resource.Success -> {
                         _actionState.value = Resource.Success("Cập nhật nhân viên thành công")
-                        loadEmployees(page = 0)
+                        delay(500)
+                        loadEmployees()
                     }
                 }
             }
@@ -76,7 +78,8 @@ class EmployeeManagementViewModel @Inject constructor(
             deleteEmployeeUseCase(employeeId).collect { result ->
                 _actionState.value = result
                 if (result is Resource.Success) {
-                    loadEmployees(page = 0)
+                    delay(500)
+                    loadEmployees()
                 }
             }
         }

@@ -4,7 +4,7 @@ data class TableTypeTimeSlotUiModel(
     val id: String,
     val name: String,
     val badgeText: String,
-    val badgeColorHex: String, // VD: "#2962FF"
-    val imageUrl: String,      // Link ảnh
-    val configCount: Int       // 0 là Chưa cấu hình
+    val badgeColorHex: String, 
+    val imageResId: String, // Thay imageUrl bằng imageResId vì bạn nói ảnh có sẵn trong thư mục drawable
+    val configCount: Int
 )

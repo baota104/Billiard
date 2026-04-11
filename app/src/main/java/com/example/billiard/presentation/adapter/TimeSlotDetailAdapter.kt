@@ -20,16 +20,21 @@ class TimeSlotDetailAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: PriceList) {
-            // Do backend chỉ có startTime, endTime, unitPrice
-            // Cắt chuỗi gọn "08:00:00" -> "08:00"
-            val startShort = item.startTime.take(5)
-            val endShort = item.endTime.take(5)
+            // Bảo vệ chuỗi, chống lỗi StringIndexOutOfBoundsException
+            // Khi backend trả về null hoặc chuỗi rỗng thì cho hiển thị mặc định
+            val startTimeSafe = if (item.startTime.length >= 5) item.startTime else "00:00:00"
+            val endTimeSafe = if (item.endTime.length >= 5) item.endTime else "00:00:00"
+
+            val startShort = startTimeSafe.take(5)
+            val endShort = endTimeSafe.take(5)
 
             // Lấy giờ đầu tiên để phán đoán CA (Ca sáng/Chiều/Tối) để giả lập title
-            val startHour = startShort.substring(0, 2).toIntOrNull() ?: 12
+            // Dùng try-catch kết hợp if-else để đảm bảo lấy được giờ chuẩn
+            val startHourString = if (startShort.length >= 2) startShort.substring(0, 2) else "12"
+            val startHour = startHourString.toIntOrNull() ?: 12
             val title = if (startHour < 12) "Ca Sáng" else if (startHour < 18) "Ca Chiều" else "Ca Tối"
 
-            // Màu sắc theme (Giả lập giống SlotThemeType cũ của bạn)
+            // Màu sắc theme
             val bgHex: String
             val iconTintHex: String
             when (startHour) {

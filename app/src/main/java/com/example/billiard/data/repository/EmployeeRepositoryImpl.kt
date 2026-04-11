@@ -27,7 +27,6 @@ class EmployeeRepositoryImpl @Inject constructor(
 
     override suspend fun createEmployee(param: CreateEmployeeParam): Resource<String> {
         return safeApiCall(
-            // Tầng Data thực hiện nhiệm vụ Map Domain Model (param) sang Data Model (toDto) rồi mới đẩy đi API
             apiCall = { api.createEmployee(param.toDto()) },
             mapper = { "Thêm nhân viên thành công" }
         )
@@ -43,7 +42,7 @@ class EmployeeRepositoryImpl @Inject constructor(
     override suspend fun deleteEmployee(employeeId: Int): Resource<String> {
         return safeApiCall(
             apiCall = { api.deleteEmployee(employeeId) },
-            mapper = { it ?: "Xóa nhân viên thành công" }
+            mapper = { "Xóa nhân viên thành công" }
         )
     }
 }

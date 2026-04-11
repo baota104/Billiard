@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.billiard.R
 import com.example.billiard.databinding.ItemEmployeeBinding
 import com.example.billiard.domain.model.Employee
 
@@ -17,24 +19,31 @@ class EmployeeAdapter(
 
     inner class ViewHolder(private val binding: ItemEmployeeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Employee) {
+            val context = binding.root.context
+            
             binding.tvEmployeeName.text = item.fullName
-            binding.tvUsername.text = item.firstName
+            // API không có trường username, dùng email thay thế hiển thị phụ
+            binding.tvUsername.text = item.email.ifBlank { "Không có email" }
             binding.tvRole.text = item.role
-//            binding.tvCreatedDate.text = "Ngày tạo: ${item.}"
 
-            // Tạm thời ngắt Listener để set giá trị không bị trigger sai
             binding.switchActive.setOnCheckedChangeListener(null)
             binding.switchActive.isChecked = item.isActive
 
             // Xử lý Avatar: Có ảnh thì load ảnh, không có thì hiện chữ cái
-            if (!item.imageUrl.isNullOrEmpty()) {
+            if (item.imageUrl.isNotEmpty()) {
                 binding.imgAvatar.visibility = View.VISIBLE
                 binding.tvAvatarInitials.visibility = View.GONE
-                // TODO: Dùng Glide load ảnh vào binding.imgAvatar
+                Glide.with(context)
+                    .load(item.imageUrl)
+                    .centerCrop()
+                    .into(binding.imgAvatar)
             } else {
                 binding.imgAvatar.visibility = View.GONE
                 binding.tvAvatarInitials.visibility = View.VISIBLE
-                binding.tvAvatarInitials.text = item.firstName ?: item.fullName.take(1).uppercase()
+                
+                // Lấy chữ cái đầu tiên của Tên để làm Avatar giả
+                val initial = if (item.firstName.isNotBlank()) item.firstName.take(1) else "?"
+                binding.tvAvatarInitials.text = initial.uppercase()
             }
 
             // Gắn các sự kiện click
@@ -42,7 +51,6 @@ class EmployeeAdapter(
             binding.btnDelete.setOnClickListener { onDeleteClick(item) }
 
             binding.switchActive.setOnCheckedChangeListener { _, isChecked ->
-                item.isActive = isChecked
                 onStatusChange(item, isChecked)
             }
         }

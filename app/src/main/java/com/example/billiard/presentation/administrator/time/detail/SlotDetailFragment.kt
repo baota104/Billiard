@@ -39,7 +39,7 @@ class TimeSlotDetailFragment : BaseFragment<FragmentSlotDetailBinding>(FragmentS
     }
 
     override fun setupViews() {
-        //binding.tvHeaderSub.text = "Loại bàn: $selectedTableType"
+        binding.tvHeaderTitle.text = "Loại bàn: $selectedTableType"
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 

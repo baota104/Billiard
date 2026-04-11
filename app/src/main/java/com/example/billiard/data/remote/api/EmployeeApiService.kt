@@ -9,6 +9,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -21,11 +22,13 @@ interface EmployeeApiService {
         @Query("size") size: Int = 20
     ): Response<ApiResponse<PageDto<EmployeeDto>>>
 
+    @Headers("Content-Type: application/json")
     @POST("api/v1/employees")
     suspend fun createEmployee(
         @Body request: CreateEmployeeRequest
     ): Response<ApiResponse<Any>> // Hứng body tuỳ ý hoặc rỗng, quan tâm tới status 200
 
+    @Headers("Content-Type: application/json")
     @PUT("api/v1/employees/update")
     suspend fun updateEmployee(
         @Body request: UpdateEmployeeRequest

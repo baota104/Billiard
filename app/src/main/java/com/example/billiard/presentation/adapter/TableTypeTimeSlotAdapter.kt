@@ -20,21 +20,31 @@ class TableTypeTimeSlotAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: TableTypeTimeSlotUiModel) {
+            val context = binding.root.context
+            
             binding.tvTableName.text = item.name
 
             // Xử lý Thẻ Tag (Màu sắc & Text)
             binding.tvBadge.text = item.badgeText
             binding.cardBadge.setCardBackgroundColor(Color.parseColor(item.badgeColorHex))
 
+            // Xử lý load ảnh theo từng loại bàn
+            val imageRes = when (item.name.uppercase()) {
+                "POOL" -> R.drawable.pool
+                "SNOOKER" -> R.drawable.snooker
+                "CAROM" -> R.drawable.carom
+                else -> R.drawable.pool // Ảnh mặc định
+            }
+            Glide.with(context).load(imageRes).into(binding.imgTable)
+
             // Xử lý hiển thị cấu hình hiện tại
-            val context = binding.root.context
             if (item.configCount > 0) {
                 // Đã cấu hình
                 binding.tvStatusText.text = "${item.configCount} khung giờ hoạt động"
                 binding.tvStatusText.setTextColor(ContextCompat.getColor(context, R.color.text_title))
 
                 // Set icon đồng hồ màu xanh
-                binding.icStatus.setImageResource(R.drawable.ic_clock) // Đổi đúng tên icon của bạn
+                binding.icStatus.setImageResource(R.drawable.ic_clock)
                 binding.icStatus.setColorFilter(ContextCompat.getColor(context, R.color.blue))
             } else {
                 // Chưa cấu hình
@@ -42,11 +52,9 @@ class TableTypeTimeSlotAdapter(
                 binding.tvStatusText.setTextColor(ContextCompat.getColor(context, R.color.text_gray))
 
                 // Set icon vạch ngang màu xám
-                binding.icStatus.setImageResource(android.R.drawable.ic_media_pause) // Dùng tạm icon pause hoặc icon trừ
+                binding.icStatus.setImageResource(android.R.drawable.ic_media_pause)
                 binding.icStatus.setColorFilter(ContextCompat.getColor(context, R.color.text_gray))
             }
-
-             Glide.with(context).load(R.drawable.img_loaiban).into(binding.imgTable)
 
             binding.root.setOnClickListener { onItemClick(item) }
         }
