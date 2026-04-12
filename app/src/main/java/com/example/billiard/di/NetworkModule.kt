@@ -85,4 +85,10 @@ object NetworkModule {
     fun provideInvoiceApiService(retrofit: Retrofit): InvoiceApiService {
         return retrofit.create(InvoiceApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providePurchaseApiService(retrofit: Retrofit): PurchaseApiService {
+        return retrofit.create(PurchaseApiService::class.java)
+    }
 }

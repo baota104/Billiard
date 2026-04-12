@@ -9,7 +9,7 @@ fun ProductDto.toDomain(): Product {
     return Product(
         id = this.id,
         name = this.name.orEmpty(),
-        price = this.price ?: 0.0,
+        sellingPrice = this.sellingPrice ?: 0.0,
         stock = this.stock ?: 0,
         imageUrl = this.imageUrl.orEmpty(),
         categoryName = this.categoryName.orEmpty()
@@ -23,7 +23,7 @@ fun UpsertProductParam.toDto(): ProductUpsertRequest {
         sellingPrice = this.sellingPrice,
         importPrice = this.importPrice,
         initStock = this.initStock,
-        imageId = this.imageId,
-        categoryId = this.categoryId
+        categoryId = this.categoryId,
+        imageId = 0 // Giữ lại tạm nếu cần
     )
 }

@@ -136,7 +136,7 @@
     </fragment>
     <fragment
         android:id="@+id/createReceiptFragment"
-        android:name="CreateReceiptFragment"
+        android:name="com.example.billiard.presentation.administrator.inventory.receipt.CreateReceiptFragment"
         android:label="CreateReceiptFragment" >
         <action
             android:id="@+id/action_createReceiptFragment_to_addExistingProductFragment"

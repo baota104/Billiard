@@ -40,13 +40,8 @@ abstract class BaseRepository {
                 }
 
                 // Xử lý các mã lỗi HTTP (4xx, 5xx)
-                val errorMessage = when (response.code()) {
-                    401 -> "lỗi 401, không tìm thấy"
-                    403 -> "Bạn không có quyền thực hiện hành động này."
-                    404 -> "Không tìm thấy dữ liệu (404)."
-                    in 500..599 -> "Hệ thống Server đang lỗi. Vui lòng quay lại sau."
-                    else -> "Lỗi kết nối: ${response.message()}"
-                }
+                val errorMessage = response.body()?.message ?: "loi roi"
+                Log.e(TAG, "API Error HTTP ${response.code()}: $errorMessage")
                 
                 // Đọc thêm chi tiết lỗi từ ErrorBody nếu có
                 val errorBody = response.errorBody()?.string()

@@ -5,11 +5,13 @@ import com.example.billiard.core.network.Resource
 import com.example.billiard.data.mapper.toDomain
 import com.example.billiard.data.mapper.toDto
 import com.example.billiard.data.remote.api.EmployeeApiService
-import com.example.billiard.domain.request.CreateEmployeeParam
 import com.example.billiard.domain.model.Employee
 import com.example.billiard.domain.model.PageData
-import com.example.billiard.domain.request.UpdateEmployeeParam
 import com.example.billiard.domain.repository.EmployeeRepository
+import com.example.billiard.domain.request.CreateEmployeeParam
+import com.example.billiard.domain.request.UpdateEmployeeParam
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 class EmployeeRepositoryImpl @Inject constructor(
@@ -33,8 +35,22 @@ class EmployeeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateEmployee(param: UpdateEmployeeParam): Resource<Employee> {
+        // Backend đang nhận Multipart Form Data nên phải đóng gói lại dưới dạng RequestBody
+        val idBody = param.id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        
+        // Tránh lỗi ném chuỗi rỗng ("") lên Backend gây HTTP 415 hoặc null exception
+        val firstNameBody = param.firstName.ifBlank { "N/A" }.toRequestBody("text/plain".toMediaTypeOrNull())
+        val lastNameBody = param.lastName.ifBlank { "N/A" }.toRequestBody("text/plain".toMediaTypeOrNull())
+        val emailBody = param.email.ifBlank { "noemail@billiard.com" }.toRequestBody("text/plain".toMediaTypeOrNull())
+        val phoneBody = param.phoneNumber.ifBlank { "0000000000" }.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        val roleBody = param.role.toRequestBody("text/plain".toMediaTypeOrNull())
+        val isActiveBody = param.isActive.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
         return safeApiCall(
-            apiCall = { api.updateEmployee(param.toDto()) },
+            apiCall = { 
+                api.updateEmployee(idBody, firstNameBody, lastNameBody, emailBody, phoneBody, roleBody, isActiveBody) 
+            },
             mapper = { it.toDomain() }
         )
     }

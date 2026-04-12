@@ -7,29 +7,27 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.billiard.R
 import com.example.billiard.databinding.ItemInventoryProductBinding
-import com.example.billiard.domain.model.OrderServiceUiModel
+import com.example.billiard.domain.model.Product
 
 class InventoryAdapter(
-    private val onEditClick: (OrderServiceUiModel) -> Unit,
-    private val onDeleteClick: (OrderServiceUiModel) -> Unit
-) : ListAdapter<OrderServiceUiModel, InventoryAdapter.ViewHolder>(DiffCallback()) {
+    private val onEditClick: (Product) -> Unit,
+    private val onDeleteClick: (Product) -> Unit
+) : ListAdapter<Product, InventoryAdapter.ViewHolder>(DiffCallback()) {
 
     inner class ViewHolder(private val binding: ItemInventoryProductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: OrderServiceUiModel) {
+        fun bind(item: Product) {
             val context = binding.root.context
 
-            // 1. Thông tin cơ bản
             binding.tvProductName.text = item.name
 
-            // Mẹo: Dùng endTime làm Đơn vị (Vì OrderServiceUiModel không có trường Unit)
-            // Nếu null thì để trống
-            binding.tvUnit.text = item.endTime ?: ""
+            // Hiện tại API ko có trường unit (Đơn vị), set tạm trống hoặc hiển thị id để debug
+            binding.tvUnit.text = "ID: ${item.id}"
 
-            // 2. Xử lý Badge Danh mục & Màu sắc
-            binding.tvCategoryBadge.text = item.category.uppercase()
-            when (item.category.lowercase()) {
+            binding.tvCategoryBadge.text = item.categoryName.uppercase()
+            when (item.categoryName.lowercase()) {
                 "đồ uống" -> {
                     binding.tvCategoryBadge.setTextColor(Color.parseColor("#1976D2"))
                     binding.cardCategoryBadge.setCardBackgroundColor(Color.parseColor("#E3F2FD"))
@@ -48,22 +46,19 @@ class InventoryAdapter(
                 }
             }
 
-            // 3. Xử lý Giá Nhập & Giá Bán
-            // Mẹo: Model không có Giá Nhập, giả lập Giá Nhập = 70% Giá Bán
-            val importPrice = (item.unitPrice * 0.7).toInt()
+            // API ProductDto không có importPrice, giả lập bằng 70% giá bán để test UI
+            val importPrice = (item.sellingPrice * 0.7).toInt()
             binding.tvImportPrice.text = "%,dđ".format(importPrice).replace(',', '.')
-            binding.tvSellPrice.text = "%,dđ".format(item.unitPrice).replace(',', '.')
+            binding.tvSellPrice.text = "%,dđ".format(item.sellingPrice.toInt()).replace(',', '.')
 
-            // 4. Xử lý Tồn kho (Dùng trường quantity)
-            val currentStock = item.quantity
+            val currentStock = item.stock
             binding.tvStockCount.text = currentStock.toString()
 
-            // Tính toán Progress Bar (Giả định Max = 100 nếu không có)
+            // Giả định định mức tồn tối đa (Max stock)
             val maxStock = 100
             val progressPercent = (currentStock.toFloat() / maxStock * 100).toInt()
             binding.progressStock.progress = progressPercent.coerceIn(0, 100)
 
-            // Đổi màu Progress Bar & Chữ trạng thái theo số lượng tồn
             when {
                 currentStock > 20 -> {
                     binding.tvStockStatus.text = "Ổn định"
@@ -82,10 +77,16 @@ class InventoryAdapter(
                 }
             }
 
-            // TODO: Bật lại dòng này nếu bạn dùng thư viện load ảnh (Glide/Coil)
-            // Glide.with(context).load(item.imageUrl).into(binding.imgProduct)
+            // Load ảnh
+            if (item.imageUrl.isNotEmpty()) {
+                Glide.with(context)
+                    .load(item.imageUrl)
+                    .centerCrop()
+                    .into(binding.imgProduct)
+            } else {
+                binding.imgProduct.setImageResource(R.drawable.img_ban) // Ảnh lỗi/mặc định (có thể đổi)
+            }
 
-            // 5. Sự kiện Nút bấm
             binding.btnEdit.setOnClickListener { onEditClick(item) }
             binding.btnDelete.setOnClickListener { onDeleteClick(item) }
         }
@@ -98,8 +99,8 @@ class InventoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
-    class DiffCallback : DiffUtil.ItemCallback<OrderServiceUiModel>() {
-        override fun areItemsTheSame(oldItem: OrderServiceUiModel, newItem: OrderServiceUiModel) = oldItem.serviceId == newItem.serviceId
-        override fun areContentsTheSame(oldItem: OrderServiceUiModel, newItem: OrderServiceUiModel) = oldItem == newItem
+    class DiffCallback : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Product, newItem: Product) = oldItem == newItem
     }
 }

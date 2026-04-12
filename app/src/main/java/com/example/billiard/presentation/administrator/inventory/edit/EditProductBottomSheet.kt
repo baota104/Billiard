@@ -2,6 +2,7 @@ package com.example.billiard.presentation.administrator.inventory.edit
 
 import android.app.Dialog
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,19 +11,40 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import com.example.billiard.R
+import com.example.billiard.core.ext.hide
+import com.example.billiard.core.ext.show
+import com.example.billiard.core.utils.FileUtils
 import com.example.billiard.databinding.BottomSheetEditProductBinding
-import com.example.billiard.domain.model.OrderServiceUiModel
+import com.example.billiard.domain.model.Category
+import com.example.billiard.domain.model.Product
+import com.example.billiard.domain.request.UpsertProductParam
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.io.File
 
 class EditProductBottomSheet(
-    private val productToEdit: OrderServiceUiModel, // 1. Nhận item từ Fragment
-    private val onSave: (OrderServiceUiModel, Int) -> Unit // 2. Callback trả về item mới và giá nhập
+    private val productToEdit: Product? = null,
+    private val categories: List<Category>, // Nhận list danh mục thật từ API để map Category ID
+    private val onSave: (UpsertProductParam) -> Unit 
 ) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetEditProductBinding? = null
     private val binding get() = _binding!!
+
+    private var selectedImageFile: File? = null
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            binding.imgAddIcon.hide()
+            binding.tvAddText.hide()
+            Glide.with(this).load(it).centerCrop().into(binding.imgProductPreview)
+
+            selectedImageFile = FileUtils.uriToFile(requireContext(), it)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,18 +76,28 @@ class EditProductBottomSheet(
         setupDropdownCategory()
         setupProfitCalculation()
         setupActionButtons()
-
-        // Đổ dữ liệu thật từ constructor vào UI
         fillData()
     }
 
     private fun setupHeader() {
         binding.btnClose.setOnClickListener { dismiss() }
+        if (productToEdit == null) {
+            binding.tvTitle.text = "Thêm sản phẩm mới"
+            // Cho phép nhập số lượng tồn kho ban đầu khi tạo mới
+            binding.edtStock.show()
+            binding.lblStock.show()
+        } else {
+            binding.tvTitle.text = "Chỉnh sửa sản phẩm"
+            // Khi sửa không cho nhập số lượng (Phải dùng chức năng nhập/xuất kho)
+            binding.edtStock.hide()
+            binding.lblStock.hide()
+        }
     }
 
     private fun setupDropdownCategory() {
-        val categories = arrayOf("Đồ uống", "Đồ ăn", "Thuốc lá", "Dịch vụ")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
+        // Lấy tên danh mục để đưa vào Spinner
+        val categoryNames = categories.map { it.categoryName }.toTypedArray()
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categoryNames)
         binding.actCategory.setAdapter(adapter)
     }
 
@@ -110,47 +142,62 @@ class EditProductBottomSheet(
         }
     }
 
-    // Đổ dữ liệu của productToEdit lên giao diện
     private fun fillData() {
-        binding.edtProductName.setText(productToEdit.name)
-        binding.actCategory.setText(productToEdit.category, false)
+        if (productToEdit != null) {
+            binding.edtProductName.setText(productToEdit.name)
+            binding.actCategory.setText(productToEdit.categoryName, false)
 
-        // Do model mượn không có giá nhập, ta giả lập giá nhập = 70% giá bán để hiển thị
-        val fakeImportPrice = (productToEdit.unitPrice * 0.7).toInt()
-        binding.edtImportPrice.setText(fakeImportPrice.toString())
+            // API Product không có importPrice, giả lập để hiển thị
+            val fakeImportPrice = (productToEdit.sellingPrice * 0.7).toInt()
+            binding.edtImportPrice.setText(fakeImportPrice.toString())
 
-        binding.edtSellPrice.setText(productToEdit.unitPrice.toString())
+            binding.edtSellPrice.setText(productToEdit.sellingPrice.toInt().toString())
+
+            if (productToEdit.imageUrl.isNotEmpty()) {
+                binding.imgAddIcon.hide()
+                binding.tvAddText.hide()
+                Glide.with(this)
+                    .load(productToEdit.imageUrl)
+                    .centerCrop()
+                    .into(binding.imgProductPreview)
+            }
+        }
     }
 
     private fun setupActionButtons() {
         binding.btnCancel.setOnClickListener { dismiss() }
 
-        binding.btnSave.setOnClickListener {
-            // Lấy dữ liệu mới từ các ô nhập
-            val newName = binding.edtProductName.text.toString().trim()
-            val newCategory = binding.actCategory.text.toString().trim()
-            val newSellPrice = binding.edtSellPrice.text.toString().toIntOrNull() ?: 0
-            val newImportPrice = binding.edtImportPrice.text.toString().toIntOrNull() ?: 0
+        binding.cardImageContainer.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
 
-            if (newName.isEmpty() || newCategory.isEmpty()) {
+        binding.btnSave.setOnClickListener {
+            val newName = binding.edtProductName.text.toString().trim()
+            val newCategoryName = binding.actCategory.text.toString().trim()
+            val newSellPrice = binding.edtSellPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val newImportPrice = binding.edtImportPrice.text.toString().toDoubleOrNull() ?: 0.0
+            val newStock = binding.edtStock.text.toString().toIntOrNull() ?: 0
+
+            if (newName.isEmpty() || newCategoryName.isEmpty()) {
                 Toast.makeText(requireContext(), "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Tạo một bản sao chép của Item với dữ liệu mới
-            val updatedProduct = productToEdit.copy(
+            // Tìm Category ID dựa vào tên Category được chọn
+            val categoryId = categories.find { it.categoryName == newCategoryName }?.id ?: 0
+
+            val param = UpsertProductParam(
+                id = productToEdit?.id ?: 0,
                 name = newName,
-                category = newCategory,
-                unitPrice = newSellPrice
+                sellingPrice = newSellPrice,
+                importPrice = newImportPrice,
+                initStock = if (productToEdit == null) newStock else productToEdit.stock, // Chỉ cập nhật stock nếu là tạo mới
+                categoryId = categoryId,
+                imageFile = selectedImageFile
             )
 
-            // Bắn dữ liệu về cho Fragment thông qua callback
-            onSave(updatedProduct, newImportPrice)
+            onSave(param)
             dismiss()
-        }
-
-        binding.cardImageContainer.setOnClickListener {
-            // Logic chọn ảnh
         }
     }
 

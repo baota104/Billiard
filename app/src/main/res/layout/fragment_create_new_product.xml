@@ -80,42 +80,58 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.96" />
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/cardImageContainer"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
                 android:background="@drawable/bg_dashed_empty_table"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <!-- Ảnh preview -->
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_camera"
-                    app:tint="@color/primary_blue" />
+                    android:id="@+id/imgProductPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="@android:color/transparent" />
 
-                <TextView
+                <!-- Layout chứa text và icon ban đầu -->
+                <LinearLayout
+                    android:id="@+id/layoutEmptyImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Thêm ảnh sản phẩm"
-                    android:textColor="@color/text_title"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Nhấn để tải lên ảnh sản phẩm"
-                    android:textColor="@color/text_gray"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/primary_blue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Thêm ảnh sản phẩm"
+                        android:textColor="@color/text_title"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Nhấn để tải lên ảnh sản phẩm"
+                        android:textColor="@color/text_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/lblName"
@@ -297,33 +313,80 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/lblUnit"
-                android:layout_width="wrap_content"
+            <!-- Tách riêng Unit và Stock -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutUnitAndStock"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Đơn vị tính"
-                android:textColor="@color/text_title"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/layoutPrices" />
-
-            <EditText
-                android:id="@+id/edtUnit"
-                android:layout_width="0dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_corner_graytran"
-                android:hint="Chai"
-                android:paddingHorizontal="16dp"
-                android:singleLine="true"
-                android:textColor="@color/text_title"
-                android:textColorHint="@color/gray_2"
-                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/lblUnit" />
+                app:layout_constraintTop_toBottomOf="@id/layoutPrices">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide50_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <TextView
+                    android:id="@+id/lblUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đơn vị tính"
+                    android:textColor="@color/text_title"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edtUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_corner_graytran"
+                    android:hint="Chai"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_title"
+                    android:textColorHint="@color/gray_2"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/guide50_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblUnit" />
+
+                <TextView
+                    android:id="@+id/lblStock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số lượng lúc tạo"
+                    android:textColor="@color/text_title"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/guide50_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edtStock"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_corner_graytran"
+                    android:hint="Ví dụ: 10"
+                    android:inputType="number"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_title"
+                    android:textColorHint="@color/gray_2"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guide50_2"
+                    app:layout_constraintTop_toBottomOf="@id/lblStock" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
@@ -350,7 +413,6 @@
             app:icon="@android:drawable/ic_menu_save"
             app:iconGravity="textStart"
             app:iconTint="@color/white"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,26 +1,38 @@
 package com.example.billiard.presentation.adapter
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.billiard.databinding.ItemImportHistoryBinding
-import com.example.billiard.domain.model.ImportHistoryUiModel
+import com.example.billiard.domain.model.PurchaseHistory
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ImportHistoryAdapter(
-    private val onItemClick: (ImportHistoryUiModel) -> Unit
-) : ListAdapter<ImportHistoryUiModel, ImportHistoryAdapter.ViewHolder>(DiffCallback()) {
+    private val onItemClick: (PurchaseHistory) -> Unit
+) : ListAdapter<PurchaseHistory, ImportHistoryAdapter.ViewHolder>(DiffCallback()) {
 
     inner class ViewHolder(private val binding: ItemImportHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ImportHistoryUiModel) {
+        fun bind(item: PurchaseHistory) {
             // Đổ dữ liệu vào UI
-            binding.tvReceiptId.text = item.receiptCode
-            binding.tvImportDate.text = item.importDate
-            binding.tvTotalPrice.text = item.formattedTotalAmount
+            binding.tvReceiptId.text = "PN${String.format("%03d", item.purchaseId)}"
+
+            // Xử lý convert chuỗi ngày từ Backend (Ví dụ: "2026-04-12T14:52:09.722Z" thành "12/04/2026 14:52")
+            binding.tvImportDate.text = try {
+                val sdfInput = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val sdfOutput = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                val date = sdfInput.parse(item.purchaseDate)
+                date?.let { sdfOutput.format(it) } ?: item.purchaseDate
+            } catch (e: Exception) {
+                item.purchaseDate
+            }
+
+            // Định dạng tiền
+            binding.tvTotalPrice.text = "%,dđ".format(item.totalPrice.toInt()).replace(',', '.')
             binding.tvEmployeeName.text = "Nhân viên: ${item.employeeName}"
 
             // Sự kiện bấm vào 1 thẻ hóa đơn (để xem chi tiết phiếu nhập)
@@ -41,12 +53,12 @@ class ImportHistoryAdapter(
         holder.bind(getItem(position))
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<ImportHistoryUiModel>() {
-        override fun areItemsTheSame(oldItem: ImportHistoryUiModel, newItem: ImportHistoryUiModel): Boolean {
-            return oldItem.id == newItem.id
+    class DiffCallback : DiffUtil.ItemCallback<PurchaseHistory>() {
+        override fun areItemsTheSame(oldItem: PurchaseHistory, newItem: PurchaseHistory): Boolean {
+            return oldItem.purchaseId == newItem.purchaseId
         }
 
-        override fun areContentsTheSame(oldItem: ImportHistoryUiModel, newItem: ImportHistoryUiModel): Boolean {
+        override fun areContentsTheSame(oldItem: PurchaseHistory, newItem: PurchaseHistory): Boolean {
             return oldItem == newItem
         }
     }
