@@ -10,16 +10,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.billiard.core.ext.showToast
 import com.example.billiard.databinding.BottomSheetAddBankBinding
+import com.example.billiard.domain.model.CreateBankParam
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AddBankBottomSheet : BottomSheetDialogFragment() {
+class AddBankBottomSheet(
+    private val onBankAdded: (CreateBankParam) -> Unit
+) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetAddBankBinding? = null
     private val binding get() = _binding!!
-
-    // Callback trả dữ liệu về BankFragment khi lưu thành công
-    var onBankAdded: ((bankName: String, accountNum: String, accountHolder: String) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -29,6 +29,7 @@ class AddBankBottomSheet : BottomSheetDialogFragment() {
         }
         return dialog
     }
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,33 +49,46 @@ class AddBankBottomSheet : BottomSheetDialogFragment() {
             val accNumber = binding.edtAccountNumber.text.toString().trim()
             val accHolder = binding.edtAccountHolder.text.toString().trim()
 
-            // Validate nhanh
             if (bankName.isEmpty() || accNumber.isEmpty() || accHolder.isEmpty()) {
                 showToast("Vui lòng điền đầy đủ thông tin!")
                 return@setOnClickListener
             }
 
-            // Gọi API lưu tài khoản...
+            // Tạm thời map tĩnh các BIN. Trong ứng dụng thực tế, nên gọi API VietQR để lấy danh sách BIN chuẩn
+            val bankBin = when (bankName.uppercase()) {
+                "VIETCOMBANK" -> "970436"
+                "TECHCOMBANK" -> "970407"
+                "MB BANK" -> "970422"
+                "VP BANK", "VPBANK" -> "970432"
+                "BIDV" -> "970418"
+                "AGRIBANK" -> "970405"
+                "VIETINBANK" -> "970415"
+                "ACB" -> "970416"
+                else -> "970400" // Mặc định nếu không tìm thấy
+            }
 
-            showToast("Đã thêm tài khoản thành công!")
+            val param = CreateBankParam(
+                bankBin = bankBin,
+                bankAccountNo = accNumber,
+                bankAccountName = accHolder,
+                bankStatus = false, // Mặc định tạo ra chưa được chọn làm phương thức thanh toán ưu tiên
+                bankName = bankName,
+                bankShortName = bankName.split(" ").firstOrNull() ?: bankName,
+                bankLogo = "" // Nếu muốn, bạn có thể truyền link ảnh cứng tại đây, hoặc API backend tự bù
+            )
 
-            // Trả dữ liệu về Fragment cha
-            onBankAdded?.invoke(bankName, accNumber, accHolder)
-
-            // Tự động đóng Bottom Sheet
+            onBankAdded(param)
             dismiss()
         }
     }
 
     private fun setupDropdown() {
-        // Danh sách giả lập
-        val banks = arrayOf("Vietcombank", "Techcombank", "MB Bank", "VP Bank", "BIDV", "Agribank")
+        val banks = arrayOf("Vietcombank", "Techcombank", "MB Bank", "VP Bank", "BIDV", "Agribank", "Vietinbank", "ACB")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, banks)
         binding.actBankSelection.setAdapter(adapter)
     }
 
     private fun setupInputs() {
-        // Ép Tên chủ tài khoản tự động viết hoa (ALL CAPS)
         binding.edtAccountHolder.filters = arrayOf(InputFilter.AllCaps())
     }
 

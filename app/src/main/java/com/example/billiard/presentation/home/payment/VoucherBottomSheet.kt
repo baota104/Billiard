@@ -53,10 +53,10 @@ class VoucherBottomSheet(
     }
 
     private fun setupRecyclerView() {
-        voucherAdapter = VoucherAdapter { selectedVoucher ->
-            onVoucherSelected(selectedVoucher)
-            dismiss()
-        }
+//        voucherAdapter = VoucherAdapter { selectedVoucher ->
+//            onVoucherSelected(selectedVoucher)
+//            dismiss()
+//        }
 
         binding.rvVouchers.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -72,7 +72,7 @@ class VoucherBottomSheet(
             VoucherUiModel("3", "SPRING3", "Giảm 30%", "Đơn tối thiểu:200.000 đ", "Hết hạn: 30/04/2026", isAiRecommended = true),
             VoucherUiModel("4", "FLASH5", "Giảm 50.000 đ", "Đơn tối thiểu:300.000 đ", "Hết hạn: 15/05/2026")
         )
-        voucherAdapter.submitList(mockVouchers)
+//        voucherAdapter.submitList(mockVouchers)
     }
 
     override fun onDestroyView() {

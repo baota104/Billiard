@@ -1,4 +1,4 @@
-package com.example.billiard.presentation.voucher
+package com.example.billiard.presentation.administrator.voucher
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,12 @@ import com.example.billiard.core.network.Resource
 import com.example.billiard.domain.model.CreateVoucherParam
 import com.example.billiard.domain.model.UpdateVoucherParam
 import com.example.billiard.domain.model.Voucher
-import com.example.billiard.domain.usecase.voucher.*
+import com.example.billiard.domain.usecase.voucher.CreateVoucherUseCase
+import com.example.billiard.domain.usecase.voucher.DeleteVoucherUseCase
+import com.example.billiard.domain.usecase.voucher.GetActiveVouchersUseCase
+import com.example.billiard.domain.usecase.voucher.GetVoucherByIdUseCase
+import com.example.billiard.domain.usecase.voucher.UpdateVoucherUseCase
+import com.example.billiard.domain.usecase.voucher.ValidateVouchersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

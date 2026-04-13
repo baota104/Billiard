@@ -168,7 +168,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_corner_graytran"
                 android:hint="VD: 50000"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingHorizontal="16dp"
                 android:singleLine="true"
                 android:textColor="@color/text_title"
@@ -179,14 +179,58 @@
                 app:layout_constraintTop_toBottomOf="@id/lblValue" />
 
             <TextView
+                android:id="@+id/tvValueDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Nhập số tiền giảm (VNĐ)"
+                android:text="Nhập số tiền hoặc phần trăm"
                 android:textColor="@color/text_gray"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
                 app:layout_constraintTop_toBottomOf="@id/edtValue" />
+
+            <TextView
+                android:id="@+id/lblMaxValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Mức giảm tối đa (Tùy chọn)"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintTop_toBottomOf="@id/tvValueDesc" />
+
+            <EditText
+                android:id="@+id/edtMaxValue"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_corner_graytran"
+                android:hint="VD: 200000"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp"
+                android:singleLine="true"
+                android:textColor="@color/text_title"
+                android:textColorHint="@color/text_gray"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/guideEnd"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintTop_toBottomOf="@id/lblMaxValue" />
+
+            <TextView
+                android:id="@+id/tvMaxValueDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Chỉ áp dụng khi chọn giảm theo phần trăm"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintTop_toBottomOf="@id/edtMaxValue" />
 
             <TextView
                 android:id="@+id/lblMinOrder"
@@ -198,7 +242,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/edtValue" />
+                app:layout_constraintTop_toBottomOf="@id/tvMaxValueDesc" />
 
             <EditText
                 android:id="@+id/edtMinOrder"
@@ -207,7 +251,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_corner_graytran"
                 android:hint="VD: 100000"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingHorizontal="16dp"
                 android:singleLine="true"
                 android:textColor="@color/text_title"
@@ -217,6 +261,40 @@
                 app:layout_constraintStart_toStartOf="@id/guideStart"
                 app:layout_constraintTop_toBottomOf="@id/lblMinOrder" />
 
+            <!-- Giao diện Ngày Bắt Đầu -->
+            <TextView
+                android:id="@+id/lblStartTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Ngày bắt đầu"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintTop_toBottomOf="@id/edtMinOrder" />
+
+            <EditText
+                android:id="@+id/edtStartTime"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_corner_graytran"
+                android:cursorVisible="false"
+                android:drawableEnd="@drawable/ic_date"
+                android:drawableTint="@color/text_title"
+                android:focusable="false"
+                android:hint="dd/mm/yyyy"
+                android:paddingHorizontal="16dp"
+                android:singleLine="true"
+                android:textColor="@color/text_title"
+                android:textColorHint="@color/text_gray"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/guideEnd"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintTop_toBottomOf="@id/lblStartTime" />
+
+            <!-- Giao diện Ngày Hết Hạn -->
             <TextView
                 android:id="@+id/lblExpiry"
                 android:layout_width="wrap_content"
@@ -227,7 +305,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/edtMinOrder" />
+                app:layout_constraintTop_toBottomOf="@id/edtStartTime" />
 
             <EditText
                 android:id="@+id/edtExpiry"
@@ -254,7 +332,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Giới hạn sử dụng"
+                android:text="Số lượng voucher"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -279,21 +357,40 @@
                 app:layout_constraintTop_toBottomOf="@id/lblLimit" />
 
             <TextView
+                android:id="@+id/lblSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="Số lần voucher có thể được sử dụng"
+                android:layout_marginTop="20dp"
+                android:text="Nguồn tạo (Mặc định MANUAL)"
                 android:textColor="@color/text_gray"
-                android:textSize="10sp"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
                 app:layout_constraintTop_toBottomOf="@id/edtLimit" />
+
+            <EditText
+                android:id="@+id/edtSource"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_corner_graytran"
+                android:hint="MANUAL / AI"
+                android:paddingHorizontal="16dp"
+                android:singleLine="true"
+                android:text="MANUAL"
+                android:textColor="@color/text_title"
+                android:textColorHint="@color/text_gray"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/guideEnd"
+                app:layout_constraintStart_toStartOf="@id/guideStart"
+                app:layout_constraintTop_toBottomOf="@id/lblSource" />
 
             <TextView
                 android:id="@+id/lblActive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Kích hoạt voucher"
+                android:text="Kích hoạt voucher ngay lập tức"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -308,68 +405,9 @@
                 android:layout_marginTop="24dp"
                 android:checked="true"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
-                app:layout_constraintTop_toBottomOf="@id/edtLimit" />
+                app:layout_constraintTop_toBottomOf="@id/edtSource" />
 
-            <LinearLayout
-                android:id="@+id/layoutAILabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/switchAI"
-                app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toTopOf="@id/switchAI">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="AI đề xuất"
-                    android:textColor="@color/text_gray"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    app:cardBackgroundColor="@color/purple_500"
-                    app:cardCornerRadius="50dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="6dp"
-                        android:paddingVertical="2dp">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:src="@android:drawable/btn_star_big_on"
-                            app:tint="@color/white" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="AI"
-                            android:textColor="@color/white"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchAI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:checked="false"
-                app:layout_constraintEnd_toEndOf="@id/guideEnd"
-                app:layout_constraintTop_toBottomOf="@id/switchActive" />
-
+            <!-- Nút Tạo Voucher -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPrimaryAction"
                 android:layout_width="0dp"
@@ -385,7 +423,7 @@
                 app:elevation="2dp"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/switchAI" />
+                app:layout_constraintTop_toBottomOf="@id/switchActive" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"

@@ -1,22 +1,33 @@
 package com.example.billiard.presentation.administrator.voucher
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.core.network.Resource
 import com.example.billiard.databinding.FragmentVoucherBinding
-import com.example.billiard.domain.model.TableCategoryUIModel // Tái sử dụng Model Tab của bạn
-import com.example.billiard.domain.model.VoucherUiModel
-import com.example.billiard.presentation.adapter.TableCategoryAdapter // Tái sử dụng Adapter Tab của bạn
+import com.example.billiard.domain.model.TableCategoryUIModel
+import com.example.billiard.domain.model.Voucher
+import com.example.billiard.presentation.adapter.TableCategoryAdapter
 import com.example.billiard.presentation.adapter.VoucherAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBinding::inflate) {
+
+    private val viewModel: VoucherViewModel by viewModels()
 
     private lateinit var categoryAdapter: TableCategoryAdapter
     private lateinit var voucherAdapter: VoucherAdapter
 
-    private var allVouchers = listOf<VoucherUiModel>()
+    private var allVouchers = listOf<Voucher>()
 
     // Lưu trạng thái Lọc
     private var currentFilterId = "ALL" // ALL, ACTIVE, EXPIRED
@@ -26,22 +37,48 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 
         binding.fabAddVoucher.setOnClickListener {
-            Toast.makeText(requireContext(), "Mở màn thêm Voucher mới", Toast.LENGTH_SHORT).show()
+            // Có thể truyền một flag qua Bundle để nhận biết là chức năng "Tạo Mới"
+            findNavController().navigate(R.id.action_voucherFragment_to_createVoucherFragment)
         }
 
         binding.edtSearch.doOnTextChanged { text, _, _, _ ->
             searchVouchers(text.toString())
         }
-        binding.fabAddVoucher.setOnClickListener {
-                findNavController().navigate(R.id.action_voucherFragment_to_createVoucherFragment)
-        }
 
         setupRecyclerViews()
-        createMockData()
+        
+        // Refresh danh sách mỗi khi vào lại màn hình
+        viewModel.loadActiveVouchers()
+    }
+
+    override fun observeData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Lắng nghe dữ liệu danh sách Voucher
+                launch {
+                    viewModel.vouchersState.collect { state ->
+                        when (state) {
+                            is Resource.Loading -> { 
+                                // Có thể hiển thị ProgressBar nếu cần
+                            }
+                            is Resource.Success -> {
+                                allVouchers = state.data
+                                updateCategories() // Cập nhật số lượng đếm trên Tabs
+                                applyFilters()     // Lọc lại và đổ vào Adapter
+                            }
+                            is Resource.Error -> {
+                                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            }
+                            null -> {}
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setupRecyclerViews() {
-        // 1. Setup Tabs (Dùng lại Adapter Category)
+        // 1. Setup Tabs (Danh mục trạng thái)
         categoryAdapter = TableCategoryAdapter { selectedCategory ->
             filterByCategory(selectedCategory.id)
         }
@@ -52,16 +89,29 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
 
         // 2. Setup Danh sách Voucher
         voucherAdapter = VoucherAdapter { selectedItem ->
-            findNavController().navigate(R.id.action_voucherFragment_to_createVoucherFragment)
-            Toast.makeText(requireContext(), "Sửa Voucher: ${selectedItem.code}", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle().apply {
+                putLong("VOUCHER_ID", selectedItem.id) 
+            }
+            findNavController().navigate(R.id.action_voucherFragment_to_createVoucherFragment, bundle)
         }
         binding.rvVouchers.apply {
             adapter = voucherAdapter
-            // Layout Manager đã được set trong XML
         }
     }
 
-    // --- LOGIC LỌC TỔNG HỢP ---
+    private fun updateCategories() {
+        // Status ACTIVE coi như Đang hoạt động, khác ACTIVE coi như Bị khóa hoặc Hết hạn
+        val activeCount = allVouchers.count { it.status.equals("ACTIVE", ignoreCase = true) }
+        val expiredCount = allVouchers.count { !it.status.equals("ACTIVE", ignoreCase = true) }
+
+        val categories = listOf(
+            TableCategoryUIModel(id = "ALL", name = "Tất cả (${allVouchers.size})"),
+            TableCategoryUIModel(id = "ACTIVE", name = "Đang hoạt động ($activeCount)"),
+            TableCategoryUIModel(id = "EXPIRED", name = "Hết hạn ($expiredCount)")
+        )
+        categoryAdapter.submitList(categories)
+    }
+
     private fun filterByCategory(categoryId: String) {
         currentFilterId = categoryId
         applyFilters()
@@ -77,11 +127,14 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
 
         // 1. Lọc theo Tab trạng thái
         if (currentFilterId != "ALL") {
-            val isSearchingActive = currentFilterId == "ACTIVE"
-            filteredList = filteredList.filter { it.isActive == isSearchingActive }
+            val isActiveTab = currentFilterId == "ACTIVE"
+            filteredList = filteredList.filter { 
+                val isItemActive = it.status.equals("ACTIVE", ignoreCase = true)
+                isItemActive == isActiveTab
+            }
         }
 
-        // 2. Lọc theo chữ tìm kiếm
+        // 2. Lọc theo chữ tìm kiếm (Tìm theo mã Code)
         if (currentSearchQuery.isNotEmpty()) {
             filteredList = filteredList.filter { voucher ->
                 voucher.code.contains(currentSearchQuery, ignoreCase = true)
@@ -90,29 +143,4 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
 
         voucherAdapter.submitList(filteredList)
     }
-
-    private fun createMockData() {
-        // Dữ liệu y chang thiết kế
-        allVouchers = listOf(
-            VoucherUiModel("1", "SAVE20", "Giảm 20.000 đ", "Đơn tối thiểu:100.000 đ", "Hết hạn: 31/03/2026", isAiRecommended = true),
-            VoucherUiModel("2", "FREESHIP", "Giảm 15.000 đ", "Đơn tối thiểu:50.000 đ", "Hết hạn: 28/02/2026",false,false),
-            VoucherUiModel("3", "SPRING3", "Giảm 30%", "Đơn tối thiểu:200.000 đ", "Hết hạn: 30/04/2026", isAiRecommended = true,false),
-            VoucherUiModel("4", "FLASH5", "Giảm 50.000 đ", "Đơn tối thiểu:300.000 đ", "Hết hạn: 15/05/2026")
-        )
-
-        val activeCount = allVouchers.count { it.isActive }
-        val expiredCount = allVouchers.count { !it.isActive }
-
-        // Đẩy tên Tab có kèm số lượng (VD: Tất cả (5))
-        val categories = listOf(
-            TableCategoryUIModel(id = "ALL", name = "Tất cả (${allVouchers.size})"),
-            TableCategoryUIModel(id = "ACTIVE", name = "Đang hoạt động ($activeCount)"),
-            TableCategoryUIModel(id = "EXPIRED", name = "Hết hạn ($expiredCount)")
-        )
-        categoryAdapter.submitList(categories)
-
-        voucherAdapter.submitList(allVouchers)
-    }
-
-    override fun observeData() {}
 }

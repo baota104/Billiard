@@ -65,4 +65,10 @@ abstract class RepositoryModule {
     abstract fun bindPurchaseRepository(
         purchaseRepositoryImpl: PurchaseRepositoryImpl
     ): PurchaseRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBankRepository(
+        bankRepositoryImpl: BankRepositoryImpl
+    ): BankRepository
 }
