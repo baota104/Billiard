@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.gifdecoder.GifHeader
 import com.example.billiard.databinding.ItemOrderedServiceBinding
 import com.example.billiard.domain.model.OrderServiceUiModel
 
@@ -32,6 +34,8 @@ class OrderServiceAdapter(
         RecyclerView.ViewHolder(binding.root) {
             fun bind(item: OrderServiceUiModel) {
                 with(binding) {
+                    val context = root.context
+                    Glide.with(context).load(item.imageUrl).into(imgItem)
                     tvItemName.text = item.name
                     tvItemDesc.text = item.category
                     tvItemQty.text = item.displayQuantity

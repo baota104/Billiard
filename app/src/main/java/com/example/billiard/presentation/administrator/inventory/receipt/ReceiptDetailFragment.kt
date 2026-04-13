@@ -76,7 +76,7 @@ class ReceiptDetailFragment : BaseFragment<FragmentReceiptDetailBinding>(Fragmen
                                     serviceId = detail.productId.toString(),
                                     name = detail.productName,
                                     category = "Đơn giá: %,dđ".format(detail.importPrice.toInt()).replace(',', '.'),
-                                    imageUrl = "",
+                                    imageUrl = detail.imageUrl,
                                     quantity = detail.quantity,
                                     unitPrice = detail.importPrice.toInt(),
                                     startTime = null, 

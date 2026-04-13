@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.billiard.databinding.ItemSearchProductBinding
 import com.example.billiard.domain.model.Product
 
@@ -18,6 +19,7 @@ class ProductSearchAdapter(
 
     inner class ViewHolder(private val binding: ItemSearchProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product) {
+            val context = binding.root.context
             binding.tvProductName.text = item.name
             binding.tvStock.text = "Kho: ${item.stock} cái"
 
@@ -26,6 +28,10 @@ class ProductSearchAdapter(
             } else {
                 binding.icCheck.visibility = View.INVISIBLE
             }
+            Glide.with(context)
+                .load(item.imageUrl)
+                .centerCrop()
+                .into(binding.imgProduct)
 
             binding.root.setOnClickListener {
                 if (selectedProductId != item.id) {

@@ -17,7 +17,8 @@ data class PurchaseDetailDto(
     @SerializedName("productName") val productName: String?,
     @SerializedName("quantity") val quantity: Int?,
     @SerializedName("importPrice") val importPrice: Double?,
-    @SerializedName("subTotal") val subTotal: Double?
+    @SerializedName("subTotal") val subTotal: Double?,
+    @SerializedName("imageUrl") val imageUrl: String?
 )
 
 data class PurchaseHistoryDto(

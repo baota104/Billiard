@@ -29,7 +29,7 @@ fun PurchaseDetailDto.toDomain(): PurchaseDetail {
         quantity = this.quantity ?: 0,
         importPrice = this.importPrice ?: 0.0,
         subTotal = this.subTotal ?: 0.0,
-        imageUrl = "" // Backend ko trả ảnh, trả về chuỗi rỗng
+        imageUrl = this.imageUrl ?:""
     )
 }
 

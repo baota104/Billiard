@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.ext.hide
@@ -16,7 +17,6 @@ import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
 import com.example.billiard.databinding.FragmentAddExistingProductBinding
 import com.example.billiard.domain.model.Product
-import com.example.billiard.presentation.adapter.ProductSearchAdapter
 import com.example.billiard.presentation.administrator.inventory.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,35 +24,34 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class AddExistingProductFragment : BaseFragment<FragmentAddExistingProductBinding>(FragmentAddExistingProductBinding::inflate) {
 
-    private lateinit var searchAdapter: ProductSearchAdapter
     private val productViewModel: ProductViewModel by viewModels()
 
     private var selectedProduct: Product? = null
-    private var isAutoFillingText = false
     
-    // Cờ đặc biệt để phân biệt "Lần gọi API tự động ban đầu của ViewModel" và "Thao tác gõ tay của người dùng"
-    private var hasUserTyped = false
+    // Nơi chứa toàn bộ sản phẩm đã fetch về
+    private var allAvailableProducts: List<Product> = emptyList()
 
     override fun setupViews() {
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 
+        // Khởi tạo mặc định ẩn Card thông tin chi tiết
         binding.cardSelectedProduct.hide()
-        setupSearchRecyclerView()
+        
+        // Ẩn RecyclerView tìm kiếm cũ vì ta đã chuyển nó vào BottomSheet
+        binding.cardSearchResults.hide()
+
         setupAutoCalculation()
 
-        binding.edtSearch.doOnTextChanged { text, _, _, _ ->
-            if (isAutoFillingText) return@doOnTextChanged 
-
-            val query = text.toString().trim()
-            if (query.isNotEmpty()) {
-                hasUserTyped = true
-                productViewModel.searchProducts(query)
-            } else {
-                hasUserTyped = false // Trống text thì reset lại cờ
-                binding.cardSearchResults.hide()
-                selectedProduct = null
-                binding.cardSelectedProduct.hide()
+        // Thay đổi behavior của ô text Search: Khi user bấm vào -> Bật BottomSheet
+        // Không cho phép gõ trực tiếp lên edtSearch này nữa
+        binding.edtSearch.isFocusable = false
+        binding.edtSearch.isClickable = true
+        binding.edtSearch.setOnClickListener {
+            if (allAvailableProducts.isEmpty()) {
+                showToast("Đang tải dữ liệu sản phẩm, vui lòng đợi...")
+                return@setOnClickListener
             }
+            openSearchBottomSheet()
         }
 
         binding.btnCreateNewProduct.setOnClickListener {
@@ -73,13 +72,13 @@ class AddExistingProductFragment : BaseFragment<FragmentAddExistingProductBindin
                 return@setOnClickListener
             }
 
-            // Gửi dữ liệu về lại màn CreateReceiptFragment (Bao gồm cả imageUrl để hiển thị)
+            // Gửi dữ liệu về lại màn CreateReceiptFragment (kèm theo imageUrl)
             setFragmentResult("ADD_PRODUCT_REQUEST", bundleOf(
                 "productId" to selectedProduct!!.id,
                 "productName" to selectedProduct!!.name,
                 "quantity" to quantity,
                 "importPrice" to importPrice,
-                "imageUrl" to selectedProduct!!.imageUrl // Bổ sung imageUrl
+                "imageUrl" to selectedProduct!!.imageUrl 
             ))
 
             findNavController().popBackStack()
@@ -89,20 +88,15 @@ class AddExistingProductFragment : BaseFragment<FragmentAddExistingProductBindin
     override fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Tải list Product 1 lần khi mở màn hình
                 productViewModel.productsState.collect { state ->
                     when (state) {
+                        is Resource.Loading -> { }
                         is Resource.Success -> {
-                            val products = state.data.content
-                            // SỬA LỖI: Chỉ hiển thị list nếu list không rỗng, KHÔNG ĐANG ĐIỀN CHỮ TỰ ĐỘNG, CHƯA CHỌN SP, VÀ NGƯỜI DÙNG ĐÃ GÕ TEXT THẬT SỰ!
-                            if (products.isNotEmpty() && !isAutoFillingText && selectedProduct == null && hasUserTyped) {
-                                searchAdapter.submitList(products)
-                                binding.cardSearchResults.show()
-                            } else {
-                                binding.cardSearchResults.hide()
-                            }
+                            allAvailableProducts = state.data.content
                         }
                         is Resource.Error -> {
-                            binding.cardSearchResults.hide()
+                            showToast(state.message)
                         }
                         else -> {}
                     }
@@ -111,34 +105,42 @@ class AddExistingProductFragment : BaseFragment<FragmentAddExistingProductBindin
         }
     }
 
-    private fun setupSearchRecyclerView() {
-        searchAdapter = ProductSearchAdapter { product ->
+    private fun openSearchBottomSheet() {
+        val bottomSheet = SearchProductBottomSheet(allAvailableProducts) { product ->
+            // Callback khi user đã chọn 1 sản phẩm từ BottomSheet
             selectedProduct = product
             
-            isAutoFillingText = true
+            // Cập nhật text của ô tìm kiếm ảo
             binding.edtSearch.setText(product.name)
-            binding.edtSearch.clearFocus()
-            
-            binding.edtSearch.post {
-                isAutoFillingText = false
-            }
 
-            binding.cardSearchResults.hide()
-
+            // Hiện thẻ Card sản phẩm đã chọn và đổ dữ liệu vào
             binding.cardSelectedProduct.show()
             binding.tvProductName.text = product.name
             binding.tvStockBadge.text = "Kho: ${product.stock} cái"
             binding.tvProductCode.text = "Mã: SP${product.id}"
+            
+            // Xử lý hiển thị ảnh sản phẩm ngay lập tức khi click chọn xong
+            if (product.imageUrl.isNotEmpty()) {
+                Glide.with(this)
+                    .load(product.imageUrl)
+                    .centerCrop()
+                    .error(R.drawable.img_ban) // Nếu URL hỏng thì dùng ảnh mặc định
+                    .into(binding.imgProduct)
+            } else {
+                binding.imgProduct.setImageResource(R.drawable.img_ban)
+            }
 
+            // Giả lập Giá nhập bằng 70% giá bán
             val fakeImportPrice = (product.sellingPrice * 0.7).toInt()
             binding.edtImportPrice.setText(fakeImportPrice.toString())
 
+            // Mặc định focus vào ô Số lượng và để là 1
             binding.edtQuantity.setText("1")
             binding.edtQuantity.requestFocus()
 
             calculateTotal()
         }
-        binding.rvSearchResults.adapter = searchAdapter
+        bottomSheet.show(childFragmentManager, "SearchProductSheet")
     }
 
     private fun setupAutoCalculation() {
