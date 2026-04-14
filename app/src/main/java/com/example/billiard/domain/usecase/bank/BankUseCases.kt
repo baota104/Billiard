@@ -44,3 +44,9 @@ class GetVietQrUseCase @Inject constructor(private val repository: BankRepositor
         emit(repository.getVietQr(id))
     }
 }
+class getActiveUseCase @Inject constructor(private val repository: BankRepository){
+    operator fun invoke(): Flow<Resource<Bank>> = flow {
+        emit(Resource.Loading)
+        emit(repository.getActive())
+    }
+}

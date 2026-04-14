@@ -71,4 +71,9 @@ abstract class RepositoryModule {
     abstract fun bindBankRepository(
         bankRepositoryImpl: BankRepositoryImpl
     ): BankRepository
+    @Binds
+    @Singleton
+    abstract fun bindOrderDetailRepository(
+        orderDetailRepositoryImpl: OrderDetailRepositoryImpl
+    ): OrderDetailRepository
 }

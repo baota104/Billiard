@@ -19,5 +19,6 @@ data class InvoiceDto(
     @SerializedName("billiardTableId") val billiardTableId: Int?,
     @SerializedName("billiardTableName") val billiardTableName: String?,
     @SerializedName("createdAt") val createdAt: String?,
-    @SerializedName("updatedAt") val updatedAt: String?
+    @SerializedName("updatedAt") val updatedAt: String?,
+    @SerializedName("orderDetails") val details: List<OrderDetailDto>?
 )

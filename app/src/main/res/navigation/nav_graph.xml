@@ -73,11 +73,18 @@
         <action
             android:id="@+id/action_banDetailFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <argument
+            android:name="INVOICE_ID"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/orderServiceFragment"
         android:name="com.example.billiard.presentation.home.orderservice.OrderServiceFragment"
-        android:label="OrderServiceFragment" />
+        android:label="OrderServiceFragment" >
+        <argument
+            android:name="INVOICE_ID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/timeSlotManagementFragmentFragment"
         android:name="com.example.billiard.presentation.administrator.time.TimeSlotManagementFragmentFragment"
@@ -105,7 +112,20 @@
     <fragment
         android:id="@+id/invoicePaymentFragment"
         android:name="com.example.billiard.presentation.home.payment.invoice.InvoicePaymentFragment"
-        android:label="InvoicePaymentFragment" />
+        android:label="InvoicePaymentFragment" >
+        <argument
+            android:name="INVOICE_JSON"
+            app:argType="string" />
+        <argument
+            android:name="FINAL_TOTAL"
+            app:argType="float" />
+        <argument
+            android:name="VOUCHER_ID"
+            app:argType="long" />
+        <argument
+            android:name="BANK_ID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/voucherFragment"
         android:name="com.example.billiard.presentation.administrator.voucher.VoucherFragment"

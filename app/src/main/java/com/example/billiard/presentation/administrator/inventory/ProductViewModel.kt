@@ -6,8 +6,10 @@ import com.example.billiard.core.network.Resource
 import com.example.billiard.domain.model.Category
 import com.example.billiard.domain.model.PageData
 import com.example.billiard.domain.model.Product
+import com.example.billiard.domain.request.CreateOrderDetailParam
 import com.example.billiard.domain.request.UpsertProductParam
 import com.example.billiard.domain.usecase.category.GetCategoriesUseCase
+import com.example.billiard.domain.usecase.orderdetail.CreateOrderDetailUseCase
 import com.example.billiard.domain.usecase.product.DeleteProductUseCase
 import com.example.billiard.domain.usecase.product.GetProductByIdUseCase
 import com.example.billiard.domain.usecase.product.GetProductsUseCase
@@ -27,7 +29,8 @@ class ProductViewModel @Inject constructor(
     private val getProductByIdUseCase: GetProductByIdUseCase,
     private val upsertProductUseCase: UpsertProductUseCase,
     private val deleteProductUseCase: DeleteProductUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val createOderDetailUseCase: CreateOrderDetailUseCase
 ) : ViewModel() {
 
     // Danh sách sản phẩm (Bây giờ dùng PageData thay cho List)
@@ -157,6 +160,26 @@ class ProductViewModel @Inject constructor(
                 _actionState.value = result
                 if (result is Resource.Success) {
                     loadAllProducts(isRefresh = true) // Cập nhật lại UI sau khi xóa
+                }
+            }
+        }
+    }
+    fun addServiceToInvoice(invoiceId: Int, productId: Int, quantity: Int, price: Double) {
+        val param = CreateOrderDetailParam(
+            invoiceId = invoiceId,
+            productId = productId,
+            quantity = quantity,
+            price = price,
+            note = "" // Có thể truyền thêm ghi chú nếu cần
+        )
+
+        viewModelScope.launch {
+            createOderDetailUseCase(param).collect { result ->
+                // Map kết quả về chung kiểu Resource<Any> của biến actionState
+                _actionState.value = when(result) {
+                    is Resource.Loading -> Resource.Loading
+                    is Resource.Success -> Resource.Success(result.data as Any)
+                    is Resource.Error -> Resource.Error(result.message)
                 }
             }
         }

@@ -40,4 +40,7 @@ interface BankApiService {
     suspend fun getVietQr(
         @Path("id") id: Int
     ): Response<ApiResponse<VietQrDto>>
+    @GET("api/v1/banks/active")
+    suspend fun getActivce(
+    ): Response<ApiResponse<BankDto>>
 }

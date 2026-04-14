@@ -132,7 +132,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         val filteredList = when (currentTabPosition) {
             0 -> allTables // Tất cả
             1 -> allTables.filter { it.status.equals("EMPTY", true) || it.status.equals("AVAILABLE", true) } // Trống
-            2 -> allTables.filter { it.status.equals("PLAYING", true) || it.status.equals("IN_USE", true) } // Đang chơi
+            2 -> allTables.filter { it.status.equals("PLAYING", true) || it.status.equals("RESERVED", true) } // Đang chơi
             else -> allTables.filter { it.status.equals("MAINTENANCE", true) || it.status.equals("MAINTAIN", true) } // Bảo trì
         }
         banAdapter.submitList(filteredList)
@@ -154,7 +154,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             
             "PLAYING", "RESERVED" -> {
                 // Bàn đang chơi -> Chuyển sang màn hình xem chi tiết (Order/Menu)
-                findNavController().navigate(R.id.action_homeFragment_to_banDetailFragment)
+                val bundle = Bundle().apply {
+                    putInt("INVOICE_ID", ban.activeInvoice!!.id)
+                }
+                findNavController().navigate(R.id.action_homeFragment_to_banDetailFragment,bundle)
             }
             
             "MAINTENANCE", "MAINTAIN" -> {

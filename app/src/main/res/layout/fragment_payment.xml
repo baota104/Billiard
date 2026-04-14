@@ -115,16 +115,13 @@
                         <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:stretchColumns="1">
                             <TableRow android:paddingBottom="8dp">
                                 <TextView android:text="Bàn số" android:textColor="@color/text_gray" android:textSize="14sp"/>
-                                <TextView android:text="#5" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" android:gravity="end"/>
+                                <TextView android:id="@+id/tablenumber" android:text="#5" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" android:gravity="end"/>
                             </TableRow>
                             <TableRow android:paddingBottom="8dp">
                                 <TextView android:text="Thời gian chơi" android:textColor="@color/text_gray" android:textSize="14sp"/>
-                                <TextView android:text="2h 30p" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" android:gravity="end"/>
+                                <TextView android:id="@+id/timeplaying" android:text="2h 30p" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" android:gravity="end"/>
                             </TableRow>
-                            <TableRow>
-                                <TextView android:text="Giá theo giờ" android:textColor="@color/text_gray" android:textSize="14sp"/>
-                                <TextView android:text="80.000 đ" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" android:gravity="end"/>
-                            </TableRow>
+
                         </TableLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -150,7 +147,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cardTime">
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Đồ uống &amp; thực phẩm" android:textColor="@color/text_title" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dịch vụ đi kèm" android:textColor="@color/text_title" android:textSize="16sp" android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvServices"
@@ -164,7 +161,7 @@
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="@color/divider_gray" />
 
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tổng đồ ăn/uống" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tổng tiền dịch vụ" android:textColor="@color/text_title" android:textSize="14sp" android:textStyle="bold" />
                         <TextView android:id="@+id/tvTotalFBPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="155.000 đ" android:textColor="@color/blue" android:textSize="14sp" android:textStyle="bold" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -202,8 +199,12 @@
                         <TextView android:id="@+id/tvSubTotal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="355.000 đ" android:textColor="@color/text_gray" android:textSize="14sp" />
                     </RelativeLayout>
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thuế VAT (10%)" android:textColor="@color/text_gray" android:textSize="14sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thuế VAT " android:textColor="@color/text_gray" android:textSize="14sp" />
                         <TextView android:id="@+id/tvVAT" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="35.500 đ" android:textColor="@color/text_gray" android:textSize="14sp" />
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Giảm giá" android:textColor="@color/text_gray" android:textSize="14sp" />
+                        <TextView android:id="@+id/tvDiscountValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="35.500 đ" android:textColor="@color/text_gray" android:textSize="14sp" />
                     </RelativeLayout>
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="16dp" android:background="@color/divider_gray" />
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">

@@ -50,4 +50,11 @@ class BankRepositoryImpl @Inject constructor(
             mapper = { it.toDomain() }
         )
     }
+
+    override suspend fun getActive(): Resource<Bank> {
+        return safeApiCall(
+            apiCall = { api.getActivce() },
+            mapper = { it.toDomain() }
+        )
+    }
 }

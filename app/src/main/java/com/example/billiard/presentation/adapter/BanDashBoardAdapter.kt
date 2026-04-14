@@ -34,7 +34,8 @@ class BanDashBoardAdapter(
 
     override fun onViewRecycled(holder: BanViewHolder) {
         super.onViewRecycled(holder)
-        holder.stopTimer() 
+        Log.d("BanDashboard_TIMER", "♻ onViewRecycled: Dừng timer cho ViewHolder tại vị trí ${holder.adapterPosition}")
+        holder.stopTimer()
     }
 
     inner class BanViewHolder(private val binding: ItemTableBinding) :
@@ -43,27 +44,29 @@ class BanDashBoardAdapter(
         private val handler = Handler(Looper.getMainLooper())
         private var updateTimeRunnable: Runnable? = null
 
+        // Track the current table ID to prevent a delayed runnable from updating a recycled view
+        private var currentTableId: Int? = null
+
         fun bind(ban: DashboardTable) {
             val context = binding.root.context
-            stopTimer() 
-            
+
+            // 1. NGƯNG TIMER CŨ NGAY LẬP TỨC TRƯỚC KHI BIND DỮ LIỆU MỚI
+            stopTimer()
+            currentTableId = ban.id
+
             with(binding) {
                 tvTableName.text = ban.name
                 tvTableType.text = ban.tableType.ifBlank { "POOL" }.uppercase()
                 tvStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.white))
 
-                // Xử lý load ảnh bằng Glide
                 if (ban.imageUrl.isNotEmpty()) {
                     Glide.with(context)
                         .load(ban.imageUrl)
-                        .error(R.drawable.img_ban) // Nếu link ảnh lỗi, fallback về img_ban
+                        .error(R.drawable.img_ban)
                         .into(imgTable)
                 } else {
-                    // Nếu imageUrl rỗng hoặc null, set cứng img_ban.png
                     imgTable.setImageResource(R.drawable.img_ban)
                 }
-                Log.d("BanDashboard", "Binding ban: ${ban.imageUrl}")
-
 
                 when (ban.status.uppercase()) {
                     "PLAYING", "RESERVED" -> {
@@ -73,8 +76,10 @@ class BanDashBoardAdapter(
                         tvBottomAction.setBackgroundResource(R.drawable.bg_corner_graytran)
 
                         if (ban.activeInvoice != null && !ban.activeInvoice.startAt.isNullOrEmpty()) {
-                            startTimer(ban.activeInvoice.startAt)
+                            Log.d("BanDashboard_TIMER", "▶ Khởi động timer cho Bàn: ${ban.name} | Bắt đầu lúc: ${ban.activeInvoice.startAt}")
+                            startTimer(ban.activeInvoice.startAt, ban.id)
                         } else {
+                            Log.e("BanDashboard_TIMER", " Lỗi: Bàn ${ban.name} Đang chơi nhưng activeInvoice hoặc startAt bị null!")
                             tvBottomAction.text = "Đang chơi (Lỗi giờ)"
                         }
                     }
@@ -97,33 +102,50 @@ class BanDashBoardAdapter(
             }
         }
 
-        private fun startTimer(startAtISO: String) {
+        private fun startTimer(startAtISO: String, tableId: Int) {
             val startTimeInMillis = parseIsoDate(startAtISO)
             if (startTimeInMillis == 0L) {
+                Log.e("BanDashboard_TIMER", " Lỗi Parse Date cho bàn ID $tableId. Chuỗi thời gian: $startAtISO")
                 binding.tvBottomAction.text = "Lỗi đọc giờ"
                 return
             }
 
             updateTimeRunnable = object : Runnable {
                 override fun run() {
+                    // Kẻ gác cổng: Nếu ViewHolder này đã bị recycle và gán cho bàn khác, THOÁT NGAY!
+                    if (currentTableId != tableId) {
+                        Log.w("BanDashboard_TIMER", " Đã chặn Runnable mồ côi chạy trên ViewHolder cũ (Bàn ID $tableId)")
+                        return
+                    }
+
                     val currentTime = System.currentTimeMillis()
                     val diffInMillis = currentTime - startTimeInMillis
-                    
+
                     if (diffInMillis > 0) {
                         val hours = (diffInMillis / (1000 * 60 * 60)) % 24
                         val minutes = (diffInMillis / (1000 * 60)) % 60
                         val seconds = (diffInMillis / 1000) % 60
-                        
-                        binding.tvBottomAction.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+                        val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                        binding.tvBottomAction.text = timeString
+
+                        // Log nhỏ giọt mỗi 10s để kiểm tra xem nó có đang chạy không
+                        if (seconds % 10L == 0L) {
+                            // Log.d("BanDashboard_TIMER", "⏳ Bàn $tableId đang chạy: $timeString")
+                        }
                     } else {
                         binding.tvBottomAction.text = "00:00:00"
                     }
+
+                    // Lặp lại sau 1 giây
                     handler.postDelayed(this, 1000)
                 }
             }
+            // Kích phát Runnable lần đầu tiên
             handler.post(updateTimeRunnable!!)
         }
 
+        // Parse date logic is kept the same...
         private fun parseIsoDate(dateString: String): Long {
             try {
                 val sdf1 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
@@ -137,7 +159,8 @@ class BanDashBoardAdapter(
                 } catch (e2: Exception) {
                     try {
                         val sdf3 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                        sdf3.timeZone = TimeZone.getTimeZone("UTC")
+                        // Đã thay đổi: Loại bỏ UTC cho sdf3 để thử khớp với giờ Local nếu server không gửi múi giờ
+                        // sdf3.timeZone = TimeZone.getTimeZone("UTC")
                         return sdf3.parse(dateString)?.time ?: 0L
                     } catch (e3: Exception) {
                         try {
@@ -152,10 +175,14 @@ class BanDashBoardAdapter(
         }
 
         fun stopTimer() {
-            updateTimeRunnable?.let { handler.removeCallbacks(it) }
+            updateTimeRunnable?.let {
+                handler.removeCallbacks(it)
+                updateTimeRunnable = null
+            }
         }
     }
 
+    // DiffCallback remains the same...
     class BanDiffCallback : DiffUtil.ItemCallback<DashboardTable>() {
         override fun areItemsTheSame(oldItem: DashboardTable, newItem: DashboardTable): Boolean {
             return oldItem.id == newItem.id

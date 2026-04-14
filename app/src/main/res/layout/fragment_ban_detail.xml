@@ -53,7 +53,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvday" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NGÀY" android:textColor="@color/text_gray" android:textSize="10sp" />
         </LinearLayout>
 
@@ -70,7 +70,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/boxDay"
             app:layout_constraintTop_toTopOf="@id/boxDay">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="02" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvhour" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="02" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GIỜ" android:textColor="@color/text_gray" android:textSize="10sp" />
         </LinearLayout>
 
@@ -87,7 +87,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/boxHour"
             app:layout_constraintTop_toTopOf="@id/boxDay">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvminute" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PHÚT" android:textColor="@color/text_gray" android:textSize="10sp" />
         </LinearLayout>
 
@@ -104,7 +104,7 @@
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/boxMin"
             app:layout_constraintTop_toTopOf="@id/boxDay">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="43" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvsecond" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="43" android:textColor="@color/primary_blue" android:textSize="24sp" android:textStyle="bold" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GIÂY" android:textColor="#757575" android:textSize="10sp" />
         </LinearLayout>
 
@@ -276,16 +276,16 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp">
 
-                <TextView android:id="@+id/lblTamTinh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tạm tính" android:textColor="@color/text_gray" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+                <TextView android:id="@+id/lblTamTinh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tạm tính tiền dịch vụ" android:textColor="@color/text_gray" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
                 <TextView android:id="@+id/valTamTinh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="190.000đ" android:textColor="@color/black" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/lblTamTinh" />
 
-                <TextView android:id="@+id/lblTienGio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Tiền giờ (2h 15p)" android:textColor="@color/text_gray" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/lblTamTinh" />
-                <TextView android:id="@+id/valTienGio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="110.000đ" android:textColor="@color/black" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/lblTienGio" />
+<!--                <TextView android:id="@+id/lblTienGio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Tiền giờ (2h 15p)" android:textColor="@color/text_gray" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/lblTamTinh" />-->
+<!--                <TextView android:id="@+id/valTienGio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="110.000đ" android:textColor="@color/black" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/lblTienGio" />-->
 
-                <View android:id="@+id/divSummary" android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:background="#E0E0E0" app:layout_constraintTop_toBottomOf="@id/lblTienGio" />
+                <View android:id="@+id/divSummary" android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:background="#E0E0E0" app:layout_constraintTop_toBottomOf="@id/valTamTinh" />
 
-                <TextView android:id="@+id/lblTongCong" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Tổng cộng" android:textColor="@color/text_gray" android:textSize="16sp" android:textStyle="bold" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/divSummary" />
-                <TextView android:id="@+id/valTongCong" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="300.000đ" android:textColor="@color/black" android:textSize="18sp" android:textStyle="bold" app:layout_constraintBottom_toBottomOf="@id/lblTongCong" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/lblTongCong" />
+<!--                <TextView android:id="@+id/lblTongCong" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Tổng cộng" android:textColor="@color/text_gray" android:textSize="16sp" android:textStyle="bold" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/divSummary" />-->
+<!--                <TextView android:id="@+id/valTongCong" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="300.000đ" android:textColor="@color/black" android:textSize="18sp" android:textStyle="bold" app:layout_constraintBottom_toBottomOf="@id/lblTongCong" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/lblTongCong" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

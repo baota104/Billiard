@@ -12,4 +12,6 @@ interface BankRepository {
     suspend fun updateBank(param: UpdateBankParam): Resource<Bank>
     suspend fun deleteBank(bankId: Int): Resource<String>
     suspend fun getVietQr(id: Int): Resource<VietQr>
+    suspend fun getActive(): Resource<Bank>
 }
+

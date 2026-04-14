@@ -35,7 +35,8 @@ fun InvoiceDto.toDomain(): Invoice {
         employeeId = this.employeeId ?: 0,
         employeeName = this.employeeName.orEmpty(),
         billiardTableId = this.billiardTableId ?: 0,
-        billiardTableName = this.billiardTableName.orEmpty()
+        billiardTableName = this.billiardTableName.orEmpty(),
+        orderDetails = this.details?.map { it.toDomain() }
     )
 }
 

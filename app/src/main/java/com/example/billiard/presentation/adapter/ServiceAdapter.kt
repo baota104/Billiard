@@ -5,23 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.billiard.databinding.ItemServiceGridBinding
-import com.example.billiard.domain.model.ServiceItemUiModel
+import com.example.billiard.domain.model.Product
 
 class ServiceAdapter(
-    private val onItemClick: (ServiceItemUiModel) -> Unit
-) : ListAdapter<ServiceItemUiModel, ServiceAdapter.ViewHolder>(DiffCallback()) {
+    private val onItemClick: (Product) -> Unit
+) : ListAdapter<Product, ServiceAdapter.ViewHolder>(DiffCallback()) {
 
     inner class ViewHolder(private val binding: ItemServiceGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ServiceItemUiModel) {
+        fun bind(item: Product) {
             binding.tvServiceName.text = item.name
 
-            // Lấy giá tiền đã được format sẵn từ UiModel (VD: 20.000đ)
-            binding.tvServicePrice.text = item.formattedPrice
+            // Format giá tiền trực tiếp từ số (VD: 20000 -> 20.000đ)
+            binding.tvServicePrice.text = "%,dđ".format(item.sellingPrice.toLong()).replace(',', '.')
 
-            // Glide.with(binding.root.context).load(item.imageUrl).into(binding.imgService)
+             Glide.with(binding.root.context).load(item.imageUrl)
+                 .error(android.R.drawable.stat_notify_error)
+                 .into(binding.imgService)
 
             binding.root.setOnClickListener {
                 onItemClick(item)
@@ -38,8 +41,8 @@ class ServiceAdapter(
         holder.bind(getItem(position))
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<ServiceItemUiModel>() {
-        override fun areItemsTheSame(oldItem: ServiceItemUiModel, newItem: ServiceItemUiModel) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: ServiceItemUiModel, newItem: ServiceItemUiModel) = oldItem == newItem
+    class DiffCallback : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Product, newItem: Product) = oldItem == newItem
     }
 }
