@@ -32,7 +32,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://26.72.162.142:9090/")
+            .baseUrl("http://26.4.107.54:9090/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

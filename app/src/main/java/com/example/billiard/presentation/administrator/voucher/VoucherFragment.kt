@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentVoucherBinding
 import com.example.billiard.domain.model.TableCategoryUIModel
 import com.example.billiard.domain.model.Voucher
@@ -58,15 +59,18 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
                 launch {
                     viewModel.vouchersState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { 
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
                                 // Có thể hiển thị ProgressBar nếu cần
                             }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 allVouchers = state.data
                                 updateCategories() // Cập nhật số lượng đếm trên Tabs
                                 applyFilters()     // Lọc lại và đổ vào Adapter
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                             }
                             null -> {}

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentPaymentBinding
 import com.example.billiard.domain.model.Invoice
 import com.example.billiard.domain.model.Voucher
@@ -128,10 +129,11 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>(FragmentPaymentBind
                             val tienGio = invoice.serviceAmount ?: 0.0
                             taxAmount = invoice.taxAmount
                             subTotal = tienDoAn + tienGio
+                            val servicc = invoice.serviceAmount ?: 0.0
+                            binding.tvTotalFBPrice.text = formatCurrency(tienDoAn+servicc)
 
                             // --- ĐỔ DỮ LIỆU LÊN GIAO DIỆN (Đúng 100% ID XML) ---
                             binding.tvTotalTablePrice.text = formatCurrency(tienGio)
-                            binding.tvTotalFBPrice.text = formatCurrency(tienDoAn)
                             binding.tvSubTotal.text = formatCurrency(subTotal)
                             binding.tvVAT.text = formatCurrency(taxAmount)
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentOrderServiceBinding
 import com.example.billiard.domain.model.Category
 import com.example.billiard.domain.model.CategoryType
@@ -94,11 +95,19 @@ class OrderServiceFragment : BaseFragment<FragmentOrderServiceBinding>(FragmentO
     private fun applyFilters() {
         var filteredList = allProducts
 
+        // ĐÃ FIX LỖI: Lọc theo danh mục
         if (currentCategoryId != -1) {
-            // ĐÃ FIX LỖI: Lọc theo categoryId thay vì id của product
-            filteredList = filteredList.filter { it.id == currentCategoryId }
+            // Cách 1: Nếu Product của bạn có trường categoryId thì dùng dòng này
+            // filteredList = filteredList.filter { it.categoryId == currentCategoryId }
+
+            // Cách 2: Nếu Product chỉ có categoryName (Dựa theo logic code cũ của bạn)
+            val selectedCategoryName = allCategories.find { it.id == currentCategoryId }?.categoryName
+            if (selectedCategoryName != null) {
+                filteredList = filteredList.filter { it.categoryName == selectedCategoryName }
+            }
         }
 
+        // Lọc theo từ khóa tìm kiếm
         if (currentSearchQuery.isNotEmpty()) {
             filteredList = filteredList.filter { product ->
                 product.name.contains(currentSearchQuery, ignoreCase = true)
@@ -119,7 +128,7 @@ class OrderServiceFragment : BaseFragment<FragmentOrderServiceBinding>(FragmentO
         }
 
         serviceAdapter = ServiceAdapter { selectedProduct ->
-            // ĐÃ FIX LỖI: Tìm đúng category của Product
+            // Tìm đúng category của Product
             val productCategory = allCategories.find { it.categoryName == selectedProduct.categoryName }
             val categoryType = productCategory?.type ?: CategoryType.RETAIL
 
@@ -184,13 +193,15 @@ class OrderServiceFragment : BaseFragment<FragmentOrderServiceBinding>(FragmentO
                     viewModel.actionState.collect { state ->
                         when (state) {
                             is Resource.Loading -> {
-                                // (Tùy chọn) Hiện loading dialog mờ màn hình
+                                LoadingUtils.show(requireContext())
                             }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Thêm thành công!", Toast.LENGTH_SHORT).show()
                                 viewModel.resetActionState() // Tránh toast lại khi xoay màn hình
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Lỗi: ${state.message}", Toast.LENGTH_LONG).show()
                                 viewModel.resetActionState()
                             }

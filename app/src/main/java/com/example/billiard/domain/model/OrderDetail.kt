@@ -7,6 +7,7 @@ data class OrderDetail(
     val productName: String,
     val price: Double,
     val quantity: Int,
-    val imageUrl: String?
+    val imageUrl: String?,
+    val categorytype:String
     // Lược bỏ bớt các trường không cần thiết hiển thị lên UI cho nhẹ
 )

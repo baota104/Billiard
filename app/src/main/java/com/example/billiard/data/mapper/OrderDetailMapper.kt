@@ -13,7 +13,8 @@ fun OrderDetailDto.toDomain(): OrderDetail {
         productName = this.productName ?: "Sản phẩm không tên",
         price = this.price,
         quantity = this.quantity,
-        imageUrl = this.imageUrl
+        imageUrl = this.imageUrl,
+        categorytype = this.categoryType ?: "RETAIL"
     )
 }
 fun CreateOrderDetailParam.toRequest(): CreateOrderDetailRequest {

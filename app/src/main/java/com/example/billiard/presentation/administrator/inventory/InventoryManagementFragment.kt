@@ -18,6 +18,7 @@ import com.example.billiard.core.ext.show
 import com.example.billiard.core.ext.showConfirmDialog
 import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentInventoryManagementBinding
 import com.example.billiard.domain.model.Category
 import com.example.billiard.domain.model.Product
@@ -219,12 +220,18 @@ class InventoryManagementFragment : BaseFragment<FragmentInventoryManagementBind
                 launch {
                     productViewModel.productsState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 allInventoryProducts = state.data.content
                                 applyFilters()
                             }
-                            is Resource.Error -> showToast(state.message)
+                            is Resource.Error -> {
+                                LoadingUtils.hide()
+                                showToast(state.message)
+                            }
                             null -> {}
                         }
                     }

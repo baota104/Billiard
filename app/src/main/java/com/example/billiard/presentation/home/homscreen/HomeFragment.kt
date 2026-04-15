@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.core.utils.SessionManager
 import com.example.billiard.databinding.FragmentHomeBinding
 import com.example.billiard.domain.model.DashboardTable
@@ -93,8 +94,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 launch {
                     viewModel.tablesState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 allTables = state.data
                                 applyFilter()
                             }
@@ -109,14 +113,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 launch {
                     viewModel.openTableState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { 
-                                // Có thể hiện progress dialog
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
                             }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Mở bàn thành công!", Toast.LENGTH_SHORT).show()
                                 viewModel.resetOpenTableState()
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                                 viewModel.resetOpenTableState()
                             }

@@ -17,6 +17,7 @@ import com.example.billiard.core.ext.hide
 import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
 import com.example.billiard.core.utils.FileUtils
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentCreateNewProductBinding
 import com.example.billiard.domain.model.Category
 import com.example.billiard.domain.model.Product
@@ -109,8 +110,11 @@ class CreateNewProductFragment : BaseFragment<FragmentCreateNewProductBinding>(F
                 launch {
                     viewModel.actionState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 showToast("Tạo sản phẩm thành công!")
                                 viewModel.resetActionState()
                                 
@@ -128,6 +132,7 @@ class CreateNewProductFragment : BaseFragment<FragmentCreateNewProductBinding>(F
                                 findNavController().popBackStack(R.id.createReceiptFragment, false)
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 showToast(state.message)
                                 viewModel.resetActionState()
                             }

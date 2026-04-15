@@ -15,6 +15,7 @@ import com.example.billiard.core.ext.hide
 import com.example.billiard.core.ext.show
 import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentAddExistingProductBinding
 import com.example.billiard.domain.model.Product
 import com.example.billiard.presentation.administrator.inventory.ProductViewModel
@@ -91,11 +92,15 @@ class AddExistingProductFragment : BaseFragment<FragmentAddExistingProductBindin
                 // Tải list Product 1 lần khi mở màn hình
                 productViewModel.productsState.collect { state ->
                     when (state) {
-                        is Resource.Loading -> { }
+                        is Resource.Loading -> {
+                            LoadingUtils.show(requireContext())
+                        }
                         is Resource.Success -> {
+                            LoadingUtils.hide()
                             allAvailableProducts = state.data.content
                         }
                         is Resource.Error -> {
+                            LoadingUtils.hide()
                             showToast(state.message)
                         }
                         else -> {}

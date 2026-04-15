@@ -133,7 +133,8 @@ class AddServiceBottomSheet(
 
     private fun updateSubtotalPrice() {
         val total = serviceItem.sellingPrice * currentQuantity
-        val formattedTotal = "%,dđ".format(total).replace(',', '.')
+        // Thêm .toLong() để chuyển Double sang số nguyên trước khi dùng định dạng %,d
+        val formattedTotal = "%,d đ".format(total.toLong()).replace(',', '.')
         binding.tvInfoValue.text = formattedTotal
     }
 

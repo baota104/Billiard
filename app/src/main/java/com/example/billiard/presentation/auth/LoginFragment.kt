@@ -21,6 +21,7 @@ import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentLoginBinding
 import com.example.billiard.domain.model.UserAuth
 import com.example.billiard.domain.usecase.auth.LoginUseCase
@@ -88,17 +89,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 viewModel.loginState.collect { state ->
                     when (state) {
                         is Resource.Loading -> {
+                            LoadingUtils.show(requireContext())
                             setLoadingState(true)
                         }
                         is Resource.Success -> {
+                            LoadingUtils.hide()
                             setLoadingState(false)
                             handleLoginSuccess(state.data)
                             // Reset state để khi ấn Back quay lại màn hình này không bị dính logic cũ
                             viewModel.resetState()
                         }
                         is Resource.Error -> {
+                            LoadingUtils.hide()
                             setLoadingState(false)
-                            showToast(state.message)
+                            showToast("Sai tài khoản hoặc mật khẩu")
                             viewModel.resetState()
                         }
                         null -> { /* Trạng thái khởi tạo ban đầu, không làm gì cả */ }

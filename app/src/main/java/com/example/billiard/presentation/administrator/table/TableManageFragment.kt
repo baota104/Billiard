@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentTableManageBinding
 import com.example.billiard.domain.model.CreateTableParam
 import com.example.billiard.domain.model.DashboardTable
@@ -84,12 +85,16 @@ class TableManagementFragment : BaseFragment<FragmentTableManageBinding>(Fragmen
                 launch {
                     viewModel.dashboardTablesState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 allTables = state.data.content
                                 applyFilters()
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                             }
                             null -> {}
@@ -100,12 +105,16 @@ class TableManagementFragment : BaseFragment<FragmentTableManageBinding>(Fragmen
                 launch {
                     viewModel.actionState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Thao tác thành công!", Toast.LENGTH_SHORT).show()
                                 viewModel.resetActionState()
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                                 viewModel.resetActionState()
                             }

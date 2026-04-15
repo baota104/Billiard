@@ -42,7 +42,7 @@ class BanListAdapter(
                 // Xử lý load ảnh bằng Glide
                 if (table.imageUrl.isNotEmpty()) {
                     Glide.with(context)
-                        .load("https://res.cloudinary.com/dod4mribc/image/upload/v1775883715/uploads/yae6zwpdni3mp7lchuut.jpg")
+                        .load(table.imageUrl)
                         .error(R.drawable.img_ban) // Fallback nếu URL chết/lỗi
                         .into(imgTable)
                 } else {

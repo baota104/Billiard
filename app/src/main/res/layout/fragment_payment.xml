@@ -354,38 +354,6 @@
                 app:layout_constraintTop_toBottomOf="@id/barrierVoucher" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnViewPDF"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_marginTop="12dp"
-                android:text="Xem hóa đơn PDF"
-                android:textColor="@color/text_title"
-                android:textSize="14sp"
-                android:textAllCaps="false"
-                app:backgroundTint="@color/different_white"
-                app:cornerRadius="12dp"
-                app:elevation="0dp"
-                app:layout_constraintEnd_toEndOf="@id/guideEnd"
-                app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/lblInvoice" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDownloadPDF"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_marginTop="8dp"
-                android:text="Tải xuống PDF"
-                android:textAllCaps="false"
-                android:textColor="@color/text_title"
-                android:textSize="14sp"
-                app:backgroundTint="@color/different_white"
-                app:cornerRadius="12dp"
-                app:elevation="0dp"
-                app:layout_constraintEnd_toEndOf="@id/guideEnd"
-                app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/btnViewPDF" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConfirmPayment"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
@@ -400,7 +368,7 @@
                 app:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideStart"
-                app:layout_constraintTop_toBottomOf="@id/btnDownloadPDF" />
+                app:layout_constraintTop_toBottomOf="@id/lblInvoice" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

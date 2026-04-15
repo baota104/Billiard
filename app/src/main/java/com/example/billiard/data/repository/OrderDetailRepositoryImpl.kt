@@ -34,7 +34,7 @@ class OrderDetailRepositoryImpl @Inject constructor(
                     // Tạo một object ảo để luồng code vẫn chạy tiếp báo Success cho UI
                     val fallbackDomain = OrderDetail(
                         id = 0, invoiceId = param.invoiceId, productId = param.productId,
-                        productName = "Sản phẩm", price = param.price, quantity = param.quantity, imageUrl = null
+                        productName = "Sản phẩm", price = param.price, quantity = param.quantity, imageUrl = null,""
                     )
                     Resource.Success(fallbackDomain)
                 }

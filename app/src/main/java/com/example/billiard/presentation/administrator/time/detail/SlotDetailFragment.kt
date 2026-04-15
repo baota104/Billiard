@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentSlotDetailBinding
 import com.example.billiard.domain.model.CreatePriceListParam
 import com.example.billiard.domain.model.UpdatePriceListParam
@@ -87,8 +88,11 @@ class TimeSlotDetailFragment : BaseFragment<FragmentSlotDetailBinding>(FragmentS
                 launch {
                     viewModel.priceListsState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 val allPriceLists = state.data
                                 
                                 // Lọc danh sách PriceList chỉ lấy những cái của TableType hiện tại (POOL/SNOOKER...)
@@ -99,6 +103,7 @@ class TimeSlotDetailFragment : BaseFragment<FragmentSlotDetailBinding>(FragmentS
                                 adapter.submitList(filteredList)
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                             }
                             null -> {}

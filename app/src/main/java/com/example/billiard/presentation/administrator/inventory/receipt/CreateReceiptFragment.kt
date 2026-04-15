@@ -11,6 +11,7 @@ import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.ext.showConfirmDialog
 import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentCreateReceiptBinding
 import com.example.billiard.domain.model.CreatePurchaseParam
 import com.example.billiard.domain.model.PurchaseDetail
@@ -84,13 +85,17 @@ class CreateReceiptFragment : BaseFragment<FragmentCreateReceiptBinding>(Fragmen
                 // Lắng nghe trạng thái tạo hóa đơn nhập (PurchaseInvoice)
                 viewModel.actionState.collect { state ->
                     when (state) {
-                        is Resource.Loading -> { }
+                        is Resource.Loading -> {
+                            LoadingUtils.show(requireContext())
+                        }
                         is Resource.Success -> {
+                            LoadingUtils.hide()
                             showToast("Lưu phiếu nhập thành công!")
                             viewModel.resetActionState()
                             findNavController().popBackStack()
                         }
                         is Resource.Error -> {
+                            LoadingUtils.hide()
                             showToast("Lỗi lưu phiếu: ${state.message}")
                             viewModel.resetActionState()
                         }

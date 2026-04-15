@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentTimeSlotManagementFragmentBinding
 import com.example.billiard.domain.model.TableTypeTimeSlotUiModel
 import com.example.billiard.presentation.adapter.TableTypeTimeSlotAdapter
@@ -48,8 +49,11 @@ class TimeSlotManagementFragmentFragment : BaseFragment<FragmentTimeSlotManageme
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.priceListsState.collect { state ->
                     when (state) {
-                        is Resource.Loading -> { }
+                        is Resource.Loading -> {
+                            LoadingUtils.show(requireContext())
+                        }
                         is Resource.Success -> {
+                            LoadingUtils.hide()
                             val priceLists = state.data
 
                             // Lọc danh sách: Đếm xem mỗi loại bàn (POOL, SNOOKER, CAROM) có bao nhiêu khung giờ (PriceList)
@@ -66,6 +70,7 @@ class TimeSlotManagementFragmentFragment : BaseFragment<FragmentTimeSlotManageme
                             timeSlotAdapter.submitList(uiModels)
                         }
                         is Resource.Error -> {
+                            LoadingUtils.hide()
                             Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                         }
                         null -> {}

@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentBankManagementBinding
 import com.example.billiard.domain.model.Bank
 import com.example.billiard.domain.model.UpdateBankParam
@@ -54,12 +55,16 @@ class BankFragment : BaseFragment<FragmentBankManagementBinding>(FragmentBankMan
                 launch {
                     viewModel.banksState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 currentBankList = state.data
                                 bankAdapter.submitList(currentBankList)
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Lỗi tải dữ liệu ngân hàng: ${state.message}", Toast.LENGTH_SHORT).show()
                             }
                             null -> {}
@@ -71,12 +76,16 @@ class BankFragment : BaseFragment<FragmentBankManagementBinding>(FragmentBankMan
                 launch {
                     viewModel.actionState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Thao tác thành công!", Toast.LENGTH_SHORT).show()
                                 viewModel.resetActionState()
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Lỗi thao tác: ${state.message}", Toast.LENGTH_SHORT).show()
                                 viewModel.resetActionState()
                             }

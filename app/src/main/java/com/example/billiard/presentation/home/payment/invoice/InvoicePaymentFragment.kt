@@ -17,6 +17,7 @@ import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.ext.showConfirmDialog
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentInvoicePaymentBinding
 import com.example.billiard.domain.model.Invoice
 import com.example.billiard.domain.model.UpdateInvoiceParam
@@ -52,7 +53,7 @@ class InvoicePaymentFragment : BaseFragment<FragmentInvoicePaymentBinding>(Fragm
 
             // 2. Gọi API lấy mã QR ngay lập tức
             if (bankId != -1) {
-                viewModel.loadQrCode(bankId)
+                viewModel.loadQrCode(currentInvoice!!.id)
             } else {
                 Toast.makeText(requireContext(), "Lỗi: Không tìm thấy ID Ngân hàng", Toast.LENGTH_SHORT).show()
             }
@@ -128,8 +129,10 @@ class InvoicePaymentFragment : BaseFragment<FragmentInvoicePaymentBinding>(Fragm
                             is Resource.Loading -> {
                                 Log.d("InvoicePayment", "Đang tải mã QR...")
                                 // (Tùy chọn) Hiện ProgressBar xoay xoay ở chỗ mã QR
+                                LoadingUtils.show(requireContext())
                             }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 // Lấy đối tượng VietQr từ API
                                 val vietQrData = state.data
 
@@ -143,6 +146,7 @@ class InvoicePaymentFragment : BaseFragment<FragmentInvoicePaymentBinding>(Fragm
                                 Log.d("InvoicePayment", "Load QR thành công: ${vietQrData.qrImageUrl}")
                             }
                             is Resource.Error -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Không tải được mã QR: ${state.message}", Toast.LENGTH_SHORT).show()
                             }
                             null -> {}

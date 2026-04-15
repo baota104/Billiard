@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentEmploueeManagementBinding
 import com.example.billiard.domain.model.Employee
 import com.example.billiard.domain.model.TableCategoryUIModel
@@ -187,8 +188,11 @@ class EmployeeManagementFragment : BaseFragment<FragmentEmploueeManagementBindin
                 launch {
                     viewModel.employeesState.collect { resource ->
                         when (resource) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 val pageData = resource.data
                                 allEmployees = pageData.content 
                                 applyFilters() 
