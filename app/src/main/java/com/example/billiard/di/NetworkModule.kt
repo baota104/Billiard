@@ -102,4 +102,10 @@ object NetworkModule {
     fun provideBankApiService(retrofit: Retrofit): BankApiService {
         return retrofit.create(BankApiService::class.java)
     }
+    @Provides
+    @Singleton
+    fun provideDashboardApiService(retrofit: Retrofit): DashboardApiService {
+        return retrofit.create(DashboardApiService::class.java)
+    }
+
 }

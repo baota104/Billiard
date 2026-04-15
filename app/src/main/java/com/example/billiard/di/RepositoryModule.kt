@@ -76,4 +76,10 @@ abstract class RepositoryModule {
     abstract fun bindOrderDetailRepository(
         orderDetailRepositoryImpl: OrderDetailRepositoryImpl
     ): OrderDetailRepository
+    @Binds
+    @Singleton
+    abstract fun bindDashboardRepository(
+        dashboardRepositoryImpl: DashboardRepositoryImpl
+    ): DashboardRepository
+
 }
