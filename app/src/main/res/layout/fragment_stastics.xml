@@ -368,145 +368,6 @@
 
             </TableLayout>
 
-            <FrameLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_glow"
-                android:padding="2dp"
-                app:layout_constraintTop_toBottomOf="@id/tableLayout">
-
-                <FrameLayout
-                    android:id="@+id/gradientBorder"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_gradient_border"
-                    android:padding="2dp">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/aiRecommendCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardBackgroundColor="#F1F5F9"
-                        app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="17dp">
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/aiLayout"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:paddingHorizontal="6dp">
-
-                                <ImageView
-                                    android:id="@+id/aiIcon"
-                                    android:layout_width="43dp"
-                                    android:layout_height="43dp"
-                                    android:background="@drawable/bg_stt_icon"
-                                    android:backgroundTint="@color/white"
-                                    android:contentDescription="@string/stt_ai_icon"
-                                    android:padding="8dp"
-                                    android:src="@drawable/ic_ai_sparkle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/aiText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="@string/stt_ai_card_title"
-                                    android:textColor="@color/stt_text_black"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toEndOf="@id/aiIcon"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/aiBadge"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginTop="2dp"
-                                    android:background="@drawable/bg_ai_badge"
-                                    android:text="@string/stt_ai_badge"
-                                    android:textColor="@color/white"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
-                                    app:layout_constraintStart_toEndOf="@id/aiIcon"
-                                    app:layout_constraintTop_toBottomOf="@id/aiText" />
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <TextView
-                                android:id="@+id/aiDetailText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="6dp"
-                                android:layout_marginTop="16dp"
-                                android:text="Thứ 4 thường có doanh thu thấp. Có muốn phát mã giảm giá 20%?"
-                                android:textColor="@color/stt_text_black"
-                                android:textSize="12sp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/aiLayout" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:orientation="horizontal"
-                                app:layout_constraintTop_toBottomOf="@id/aiDetailText">
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/aiRecommendCancelButton"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_weight="1"
-                                    android:backgroundTint="@android:color/white"
-                                    android:clickable="true"
-                                    android:focusable="true"
-
-                                    android:text="Huỷ"
-                                    android:textAllCaps="false"
-
-                                    android:textColor="#7F00FF"
-                                    android:textSize="14sp"
-                                    app:cornerRadius="12dp"
-                                    app:rippleColor="#207F00FF"
-                                    app:strokeColor="#7F00FF"
-                                    app:strokeWidth="1dp" />
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/aiRecommendApproveButton"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_weight="1"
-                                    android:backgroundTint="#7F00FF"
-                                    android:clickable="true"
-                                    android:focusable="true"
-
-                                    android:text="Áp dụng"
-                                    android:textAllCaps="false"
-
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    app:cornerRadius="12dp"
-                                    app:rippleColor="#40FFFFFF" />
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                </FrameLayout>
-
-            </FrameLayout>
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/revenueChartCard"
                 android:layout_width="match_parent"
@@ -516,7 +377,7 @@
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/frameLayout"
+                app:layout_constraintTop_toBottomOf="@id/tableLayout"
                 app:strokeColor="@color/stroke_gray"
                 app:strokeWidth="1dp">
 
@@ -547,7 +408,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="3dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/filter_button_bg"
+                            android:backgroundTint="@color/selector_role_bg"
                             android:checkable="true"
                             android:text="@string/stt_filter_week"
                             android:textAllCaps="false"
@@ -563,7 +424,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="3dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/filter_button_bg"
+                            android:backgroundTint="@color/selector_role_bg"
                             android:checkable="true"
                             android:text="@string/stt_filter_month"
                             android:textAllCaps="false"
@@ -579,7 +440,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="3dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/filter_button_bg"
+                            android:backgroundTint="@color/selector_role_bg"
                             android:checkable="true"
                             android:text="@string/stt_filter_year"
                             android:textAllCaps="false"
@@ -595,7 +456,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="3dp"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/filter_button_bg"
+                            android:backgroundTint="@color/selector_role_bg"
                             android:checkable="true"
                             android:text="@string/stt_filter_all"
                             android:textAllCaps="false"
@@ -616,78 +477,25 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/billDetailNavigationCard"
+                android:layout_height="70dp"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:background="@drawable/bill_detail_card"
                 android:layout_marginTop="16dp"
-                android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/revenueChartCard"
-                app:rippleColor="@color/stt_ic_bg_blue"
-                app:strokeColor="@color/stroke_gray"
-                app:strokeWidth="1dp">
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/revenueChartCard" />
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="bill detail card"
-                    android:textColor="@color/stt_text_black" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/topOrderNavigationCard"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/billDetailNavigationCard"
-                app:rippleColor="@color/stt_ic_bg_blue"
-                app:strokeColor="@color/stroke_gray"
-                app:strokeWidth="1dp">
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="top order card"
-                    android:textColor="@color/stt_text_black" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/importGoodsNavigationCard"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/top_order_card"
                 android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topOrderNavigationCard"
-                app:rippleColor="@color/stt_ic_bg_blue"
-                app:strokeColor="@color/stroke_gray"
-                app:strokeWidth="1dp">
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="import goods card"
-                    android:textColor="@color/stt_text_black" />
-            </com.google.android.material.card.MaterialCardView>
+                android:focusable="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

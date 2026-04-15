@@ -1,12 +1,17 @@
 package com.example.billiard.presentation.stastics
 
+import android.content.Context
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.billiard.R
 import com.example.billiard.core.network.Resource
 import com.example.billiard.domain.model.DashboardSummary
 import com.example.billiard.domain.model.RevenueChart
 import com.example.billiard.domain.usecase.statics.GetDashboardRevenueUseCase
 import com.example.billiard.domain.usecase.statics.GetDashboardSummaryUseCase
+import com.example.billiard.presentation.stastics.charts.RevenueChartManager
+import com.github.mikephil.charting.charts.LineChart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +24,9 @@ class DashboardViewModel @Inject constructor(
     private val getDashboardSummaryUseCase: GetDashboardSummaryUseCase,
     private val getDashboardRevenueUseCase: GetDashboardRevenueUseCase
 ) : ViewModel() {
+
+    // Chart Manager instance (để quản lý biểu đồ)
+    private var chartManager: RevenueChartManager? = null
 
     // 1. State cho Summary (Tổng quan)
     private val _summaryState = MutableStateFlow<Resource<DashboardSummary>>(Resource.Loading)
@@ -53,6 +61,52 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             getDashboardRevenueUseCase(range).collect { result ->
                 _revenueState.value = result
+            }
+        }
+    }
+
+    // ============ Chart Management Methods (từ StasticsFragment) ============
+
+    /**
+     * Khởi tạo Chart Manager
+     */
+    fun initializeChart(context: Context) {
+        chartManager = RevenueChartManager(context)
+    }
+
+    /**
+     * Setup biểu đồ và tải dữ liệu mặc định
+     */
+    fun setupChart(view: View) {
+        val chart = view.findViewById<LineChart>(R.id.revenueChart)
+
+        if (chartManager == null) {
+            throw IllegalStateException("ChartManager not initialized. Call initializeChart() first")
+        }
+
+        // Setup chart
+        chartManager?.setupChart(chart)
+
+        // Load dữ liệu tuần mặc định
+        chartManager?.loadWeekData(chart)
+
+        // Setup bộ lọc (filter buttons)
+        chartManager?.setupFilter(view, chart)
+    }
+
+    /**
+     * Thay thế dữ liệu biểu đồ theo loại Filter
+     */
+    fun loadChartData(view: View, filterType: String) {
+        val chart = view.findViewById<LineChart>(R.id.revenueChart)
+
+        chartManager?.let {
+            chart.clear()
+            when (filterType) {
+                "WEEK" -> it.loadWeekData(chart)
+                "MONTH" -> it.loadMonthData(chart)
+                "YEAR" -> it.loadYearData(chart)
+                "ALL" -> it.loadAllData(chart)
             }
         }
     }
