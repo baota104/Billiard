@@ -58,7 +58,11 @@
         android:id="@+id/stasticsFragment"
         android:name="com.example.billiard.presentation.stastics.StasticsFragment"
         android:label="fragment_stastics"
-        tools:layout="@layout/fragment_stastics" />
+        tools:layout="@layout/fragment_stastics" >
+        <action
+            android:id="@+id/action_stasticsFragment_to_invoiceFragment"
+            app:destination="@id/invoiceFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tableManageFragment"
         android:name="com.example.billiard.presentation.administrator.table.TableManagementFragment"
@@ -186,4 +190,20 @@
         android:id="@+id/receiptDetailFragment"
         android:name="com.example.billiard.presentation.administrator.inventory.receipt.ReceiptDetailFragment"
         android:label="ReceiptDetailFragment" />
+    <fragment
+        android:id="@+id/invoiceFragment"
+        android:name="com.example.billiard.presentation.stastics.invoice.InvoiceFragment"
+        android:label="InvoiceFragment" >
+        <action
+            android:id="@+id/action_invoiceFragment_to_invoiceDetailFragment"
+            app:destination="@id/invoiceDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/invoiceDetailFragment"
+        android:name="com.example.billiard.presentation.stastics.invoice.InvoiceDetailFragment"
+        android:label="InvoiceDetailFragment" >
+        <argument
+            android:name="INVOICE_ID"
+            app:argType="integer" />
+    </fragment>
 </navigation>

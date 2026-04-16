@@ -10,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.core.ext.showToast
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentCreateVoucherBinding
 import com.example.billiard.domain.model.CreateVoucherParam
 import com.example.billiard.domain.model.UpdateVoucherParam
@@ -74,8 +76,11 @@ class CreateVoucherFragment : BaseFragment<FragmentCreateVoucherBinding>(Fragmen
                 launch {
                     viewModel.actionState.collect { state ->
                         when (state) {
-                            is Resource.Loading -> { }
+                            is Resource.Loading -> {
+                                LoadingUtils.show(requireContext())
+                            }
                             is Resource.Success -> {
+                                LoadingUtils.hide()
                                 Toast.makeText(requireContext(), "Thao tác thành công!", Toast.LENGTH_SHORT).show()
                                 viewModel.resetActionState()
                                 findNavController().popBackStack()

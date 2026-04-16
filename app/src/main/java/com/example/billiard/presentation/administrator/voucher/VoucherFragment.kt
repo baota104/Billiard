@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.base.BaseFragment
+import com.example.billiard.core.ext.showConfirmDialog
 import com.example.billiard.core.network.Resource
 import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.databinding.FragmentVoucherBinding
@@ -17,6 +18,7 @@ import com.example.billiard.domain.model.TableCategoryUIModel
 import com.example.billiard.domain.model.Voucher
 import com.example.billiard.presentation.adapter.TableCategoryAdapter
 import com.example.billiard.presentation.adapter.VoucherAdapter
+import com.example.billiard.presentation.adapter.VoucherDeleteAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,7 +28,7 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
     private val viewModel: VoucherViewModel by viewModels()
 
     private lateinit var categoryAdapter: TableCategoryAdapter
-    private lateinit var voucherAdapter: VoucherAdapter
+    private lateinit var voucherAdapter: VoucherDeleteAdapter
 
     private var allVouchers = listOf<Voucher>()
 
@@ -92,12 +94,23 @@ class VoucherFragment : BaseFragment<FragmentVoucherBinding>(FragmentVoucherBind
         }
 
         // 2. Setup Danh sách Voucher
-        voucherAdapter = VoucherAdapter { selectedItem ->
-            val bundle = Bundle().apply {
-                putLong("VOUCHER_ID", selectedItem.id) 
+        voucherAdapter = VoucherDeleteAdapter(
+            onVoucherClick = { selectedVoucher ->
+                // Xử lý khi click vào item (vd: chọn voucher)
+            },
+            onDeleteClick = { voucherToDelete ->
+                // HIỂN THỊ DIALOG XÁC NHẬN KHI BẤM NÚT XÓA
+                showConfirmDialog(
+                    title = "Xác nhận xóa",
+                    message = "Bạn có chắc chắn muốn xóa Voucher này?",
+
+                    onConfirm = {
+                        // XÓA VOUCHER
+                        viewModel.deleteVoucher(voucherToDelete.id)
+                    }
+                )
             }
-            findNavController().navigate(R.id.action_voucherFragment_to_createVoucherFragment, bundle)
-        }
+        )
         binding.rvVouchers.apply {
             adapter = voucherAdapter
         }
