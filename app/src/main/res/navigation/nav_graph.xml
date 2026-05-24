@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_stasticsFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
+        <action
+            android:id="@+id/action_stasticsFragment_to_itemStatisticsFragment"
+            app:destination="@id/itemStatisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/tableManageFragment"
@@ -206,4 +209,8 @@
             android:name="INVOICE_ID"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/itemStatisticsFragment"
+        android:name="com.example.billiard.presentation.stastics.ItemStatisticsFragment"
+        android:label="ItemStatisticsFragment" />
 </navigation>

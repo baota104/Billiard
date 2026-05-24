@@ -17,6 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.billiard.R
 import com.example.billiard.core.network.Resource
+import com.example.billiard.core.utils.LoadingUtils
 import com.example.billiard.domain.model.DashboardSummary
 import com.example.billiard.presentation.stastics.charts.RevenueChartManager
 import com.github.mikephil.charting.charts.LineChart
@@ -58,8 +59,12 @@ class StasticsFragment : Fragment() {
         val yearBtn = view.findViewById<MaterialButton>(R.id.filterYear)
         val allBtn = view.findViewById<MaterialButton>(R.id.filterAll)
         val button2 = view.findViewById<FrameLayout>(R.id.billDetailNavigationCard)
+        val buton3 = view.findViewById<FrameLayout>(R.id.topOrderNavigationCard)
+        buton3.setOnClickListener {
+            findNavController().navigate(R.id.action_stasticsFragment_to_itemStatisticsFragment)
+        }
 
-        button2.setOnClickListener {
+            button2.setOnClickListener {
             // Lưu ý nhỏ: Kiểm tra xem Action ID này có đúng là đi từ StasticsFragment không nhé
             findNavController().navigate(R.id.action_stasticsFragment_to_invoiceFragment)
         }
@@ -89,13 +94,16 @@ class StasticsFragment : Fragment() {
                 viewModel.revenueState.collect { state ->
                     when (state) {
                         is Resource.Loading -> {
+                            LoadingUtils.show(requireContext())
                             lineChart.clear()
                         }
                         is Resource.Success -> {
+                            LoadingUtils.hide()
                             val revenueData = state.data
                             chartManager.updateChartData(lineChart, revenueData)
                         }
                         is Resource.Error -> {
+                            LoadingUtils.hide()
                             Log.e("ChartError", state.message)
                             Toast.makeText(requireContext(), "Lỗi tải biểu đồ", Toast.LENGTH_SHORT).show()
                         }
@@ -114,13 +122,15 @@ class StasticsFragment : Fragment() {
                 viewModel.summaryState.collect { state ->
                     when (state) {
                         is Resource.Loading -> {
-                            // Đang tải dữ liệu
+                            LoadingUtils.show(requireContext())
                         }
                         is Resource.Success -> {
+                            LoadingUtils.hide()
                             val summaryData = state.data
                             updateSummaryUI(requireView(), summaryData)
                         }
                         is Resource.Error -> {
+                            LoadingUtils.hide()
                             Log.e("StasticsFragment", "Lỗi tải tổng quan: ${state.message}")
                         }
                     }
@@ -156,6 +166,7 @@ class StasticsFragment : Fragment() {
         view.findViewById<TextView>(R.id.tableRateDetailText).text = "${table.activeTables}/${table.totalTables}"
         view.findViewById<TextView>(R.id.tableRateSubDetailText).text = "${String.format("%.1f", table.utilizationRate)}% công suất"
     }
+
 
     // ==========================================================
     // CÁC HÀM TIỆN ÍCH (UTILS)

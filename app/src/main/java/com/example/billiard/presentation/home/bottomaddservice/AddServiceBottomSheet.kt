@@ -10,7 +10,6 @@ import com.example.billiard.R
 import com.example.billiard.databinding.BottomSheetAddServiceBinding
 import com.example.billiard.domain.model.CategoryType
 import com.example.billiard.domain.model.Product
-import com.example.billiard.domain.model.ServiceItemUiModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
